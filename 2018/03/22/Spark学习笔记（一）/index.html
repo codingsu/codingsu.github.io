@@ -87,14 +87,14 @@
 <meta property="og:site_name" content="sjw_blog">
 <meta property="og:description" content="Spark学习笔记（一）Spark 和 Hadoop 速度优势对比 Spark 默认情况下的迭代过程的数据保存到内存中，后续的运行作业利用这些结果进行计算，而Hadoop每次计算结果都直接存储到磁盘中。 由于较复杂的数据计算任务需要多个步骤才能实现，且步骤之间具有依赖性。Hadoop需要借助Oozie等工具今夕处理。而Spark在执行任务之前，可以将这些步骤依赖关系形成DAG图（有向无环图），任务">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://codingsu.github.io/2018/03/22/Spark学习笔记（一）/Spark技术堆栈.png">
+<meta property="og:image" content="https://codingsu.github.io/2018/03/22/Spark学习笔记（一）/spark技术堆栈.png">
 <meta property="og:image" content="https://codingsu.github.io/2018/03/22/Spark学习笔记（一）/sparkcore.png">
-<meta property="og:image" content="https://codingsu.github.io/2018/03/22/Spark学习笔记（一）/sparkstream1.png">
-<meta property="og:updated_time" content="2018-03-22T09:29:02.961Z">
+<meta property="og:image" content="https://codingsu.github.io/2018/03/22/Spark学习笔记（一）/sparksteam.png">
+<meta property="og:updated_time" content="2018-03-22T09:34:18.065Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark学习笔记（一）">
 <meta name="twitter:description" content="Spark学习笔记（一）Spark 和 Hadoop 速度优势对比 Spark 默认情况下的迭代过程的数据保存到内存中，后续的运行作业利用这些结果进行计算，而Hadoop每次计算结果都直接存储到磁盘中。 由于较复杂的数据计算任务需要多个步骤才能实现，且步骤之间具有依赖性。Hadoop需要借助Oozie等工具今夕处理。而Spark在执行任务之前，可以将这些步骤依赖关系形成DAG图（有向无环图），任务">
-<meta name="twitter:image" content="https://codingsu.github.io/2018/03/22/Spark学习笔记（一）/Spark技术堆栈.png">
+<meta name="twitter:image" content="https://codingsu.github.io/2018/03/22/Spark学习笔记（一）/spark技术堆栈.png">
 
 
 
@@ -367,7 +367,7 @@
 <li>MLlib的机器学习</li>
 <li>GraphX的图处理</li>
 </ul>
-<p><img src="Spark技术堆栈.png" alt="Spark技术堆栈"></p>
+<p><img src="spark技术堆栈.png" alt="spark技术堆栈"></p>
 <h4 id="Spark与MapReduce比较"><a href="#Spark与MapReduce比较" class="headerlink" title="Spark与MapReduce比较"></a>Spark与MapReduce比较</h4><ol>
 <li><p>Spark 把中间数据存储放在内存中，迭代运算效率高，MapReduce则是放在磁盘上，而Spark支持DAG图的分布式并行计算的编程框架</p>
 </li>
@@ -376,10 +376,10 @@
 <li><p>Spark更加通用。Hadoop只提供了Map和Reduce两种操作，Spark提供的数据集操作类型有很多种，大致分为转换操作和行动操作两大类。转换操作包括Map，Filter，FlatMap，Sample，GroupByKey，ReduceBykey，Union，Join，Cogroup，MapValues，Sort和PartionBy等多种操作类型，行动操作包括Collect，Reduce，Lookup和Save等操作类型。另外，各个处理节点之间的通信模型不再像Hadoop只有Shuffle一种模式，用户可以命名，物化，控制中间结果的存储，分区等。</p>
 </li>
 </ol>
-<h4 id="Spark-core"><a href="#Spark-core" class="headerlink" title="Spark core"></a>Spark core</h4><p>连接Spark各种生态的核心<br><img src="sparkcore.png" alt="Spark core"></p>
+<h4 id="Spark-core"><a href="#Spark-core" class="headerlink" title="Spark core"></a>Spark core</h4><p>连接Spark各种生态的核心<br><img src="sparkcore.png" alt="sparkcore"></p>
 <h4 id="Spark-streaming"><a href="#Spark-streaming" class="headerlink" title="Spark streaming"></a>Spark streaming</h4><p>Spark streaminging是一个对实时数据流进行高吞吐，高容错的六室处理系统，可以对多种数据源进行类似Map,Reduce和Join等复杂操作，并将结果保存到外部文件系统，数据库。相比其他的处理引擎要么只专注于流处理，要么只负责批处理，而Spark streaming最大的优势是听的处理引擎和RDD编程模型可以同时进行批处理于流处理。<br></p>
 <p>对于传统流处理中一次处理一条记录的方式而言，Spark streaming使用的是将流数据离散化处理(Discretized streamings)，通过该吹方式能够进行秒级以下的数据批处理。在Spark streaming处理过程中，Receiver并行接收数据，并将数据缓存至Spark工作节点的内存中。经过延迟优化后，Spark引擎对段任务能够进行批处理，并且可将结果暑促至其他系统中。</p>
-<p><img src="sparkstream1.png" alt="sparkstream1"></p>
+<p><img src="sparksteam.png" alt="sparksteam"></p>
 <p>使用离散化流数据，Spark streaming将具有：</p>
 <ol>
 <li><p>动态负载均衡：<br>通过将数据划分为小批量，通过这种方式可以实现对资源更细粒度的分配。在传统实时流记录处理系统在输入数据流以键值进行分区处理情况下，如果一个节点计算压力较大超出了符合，会拖慢整个系统的处理速度。而Spark streaming会将作业任务动态平衡的分给各个几点。</p>
