@@ -259,6 +259,180 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/23/Spark-study-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/23/Spark-study-2/" itemprop="url">Spark学习笔记(2) —— spark RDD</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-23T11:07:09+08:00">
+                2018-03-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Spark学习笔记-2-——-Spark-RDD"><a href="#Spark学习笔记-2-——-Spark-RDD" class="headerlink" title="Spark学习笔记(2) —— Spark RDD"></a>Spark学习笔记(2) —— Spark RDD</h1><h4 id="Spark-RDD"><a href="#Spark-RDD" class="headerlink" title="Spark RDD"></a>Spark RDD</h4><p>四类操作</p>
+<ul>
+<li>创建操作： 用于RDD创建工作，RDD创建只有两种方法，中是来自于内存集合和外部存储系统，另一种是通过转换操作生成的RDD</li>
+<li>转换操作：将RDD通过一定的操作变换成新的RDD，比如HadoopRDD可以使用map操作变换为MappedRDD，RDD的转换操作是惰性操作。</li>
+<li>控制操作：进行RDD出九华，可以让RDD按不同的存储侧率保存在磁盘和内存中，比如cache接口默认将RDD缓存在内存中。</li>
+<li>行动操作：能够出发Spark运行的操作，李璐，对RDD进行collect就是行动操作。Spark中行动操作。</li>
+</ul>
+<h4 id="RDD的实现"><a href="#RDD的实现" class="headerlink" title="RDD的实现"></a>RDD的实现</h4><ul>
+<li>作业调度</li>
+</ul>
+<p>当对RDD执行转换操作是，调度器会根据RDD的血统来构建有若干调度阶段组成的有向无环图，每个调度阶段包含尽可能多的连续窄依赖转换。调度器按照有向无环图顺序进行计算，并最总得到目标RDD。</p>
+<ul>
+<li>解析器集成</li>
+</ul>
+<p>Scala</p>
+<ul>
+<li>内存管理</li>
+</ul>
+<p>Spark 提供了3中持久化RDD的存储策略：未序列化Java对象存在内存中、序列化的数据存于内存中已经存储在磁盘中。第一个选项的性能是最优的，因为可以直接访问在Java虚拟机内存里的RDD对象；在空间有限的情况下，第二种方式可以让用户采用比Java对象更有效的内存组织方式，但代价是降低了性能；第三种策略使用于RDD太大的情形，每次重新计算该RDD会带来额外的资源开销。</p>
+<p>对于内存使用LRU回收算法进行管理，当计算得到一个新的RDD分区，但没有足够的空间来存储时，系统会从最近最少使用的RDD中回收一个分区的空间，除非新加的RDD分区是这个RDD对应的分区，在这种情况下则会保留这个最少使用的RDD，避免多次调入调出数据。</p>
+<ul>
+<li>检查点支持</li>
+</ul>
+<p>尽管血统可以用于错误后RDD的恢复，但是对于很长的血统的RDD来说，这样的恢复耗时较长，所以需要通过检查点操作保存到外部存储中。</p>
+<ul>
+<li>多用户管理</li>
+</ul>
+<p>RDD模型将计算分解为多个相互独立的细粒度任务，这使得它在多用户集群能够支持多种资源共享算法。</p>
+<ul>
+<li>RDD依赖关系</li>
+</ul>
+<p>RDD中将依赖划分成了两种类型：窄依赖和宽依赖。</p>
+<pre><code>窄依赖是指每个父RDD的分区都之多被一个子RDD的分区使用（一对一）， 宽依赖是多个子RDD的分区依赖一个父RDD的分区（多对一）
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/22/Spark-study(1)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -363,7 +537,7 @@
 <li>MLlib的机器学习</li>
 <li>GraphX的图处理</li>
 </ul>
-<p><img src="spark技术堆栈.png" alt="spark技术堆栈"></p>
+<p><img src="/spark技术堆栈.png" alt="spark技术堆栈"></p>
 <h4 id="Spark与MapReduce比较"><a href="#Spark与MapReduce比较" class="headerlink" title="Spark与MapReduce比较"></a>Spark与MapReduce比较</h4><ol>
 <li><p>Spark 把中间数据存储放在内存中，迭代运算效率高，MapReduce则是放在磁盘上，而Spark支持DAG图的分布式并行计算的编程框架</p>
 </li>
@@ -372,10 +546,10 @@
 <li><p>Spark更加通用。Hadoop只提供了Map和Reduce两种操作，Spark提供的数据集操作类型有很多种，大致分为转换操作和行动操作两大类。转换操作包括Map，Filter，FlatMap，Sample，GroupByKey，ReduceBykey，Union，Join，Cogroup，MapValues，Sort和PartionBy等多种操作类型，行动操作包括Collect，Reduce，Lookup和Save等操作类型。另外，各个处理节点之间的通信模型不再像Hadoop只有Shuffle一种模式，用户可以命名，物化，控制中间结果的存储，分区等。</p>
 </li>
 </ol>
-<h4 id="Spark-core"><a href="#Spark-core" class="headerlink" title="Spark core"></a>Spark core</h4><p>连接Spark各种生态的核心<br><img src="sparkcore.png" alt="sparkcore"></p>
+<h4 id="Spark-core"><a href="#Spark-core" class="headerlink" title="Spark core"></a>Spark core</h4><p>连接Spark各种生态的核心<br><img src="/sparkcore.png" alt="sparkcore"></p>
 <h4 id="Spark-streaming"><a href="#Spark-streaming" class="headerlink" title="Spark streaming"></a>Spark streaming</h4><p>Spark streaminging是一个对实时数据流进行高吞吐，高容错的六室处理系统，可以对多种数据源进行类似Map,Reduce和Join等复杂操作，并将结果保存到外部文件系统，数据库。相比其他的处理引擎要么只专注于流处理，要么只负责批处理，而Spark streaming最大的优势是听的处理引擎和RDD编程模型可以同时进行批处理于流处理。<br></p>
 <p>对于传统流处理中一次处理一条记录的方式而言，Spark streaming使用的是将流数据离散化处理(Discretized streamings)，通过该吹方式能够进行秒级以下的数据批处理。在Spark streaming处理过程中，Receiver并行接收数据，并将数据缓存至Spark工作节点的内存中。经过延迟优化后，Spark引擎对段任务能够进行批处理，并且可将结果暑促至其他系统中。</p>
-<p><img src="sparksteam.png" alt="sparksteam"></p>
+<p><img src="/sparksteam.png" alt="sparksteam"></p>
 <p>使用离散化流数据，Spark streaming将具有：</p>
 <ol>
 <li><p>动态负载均衡：<br>通过将数据划分为小批量，通过这种方式可以实现对资源更细粒度的分配。在传统实时流记录处理系统在输入数据流以键值进行分区处理情况下，如果一个节点计算压力较大超出了符合，会拖慢整个系统的处理速度。而Spark streaming会将作业任务动态平衡的分给各个几点。</p>
@@ -1616,151 +1790,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/02/02/Letter Combinations of a Phone Number/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/02/Letter Combinations of a Phone Number/" itemprop="url">Letter Combinations of a Phone Number</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-02T21:09:08+08:00">
-                2018-02-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Leetcode-Letter-Combinations-of-a-Phone-Number"><a href="#Leetcode-Letter-Combinations-of-a-Phone-Number" class="headerlink" title="[Leetcode]Letter Combinations of a Phone Number"></a>[Leetcode]Letter Combinations of a Phone Number</h1><p>Given a digit string, return all possible letter combinations that the number could represent.<br>A mapping of digit to letters (just like on the telephone buttons) is given below.<br><img src="phonenum.png" alt="phonenum"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input:Digit string &quot;23&quot;</span><br><span class="line">Output: [&quot;ad&quot;, &quot;ae&quot;, &quot;af&quot;, &quot;bd&quot;, &quot;be&quot;, &quot;bf&quot;, &quot;cd&quot;, &quot;ce&quot;, &quot;cf&quot;].</span><br></pre></td></tr></table></figure></p>
-<p><strong>Note:</strong><br>Although the above answer is in lexicographical order, your answer could be in any order you want.</p>
-<p><strong>解题思路：</strong><br>使用backtracking，从后往前将所有的手机号码对应的字母返回给前一个号码，将其组合获得结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">kvmaps = &#123;<span class="string">'1'</span>: <span class="string">'*'</span>,</span><br><span class="line">          <span class="string">'2'</span>: <span class="string">'abc'</span>,</span><br><span class="line">          <span class="string">'3'</span>: <span class="string">'def'</span>,</span><br><span class="line">          <span class="string">'4'</span>: <span class="string">'ghi'</span>,</span><br><span class="line">          <span class="string">'5'</span>: <span class="string">'jkl'</span>,</span><br><span class="line">          <span class="string">'6'</span>: <span class="string">'mno'</span>,</span><br><span class="line">          <span class="string">'7'</span>: <span class="string">'pqrs'</span>,</span><br><span class="line">          <span class="string">'8'</span>: <span class="string">'tuv'</span>,</span><br><span class="line">          <span class="string">'9'</span>: <span class="string">'wxyz'</span>,</span><br><span class="line">          <span class="string">'0'</span>: <span class="string">' '</span></span><br><span class="line">          &#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">letterCombinations</span><span class="params">(self, digits)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type digits: str</span></span><br><span class="line"><span class="string">        :rtype: List[str]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> digits == <span class="string">""</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        combinations = []</span><br><span class="line">        <span class="keyword">if</span> len(digits) == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> kvmaps[digits[<span class="number">0</span>]]:</span><br><span class="line">                combinations.append(x)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">for</span> c <span class="keyword">in</span> self.letterCombinations(digits[<span class="number">1</span>:]):</span><br><span class="line">                <span class="keyword">for</span> x <span class="keyword">in</span> kvmaps[digits[<span class="number">0</span>]]:</span><br><span class="line">                    combinations.append(x + c)</span><br><span class="line">        <span class="keyword">return</span> combinations</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1811,7 +1840,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
