@@ -353,9 +353,9 @@
         
           
             <h1 id="Spark学习笔记-3-——-消息通信原理"><a href="#Spark学习笔记-3-——-消息通信原理" class="headerlink" title="Spark学习笔记(3) —— 消息通信原理"></a>Spark学习笔记(3) —— 消息通信原理</h1><h4 id="Spark-消息通信架构"><a href="#Spark-消息通信架构" class="headerlink" title="Spark 消息通信架构"></a>Spark 消息通信架构</h4><p>Spark定义了通信框架接口，这些接口实现中调用Netty的具体方法。通信框架使用了工厂设计模式实现，这种设计方式实现了对Netty的解耦，能够根据需要引入其他的消息通信工具。</p>
-<p><img src="spark1.png" alt="spark1"></p>
+<p><img src="Spark-study-3/spark1.png" alt="spark1"></p>
 <h4 id="Spark-启动消息通信"><a href="#Spark-启动消息通信" class="headerlink" title="Spark 启动消息通信"></a>Spark 启动消息通信</h4><p>Spark启动过程中主要是进行Master与Worker之间的通信，首先由Worker节点想Master发送注册消息，然后Master处理完毕后，返回注册成功消息或失败消息，如果成功注册，则Worker定时发送心跳消息给Master。</p>
-<p><img src="spark2.png" alt="spark2"></p>
+<p><img src="Spark-study-3/spark2.png" alt="spark2"></p>
 <p>详细过程：</p>
 <ol>
 <li><p>当Master启动后，随之启动个Worker,Worker启动是会创建消息通信环境RpcEnv和终端点EndPoint，并向Master发送注册Worker的消息RegisterWorker。</p>
@@ -365,7 +365,7 @@
 <p> 在Master中，Master接到注册消息后，先判断Master当前状态是否是standby，如果是则忽略注册消息。如果在注册列表中发现该Worker的编号，则返回重复注册的失败消息，如果没有问题，则使用registerWorker方法把该Worker加入到列表中。</p>
 </li>
 </ol>
-<h4 id="Spark-运行时消息通信"><a href="#Spark-运行时消息通信" class="headerlink" title="Spark 运行时消息通信"></a>Spark 运行时消息通信</h4><p><img src="spark3.png" alt="spark3"></p>
+<h4 id="Spark-运行时消息通信"><a href="#Spark-运行时消息通信" class="headerlink" title="Spark 运行时消息通信"></a>Spark 运行时消息通信</h4><p><img src="Spark-study-3/spark3.png" alt="spark3"></p>
 <p>用户提交应用程序时，应用程序的SparkContext会向Master发送应用注册消息。</p>
 <p>Master接收到注册应用信息后，Master将该应用放入应用列表中，并返回RegisteredApplication消息给应用程序。</p>
 <p>同时Master在Worker列表中选取运行应用的Worker，发送LaunchExecutor消息给Worker，通知Worker启动Executor。</p>
