@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="leetcode,python,code," />
+  <meta name="keywords" content="leetcode,面试,java," />
 
 
 
@@ -79,18 +79,21 @@
 
 
 
-<meta name="description" content="[Leetcode] Remove Nth Node From End of ListGiven a linked list, remove the nth node from the end of list and return its head. For example: 123Given linked list: 1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5, and n = 2.Af">
-<meta name="keywords" content="leetcode,python,code">
+<meta name="description" content="一个栈一次压入1、2、3、4、5，那么从栈顶到栈底分别为5、4、3、2、1.将这个栈转置后，从栈顶到栈底为1、2、3、4、5，也就是实现栈中元素的逆序，但是只能用递归函数来实现，不能用其他数据结构。 解题思路 本题考查栈的操作和递归函数的设计，需要设计两个递归函数。函数一：将栈stack的栈底元素返回并移除。 12345678910public static int getAndRemoveLas">
+<meta name="keywords" content="leetcode,面试,java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Remove Nth Node From End of List">
-<meta property="og:url" content="https://codingsu.github.io/2018/02/05/Remove Nth Node From End of List/index.html">
+<meta property="og:title" content="如何仅用递归函数和栈操作逆序一个栈">
+<meta property="og:url" content="https://codingsu.github.io/2018/03/26/reversestack/index.html">
 <meta property="og:site_name" content="sjw_blog">
-<meta property="og:description" content="[Leetcode] Remove Nth Node From End of ListGiven a linked list, remove the nth node from the end of list and return its head. For example: 123Given linked list: 1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5, and n = 2.Af">
+<meta property="og:description" content="一个栈一次压入1、2、3、4、5，那么从栈顶到栈底分别为5、4、3、2、1.将这个栈转置后，从栈顶到栈底为1、2、3、4、5，也就是实现栈中元素的逆序，但是只能用递归函数来实现，不能用其他数据结构。 解题思路 本题考查栈的操作和递归函数的设计，需要设计两个递归函数。函数一：将栈stack的栈底元素返回并移除。 12345678910public static int getAndRemoveLas">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-15T03:24:49.424Z">
+<meta property="og:image" content="https://codingsu.github.io/2018/03/26/reversestack/fun1.png">
+<meta property="og:image" content="https://codingsu.github.io/2018/03/26/reversestack/fun2.png">
+<meta property="og:updated_time" content="2018-03-26T08:57:50.867Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Remove Nth Node From End of List">
-<meta name="twitter:description" content="[Leetcode] Remove Nth Node From End of ListGiven a linked list, remove the nth node from the end of list and return its head. For example: 123Given linked list: 1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5, and n = 2.Af">
+<meta name="twitter:title" content="如何仅用递归函数和栈操作逆序一个栈">
+<meta name="twitter:description" content="一个栈一次压入1、2、3、4、5，那么从栈顶到栈底分别为5、4、3、2、1.将这个栈转置后，从栈顶到栈底为1、2、3、4、5，也就是实现栈中元素的逆序，但是只能用递归函数来实现，不能用其他数据结构。 解题思路 本题考查栈的操作和递归函数的设计，需要设计两个递归函数。函数一：将栈stack的栈底元素返回并移除。 12345678910public static int getAndRemoveLas">
+<meta name="twitter:image" content="https://codingsu.github.io/2018/03/26/reversestack/fun1.png">
 
 
 
@@ -120,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://codingsu.github.io/2018/02/05/Remove Nth Node From End of List/"/>
+  <link rel="canonical" href="https://codingsu.github.io/2018/03/26/reversestack/"/>
 
 
 
 
 
-  <title>Remove Nth Node From End of List | sjw_blog</title>
+  <title>如何仅用递归函数和栈操作逆序一个栈 | sjw_blog</title>
   
 
 
@@ -263,7 +266,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/02/05/Remove Nth Node From End of List/">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/26/reversestack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sujunwei">
@@ -280,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Remove Nth Node From End of List</h1>
+          <h1 class="post-title" itemprop="name headline">如何仅用递归函数和栈操作逆序一个栈</h1>
         
 
         <div class="post-meta">
@@ -292,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T10:10:21+08:00">
-                2018-02-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T16:50:49+08:00">
+                2018-03-26
               </time>
             
 
@@ -315,8 +318,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
                   </a>
                 </span>
 
@@ -352,12 +355,14 @@
       
 
       
-        <h1 id="Leetcode-Remove-Nth-Node-From-End-of-List"><a href="#Leetcode-Remove-Nth-Node-From-End-of-List" class="headerlink" title="[Leetcode] Remove Nth Node From End of List"></a>[Leetcode] Remove Nth Node From End of List</h1><p>Given a linked list, remove the nth node from the end of list and return its head.</p>
-<p>For example:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Given linked list: 1-&gt;2-&gt;3-&gt;4-&gt;5, and n = 2.</span><br><span class="line"></span><br><span class="line">After removing the second node from the end, the linked list becomes 1-&gt;2-&gt;3-&gt;5.</span><br></pre></td></tr></table></figure>
-<p><strong>Note:</strong><br>Given n will always be valid.<br>Try to do this in one pass.</p>
-<p><strong>解题思路：</strong><br>用双指针，两个指针距离是n，当第一个指针到达末尾时，第二个指针就是到要删除的节点前面。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">removeNthFromEnd</span><span class="params">(self, head, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type head: ListNode</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: ListNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        p1=p2=head</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">            p1=p1.next</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> p1:</span><br><span class="line">            <span class="keyword">return</span> head.next</span><br><span class="line">        <span class="keyword">while</span> p1.next:</span><br><span class="line">            p1=p1.next</span><br><span class="line">            p2=p2.next </span><br><span class="line"></span><br><span class="line">        p2.next=p2.next.next</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> head</span><br></pre></td></tr></table></figure>
+        <p>一个栈一次压入1、2、3、4、5，那么从栈顶到栈底分别为5、4、3、2、1.将这个栈转置后，从栈顶到栈底为1、2、3、4、5，也就是实现栈中元素的逆序，但是只能用递归函数来实现，不能用其他数据结构。</p>
+<p><strong>解题思路</strong></p>
+<p>本题考查栈的操作和递归函数的设计，需要设计两个递归函数。<br>函数一：将栈stack的栈底元素返回并移除。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getAndRemoveLastElement</span><span class="params">(Stack&lt;Integer&gt; stack)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = stack.pop();</span><br><span class="line">        <span class="keyword">if</span> (stack.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">int</span> last = getAndRemoveLastElement(stack);</span><br><span class="line">            stack.push(result);</span><br><span class="line">            <span class="keyword">return</span> last;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="fun1.png" alt="fun1"></p>
+<p>函数二：逆序一个栈。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(Stack&lt;Integer&gt; stack)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (stack.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> i = getAndRemoveLastElement(stack);</span><br><span class="line">        reverse(stack);</span><br><span class="line">        stack.push(i);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="fun2.png" alt="fun2"></p>
 
       
     </div>
@@ -377,9 +382,9 @@
           
             <a href="/tags/leetcode/" rel="tag"># leetcode</a>
           
-            <a href="/tags/python/" rel="tag"># python</a>
+            <a href="/tags/面试/" rel="tag"># 面试</a>
           
-            <a href="/tags/code/" rel="tag"># code</a>
+            <a href="/tags/java/" rel="tag"># java</a>
           
         </div>
       
@@ -392,8 +397,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/02/Letter Combinations of a Phone Number/" rel="next" title="Letter Combinations of a Phone Number">
-                <i class="fa fa-chevron-left"></i> Letter Combinations of a Phone Number
+              <a href="/2018/03/26/Spark-study-7/" rel="next" title="Spark-study-7">
+                <i class="fa fa-chevron-left"></i> Spark-study-7
               </a>
             
           </div>
@@ -401,10 +406,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/14/Generate-Parentheses/" rel="prev" title="Generate Parentheses">
-                Generate Parentheses <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -456,17 +457,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -526,22 +518,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Leetcode-Remove-Nth-Node-From-End-of-List"><span class="nav-number">1.</span> <span class="nav-text">[Leetcode] Remove Nth Node From End of List</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
