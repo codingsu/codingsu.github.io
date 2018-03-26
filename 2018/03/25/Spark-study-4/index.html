@@ -82,15 +82,15 @@
 <meta name="description" content="Spark学习笔记(4) —— 作业执行原理Spark的作业和任务调度系统是其核心，它能够有效地进行调度是因为对任务的DAG划分和容错，是的它对低层到顶层的各个模块之间的调度和处理都显得游刃有余。  作业(job): RDD中由行动操作所生成的一个或多个调度阶段。 调度阶段(stage): 每个作业会因为RDD之间的依赖关系拆分成多组任务集合，称为调度阶段，也叫任务集(TaskSet)。调度阶段的">
 <meta name="keywords" content="spark">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark-study-4">
+<meta property="og:title" content="Spark学习笔记(4) —— 作业执行原理">
 <meta property="og:url" content="https://codingsu.github.io/2018/03/25/Spark-study-4/index.html">
 <meta property="og:site_name" content="sjw_blog">
 <meta property="og:description" content="Spark学习笔记(4) —— 作业执行原理Spark的作业和任务调度系统是其核心，它能够有效地进行调度是因为对任务的DAG划分和容错，是的它对低层到顶层的各个模块之间的调度和处理都显得游刃有余。  作业(job): RDD中由行动操作所生成的一个或多个调度阶段。 调度阶段(stage): 每个作业会因为RDD之间的依赖关系拆分成多组任务集合，称为调度阶段，也叫任务集(TaskSet)。调度阶段的">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://codingsu.github.io/2018/03/25/Spark-study-4/spark1.png">
-<meta property="og:updated_time" content="2018-03-25T07:01:57.109Z">
+<meta property="og:updated_time" content="2018-03-26T01:42:37.527Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spark-study-4">
+<meta name="twitter:title" content="Spark学习笔记(4) —— 作业执行原理">
 <meta name="twitter:description" content="Spark学习笔记(4) —— 作业执行原理Spark的作业和任务调度系统是其核心，它能够有效地进行调度是因为对任务的DAG划分和容错，是的它对低层到顶层的各个模块之间的调度和处理都显得游刃有余。  作业(job): RDD中由行动操作所生成的一个或多个调度阶段。 调度阶段(stage): 每个作业会因为RDD之间的依赖关系拆分成多组任务集合，称为调度阶段，也叫任务集(TaskSet)。调度阶段的">
 <meta name="twitter:image" content="https://codingsu.github.io/2018/03/25/Spark-study-4/spark1.png">
 
@@ -128,7 +128,7 @@
 
 
 
-  <title>Spark-study-4 | sjw_blog</title>
+  <title>Spark学习笔记(4) —— 作业执行原理 | sjw_blog</title>
   
 
 
@@ -282,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spark-study-4</h1>
+          <h1 class="post-title" itemprop="name headline">Spark学习笔记(4) —— 作业执行原理</h1>
         
 
         <div class="post-meta">
@@ -400,8 +400,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/25/Spark-study-3/" rel="next" title="Spark消息通信原理">
-                <i class="fa fa-chevron-left"></i> Spark消息通信原理
+              <a href="/2018/03/25/Spark-study-3/" rel="next" title="Spark学习笔记(3) —— 消息通信原理">
+                <i class="fa fa-chevron-left"></i> Spark学习笔记(3) —— 消息通信原理
               </a>
             
           </div>
@@ -410,8 +410,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/25/Spark-study-5/" rel="prev" title="Spark-study-5">
-                Spark-study-5 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/25/Spark-study-5/" rel="prev" title="Spark学习笔记(5) —— 调度算法">
+                Spark学习笔记(5) —— 调度算法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -489,7 +489,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

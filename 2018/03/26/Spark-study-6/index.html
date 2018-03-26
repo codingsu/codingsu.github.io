@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="spark," />
+  <meta name="keywords" content="SJW, Blog" />
 
 
 
@@ -79,18 +79,21 @@
 
 
 
-<meta name="description" content="Spark学习笔记(2) —— Spark RDDSpark RDD四类操作  创建操作： 用于RDD创建工作，RDD创建只有两种方法，中是来自于内存集合和外部存储系统，另一种是通过转换操作生成的RDD 转换操作：将RDD通过一定的操作变换成新的RDD，比如HadoopRDD可以使用map操作变换为MappedRDD，RDD的转换操作是惰性操作。 控制操作：进行RDD出九华，可以让RDD按不同的存">
-<meta name="keywords" content="spark">
+<meta name="description" content="Spark学习笔记(6) —— 容错和HA所谓容错是指一个系统的部分出现错误的情况还能够持续地提供服务，不会因为一些细微的错误导致系统性能严重下降或者出现系统瘫痪。在一个集群出现机器故障、网络问题等是常态，尤其集群达到较大规模后，很可能较频繁出现机器故障不能进行提供服务，因此对于分布式集群需要进行容错设计。 Executor异常 Spark支持多种运行模式，这些运行模式中的集群管理器会为任务分配运">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark学习笔记(2) —— spark RDD">
-<meta property="og:url" content="https://codingsu.github.io/2018/03/23/Spark-study-2/index.html">
+<meta property="og:title" content="Spark学习笔记(6) —— 容错和HA">
+<meta property="og:url" content="https://codingsu.github.io/2018/03/26/Spark-study-6/index.html">
 <meta property="og:site_name" content="sjw_blog">
-<meta property="og:description" content="Spark学习笔记(2) —— Spark RDDSpark RDD四类操作  创建操作： 用于RDD创建工作，RDD创建只有两种方法，中是来自于内存集合和外部存储系统，另一种是通过转换操作生成的RDD 转换操作：将RDD通过一定的操作变换成新的RDD，比如HadoopRDD可以使用map操作变换为MappedRDD，RDD的转换操作是惰性操作。 控制操作：进行RDD出九华，可以让RDD按不同的存">
+<meta property="og:description" content="Spark学习笔记(6) —— 容错和HA所谓容错是指一个系统的部分出现错误的情况还能够持续地提供服务，不会因为一些细微的错误导致系统性能严重下降或者出现系统瘫痪。在一个集群出现机器故障、网络问题等是常态，尤其集群达到较大规模后，很可能较频繁出现机器故障不能进行提供服务，因此对于分布式集群需要进行容错设计。 Executor异常 Spark支持多种运行模式，这些运行模式中的集群管理器会为任务分配运">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-23T08:45:48.460Z">
+<meta property="og:image" content="https://codingsu.github.io/2018/03/26/Spark-study-6/spark1.png">
+<meta property="og:image" content="https://codingsu.github.io/2018/03/26/Spark-study-6/spark2.png">
+<meta property="og:image" content="https://codingsu.github.io/2018/03/26/Spark-study-6/spark2.png">
+<meta property="og:updated_time" content="2018-03-26T02:16:18.586Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spark学习笔记(2) —— spark RDD">
-<meta name="twitter:description" content="Spark学习笔记(2) —— Spark RDDSpark RDD四类操作  创建操作： 用于RDD创建工作，RDD创建只有两种方法，中是来自于内存集合和外部存储系统，另一种是通过转换操作生成的RDD 转换操作：将RDD通过一定的操作变换成新的RDD，比如HadoopRDD可以使用map操作变换为MappedRDD，RDD的转换操作是惰性操作。 控制操作：进行RDD出九华，可以让RDD按不同的存">
+<meta name="twitter:title" content="Spark学习笔记(6) —— 容错和HA">
+<meta name="twitter:description" content="Spark学习笔记(6) —— 容错和HA所谓容错是指一个系统的部分出现错误的情况还能够持续地提供服务，不会因为一些细微的错误导致系统性能严重下降或者出现系统瘫痪。在一个集群出现机器故障、网络问题等是常态，尤其集群达到较大规模后，很可能较频繁出现机器故障不能进行提供服务，因此对于分布式集群需要进行容错设计。 Executor异常 Spark支持多种运行模式，这些运行模式中的集群管理器会为任务分配运">
+<meta name="twitter:image" content="https://codingsu.github.io/2018/03/26/Spark-study-6/spark1.png">
 
 
 
@@ -120,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://codingsu.github.io/2018/03/23/Spark-study-2/"/>
+  <link rel="canonical" href="https://codingsu.github.io/2018/03/26/Spark-study-6/"/>
 
 
 
 
 
-  <title>Spark学习笔记(2) —— spark RDD | sjw_blog</title>
+  <title>Spark学习笔记(6) —— 容错和HA | sjw_blog</title>
   
 
 
@@ -263,7 +266,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/23/Spark-study-2/">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/26/Spark-study-6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sujunwei">
@@ -280,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spark学习笔记(2) —— spark RDD</h1>
+          <h1 class="post-title" itemprop="name headline">Spark学习笔记(6) —— 容错和HA</h1>
         
 
         <div class="post-meta">
@@ -292,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-23T11:07:09+08:00">
-                2018-03-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T09:41:47+08:00">
+                2018-03-26
               </time>
             
 
@@ -302,28 +305,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -352,40 +333,33 @@
       
 
       
-        <h1 id="Spark学习笔记-2-——-Spark-RDD"><a href="#Spark学习笔记-2-——-Spark-RDD" class="headerlink" title="Spark学习笔记(2) —— Spark RDD"></a>Spark学习笔记(2) —— Spark RDD</h1><h4 id="Spark-RDD"><a href="#Spark-RDD" class="headerlink" title="Spark RDD"></a>Spark RDD</h4><p>四类操作</p>
+        <h1 id="Spark学习笔记-6-——-容错和HA"><a href="#Spark学习笔记-6-——-容错和HA" class="headerlink" title="Spark学习笔记(6) —— 容错和HA"></a>Spark学习笔记(6) —— 容错和HA</h1><p>所谓容错是指一个系统的部分出现错误的情况还能够持续地提供服务，不会因为一些细微的错误导致系统性能严重下降或者出现系统瘫痪。在一个集群出现机器故障、网络问题等是常态，尤其集群达到较大规模后，很可能较频繁出现机器故障不能进行提供服务，因此对于分布式集群需要进行容错设计。</p>
+<p><strong>Executor异常</strong></p>
+<p>Spark支持多种运行模式，这些运行模式中的集群管理器会为任务分配运行资源，在运行资源中启动Executor，由Executor是负责执行任务的运行，最终把任务运行状态发送给Driver。下面以独立运行模式分析Executor出现异常的情况。</p>
+<p><img src="spark1.png" alt="Executor异常容错过程图"></p>
+<ol>
+<li>首先看Executor的启动过程：在集群中由Master给应用程序分配资源后，然后在Worker中启动ExecutorRunner，而ExecutorRunner根据当前的运行模式启动CoarseGrainedExecutorBackend进程，当改进程会向Driver发送注册Executor信息，如果注册成功，则在其内部启动Executor。Executor由ExecutorRunner进行管理，当Executor出现异常时，由ExecutorRunner捕获该异常并发送ExecutorStateChanged消息给Worker。</li>
+<li>Worker接收到ExecutorStateChanged消息时，在Worker的handleExecutorStateChanged方法中，根据Executor状态进行信息更新，同时把Executor状态信息转发给Master。</li>
+<li>Master接收到Executor状态变换消息后，如果发现Executor出现异常退出，则调用Master schedule方法，尝试获取可用的Worker节点并启动Executor，而这个Worker很可能不是失败之前运行Executor的Worker节点。该尝试系统会进行10次，如果超过10次，则标记改应用运行失败并移除，集群中也移除该应用。</li>
+</ol>
+<p><strong>Worker异常</strong></p>
+<p>Spark独立运行模式才有的是Master/Slave的结构，其中Slave是有Worker来担任的，在运行的时候会发送信条给Master，让Master知道Worker的试试状态，另一方面Master也会检测注册的Worker是否超时，因为在集群运行过程中，可能由于机器宕机或者进程被杀死等原因造成Worker进程异常退出。</p>
+<p><img src="spark2.png" alt="work异常检测"></p>
+<p>当Worker初心超时时，Master调用timeOutDeadWorkers方法进行处理，在处理时根据Worker运行的是Executor和Driver处理。</p>
 <ul>
-<li>创建操作： 用于RDD创建工作，RDD创建只有两种方法，中是来自于内存集合和外部存储系统，另一种是通过转换操作生成的RDD</li>
-<li>转换操作：将RDD通过一定的操作变换成新的RDD，比如HadoopRDD可以使用map操作变换为MappedRDD，RDD的转换操作是惰性操作。</li>
-<li>控制操作：进行RDD出九华，可以让RDD按不同的存储侧率保存在磁盘和内存中，比如cache接口默认将RDD缓存在内存中。</li>
-<li>行动操作：能够出发Spark运行的操作，李璐，对RDD进行collect就是行动操作。Spark中行动操作。</li>
+<li>如果是Executor，Master先把改Worker上运行的Executer发送消息ExecutorUpdated给对应的Driver，告知Executor已经丢失，同时把这些Executor从其应用程序运行列表中删除。另外，相关Executor的异常也需要按照之前Executor异常处理。</li>
+<li>如果是Driver，则判断是否设置重新启动。如果需要重新启动，则调用Master.schedule方法进行调度，分配合适节点重启Driver；如果不需要重启，则删除该应用程序。</li>
 </ul>
-<h4 id="RDD的实现"><a href="#RDD的实现" class="headerlink" title="RDD的实现"></a>RDD的实现</h4><ul>
-<li>作业调度</li>
-</ul>
-<p>当对RDD执行转换操作是，调度器会根据RDD的血统来构建有若干调度阶段组成的有向无环图，每个调度阶段包含尽可能多的连续窄依赖转换。调度器按照有向无环图顺序进行计算，并最总得到目标RDD。</p>
+<p><strong>Master异常</strong></p>
+<p>Master作为Spark独立运行模式中的核心，如果Master出现异常，则整个集群的运行情况和资源将无法进行管理。Spark在集群运行的时候，Master将启动一个或多个Standby Master，当Master出现异常的时候，Standby Master将根据一定规则确定其中一个接管Master。在独立运行模式中，Spark支持如下几种策略：</p>
 <ul>
-<li>解析器集成</li>
+<li>ZOOKEEPER：集群的元数据持久化到ZooKeeper中，当Master出现异常时，ZooKeeper会通过选举机制选举出新的Master，新的Master接管时需要从ZooKeeper获取持久化信息并根据这些信息回复集群状态。</li>
+<li>FILESYSTEM：集群的元数据持久化到本地文件系统中，当Master出现异常时，只要在该机器上重新启动Master，启动后新的Master获取持久化信息并根据这些信息回复集群状态。</li>
+<li>CUSTOM：自定义回复方式。</li>
+<li>NONE：不持久化集群的元数据，当Master出现异常时，新启动的Master不进行恢复集群状态，而是直接接管集群。</li>
 </ul>
-<p>Scala</p>
-<ul>
-<li>内存管理</li>
-</ul>
-<p>Spark 提供了3中持久化RDD的存储策略：未序列化Java对象存在内存中、序列化的数据存于内存中已经存储在磁盘中。第一个选项的性能是最优的，因为可以直接访问在Java虚拟机内存里的RDD对象；在空间有限的情况下，第二种方式可以让用户采用比Java对象更有效的内存组织方式，但代价是降低了性能；第三种策略使用于RDD太大的情形，每次重新计算该RDD会带来额外的资源开销。</p>
-<p>对于内存使用LRU回收算法进行管理，当计算得到一个新的RDD分区，但没有足够的空间来存储时，系统会从最近最少使用的RDD中回收一个分区的空间，除非新加的RDD分区是这个RDD对应的分区，在这种情况下则会保留这个最少使用的RDD，避免多次调入调出数据。</p>
-<ul>
-<li>检查点支持</li>
-</ul>
-<p>尽管血统可以用于错误后RDD的恢复，但是对于很长的血统的RDD来说，这样的恢复耗时较长，所以需要通过检查点操作保存到外部存储中。</p>
-<ul>
-<li>多用户管理</li>
-</ul>
-<p>RDD模型将计算分解为多个相互独立的细粒度任务，这使得它在多用户集群能够支持多种资源共享算法。</p>
-<ul>
-<li>RDD依赖关系</li>
-</ul>
-<p>RDD中将依赖划分成了两种类型：窄依赖和宽依赖。</p>
-<pre><code>窄依赖是指每个父RDD的分区都之多被一个子RDD的分区使用（一对一）， 宽依赖是多个子RDD的分区依赖一个父RDD的分区（多对一）
-</code></pre>
+<p><img src="spark2.png" alt="Master异常容错"></p>
+
       
     </div>
     
@@ -400,12 +374,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/spark/" rel="tag"># spark</a>
-          
-        </div>
-      
 
       
       
@@ -415,8 +383,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/22/Spark-study(1)/" rel="next" title="Spark学习笔记(1)">
-                <i class="fa fa-chevron-left"></i> Spark学习笔记(1)
+              <a href="/2018/03/25/Spark-study-5/" rel="next" title="Spark学习笔记(5) —— 调度算法">
+                <i class="fa fa-chevron-left"></i> Spark学习笔记(5) —— 调度算法
               </a>
             
           </div>
@@ -424,10 +392,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/25/Spark-study-3/" rel="prev" title="Spark学习笔记(3) —— 消息通信原理">
-                Spark学习笔记(3) —— 消息通信原理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -559,7 +523,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark学习笔记-2-——-Spark-RDD"><span class="nav-number">1.</span> <span class="nav-text">Spark学习笔记(2) —— Spark RDD</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spark-RDD"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">Spark RDD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RDD的实现"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">RDD的实现</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark学习笔记-6-——-容错和HA"><span class="nav-number">1.</span> <span class="nav-text">Spark学习笔记(6) —— 容错和HA</span></a></li></ol></div>
             
 
           </div>

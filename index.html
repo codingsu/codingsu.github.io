@@ -259,6 +259,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/26/Spark-study-6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/26/Spark-study-6/" itemprop="url">Spark学习笔记(6) —— 容错和HA</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T09:41:47+08:00">
+                2018-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Spark学习笔记-6-——-容错和HA"><a href="#Spark学习笔记-6-——-容错和HA" class="headerlink" title="Spark学习笔记(6) —— 容错和HA"></a>Spark学习笔记(6) —— 容错和HA</h1><p>所谓容错是指一个系统的部分出现错误的情况还能够持续地提供服务，不会因为一些细微的错误导致系统性能严重下降或者出现系统瘫痪。在一个集群出现机器故障、网络问题等是常态，尤其集群达到较大规模后，很可能较频繁出现机器故障不能进行提供服务，因此对于分布式集群需要进行容错设计。</p>
+<p><strong>Executor异常</strong></p>
+<p>Spark支持多种运行模式，这些运行模式中的集群管理器会为任务分配运行资源，在运行资源中启动Executor，由Executor是负责执行任务的运行，最终把任务运行状态发送给Driver。下面以独立运行模式分析Executor出现异常的情况。</p>
+<p><img src="spark1.png" alt="Executor异常容错过程图"></p>
+<ol>
+<li>首先看Executor的启动过程：在集群中由Master给应用程序分配资源后，然后在Worker中启动ExecutorRunner，而ExecutorRunner根据当前的运行模式启动CoarseGrainedExecutorBackend进程，当改进程会向Driver发送注册Executor信息，如果注册成功，则在其内部启动Executor。Executor由ExecutorRunner进行管理，当Executor出现异常时，由ExecutorRunner捕获该异常并发送ExecutorStateChanged消息给Worker。</li>
+<li>Worker接收到ExecutorStateChanged消息时，在Worker的handleExecutorStateChanged方法中，根据Executor状态进行信息更新，同时把Executor状态信息转发给Master。</li>
+<li>Master接收到Executor状态变换消息后，如果发现Executor出现异常退出，则调用Master schedule方法，尝试获取可用的Worker节点并启动Executor，而这个Worker很可能不是失败之前运行Executor的Worker节点。该尝试系统会进行10次，如果超过10次，则标记改应用运行失败并移除，集群中也移除该应用。</li>
+</ol>
+<p><strong>Worker异常</strong></p>
+<p>Spark独立运行模式才有的是Master/Slave的结构，其中Slave是有Worker来担任的，在运行的时候会发送信条给Master，让Master知道Worker的试试状态，另一方面Master也会检测注册的Worker是否超时，因为在集群运行过程中，可能由于机器宕机或者进程被杀死等原因造成Worker进程异常退出。</p>
+<p><img src="spark2.png" alt="work异常检测"></p>
+<p>当Worker初心超时时，Master调用timeOutDeadWorkers方法进行处理，在处理时根据Worker运行的是Executor和Driver处理。</p>
+<ul>
+<li>如果是Executor，Master先把改Worker上运行的Executer发送消息ExecutorUpdated给对应的Driver，告知Executor已经丢失，同时把这些Executor从其应用程序运行列表中删除。另外，相关Executor的异常也需要按照之前Executor异常处理。</li>
+<li>如果是Driver，则判断是否设置重新启动。如果需要重新启动，则调用Master.schedule方法进行调度，分配合适节点重启Driver；如果不需要重启，则删除该应用程序。</li>
+</ul>
+<p><strong>Master异常</strong></p>
+<p>Master作为Spark独立运行模式中的核心，如果Master出现异常，则整个集群的运行情况和资源将无法进行管理。Spark在集群运行的时候，Master将启动一个或多个Standby Master，当Master出现异常的时候，Standby Master将根据一定规则确定其中一个接管Master。在独立运行模式中，Spark支持如下几种策略：</p>
+<ul>
+<li>ZOOKEEPER：集群的元数据持久化到ZooKeeper中，当Master出现异常时，ZooKeeper会通过选举机制选举出新的Master，新的Master接管时需要从ZooKeeper获取持久化信息并根据这些信息回复集群状态。</li>
+<li>FILESYSTEM：集群的元数据持久化到本地文件系统中，当Master出现异常时，只要在该机器上重新启动Master，启动后新的Master获取持久化信息并根据这些信息回复集群状态。</li>
+<li>CUSTOM：自定义回复方式。</li>
+<li>NONE：不持久化集群的元数据，当Master出现异常时，新启动的Master不进行恢复集群状态，而是直接接管集群。</li>
+</ul>
+<p><img src="spark2.png" alt="Master异常容错"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/25/Spark-study-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -278,7 +423,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/25/Spark-study-5/" itemprop="url">Spark-study-5</a></h1>
+                <a class="post-title-link" href="/2018/03/25/Spark-study-5/" itemprop="url">Spark学习笔记(5) —— 调度算法</a></h1>
         
 
         <div class="post-meta">
@@ -438,7 +583,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/25/Spark-study-4/" itemprop="url">Spark-study-4</a></h1>
+                <a class="post-title-link" href="/2018/03/25/Spark-study-4/" itemprop="url">Spark学习笔记(4) —— 作业执行原理</a></h1>
         
 
         <div class="post-meta">
@@ -595,7 +740,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/25/Spark-study-3/" itemprop="url">Spark消息通信原理</a></h1>
+                <a class="post-title-link" href="/2018/03/25/Spark-study-3/" itemprop="url">Spark学习笔记(3) —— 消息通信原理</a></h1>
         
 
         <div class="post-meta">
@@ -1683,152 +1828,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/14/Merge-k-Sorted-Lists/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/14/Merge-k-Sorted-Lists/" itemprop="url">Merge k Sorted Lists</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-14T11:06:53+08:00">
-                2018-03-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Leetcode-Merge-k-Sorted-Lists"><a href="#Leetcode-Merge-k-Sorted-Lists" class="headerlink" title="[Leetcode] Merge k Sorted Lists"></a>[Leetcode] Merge k Sorted Lists</h1><p>Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.</p>
-<p><strong>解题思路：</strong><br>使用分治算法。思路是先分成两个子任务，然后递归求子任务，最后回溯回来。这个题目也是这样，先把k个list分成两半，然后继续划分，直到剩下两个list就合并起来。这个算法的时间复杂度的计算：假设总共有k个list，每个list的最大长度是n，那么运行时间满足递推式T(k) = 2T(k/2)+O(n*k)。根据主定理，可以算出算法的总复杂度是O(nklogk)。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mergeKLists</span><span class="params">(self, lists)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type lists: List[ListNode]</span></span><br><span class="line"><span class="string">        :rtype: ListNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> lists == <span class="keyword">None</span> <span class="keyword">or</span> len(lists) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        <span class="keyword">return</span> self.helper(lists, <span class="number">0</span>, len(lists)<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">helper</span><span class="params">(self,lists, l, r)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> l &lt; r:</span><br><span class="line">            m = (l+r)/<span class="number">2</span></span><br><span class="line">            <span class="keyword">return</span> self.merge(self.helper(lists,l,m),self.helper(lists,m+<span class="number">1</span>,r))</span><br><span class="line">        <span class="keyword">return</span> lists[l]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">merge</span><span class="params">(self,l1,l2)</span>:</span></span><br><span class="line">        dump = ListNode(<span class="number">0</span>)</span><br><span class="line">        dump.next = l1</span><br><span class="line">        temp = dump</span><br><span class="line">        <span class="keyword">while</span>(l1 != <span class="keyword">None</span> <span class="keyword">and</span> l2 != <span class="keyword">None</span>):</span><br><span class="line">            <span class="keyword">if</span> l1.val &lt; l2.val:</span><br><span class="line">                l1= l1.next</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                t = l2.next</span><br><span class="line">                temp.next = l2</span><br><span class="line">                l2.next = l1</span><br><span class="line">                l2 = t</span><br><span class="line">            temp = temp.next</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> l2 != <span class="keyword">None</span>:</span><br><span class="line">            temp.next = l2</span><br><span class="line">        <span class="keyword">return</span> dump.next</span><br></pre></td></tr></table></figure>
-<p>第二种思路是使用堆排序。维护一个大小为k的堆，每次取堆顶的最小元素放到结果中，然后读取该元素的下一个元素放入堆中，重新维护好。因为每个链表是有序的，每次又是去当前k个元素中最小的，所以当所有链表都读完时结束，这个时候所有元素按从小到大放在结果链表中。这个算法每个元素要读取一次，即是k*n次，然后每次读取元素要把新元素插入堆中要logk的复杂度，所以总时间复杂度是O(nklogk)。空间复杂度是堆的大小，即为O(k)。</p>
-<p>代码略</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1879,7 +1878,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
