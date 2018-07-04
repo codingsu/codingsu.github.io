@@ -259,6 +259,137 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/07/04/牛牛数星星/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/04/牛牛数星星/" itemprop="url">牛牛数星星</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T15:14:33+08:00">
+                2018-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>题目</p>
+<blockquote>
+<p>一闪一闪亮晶晶，满天都是小星星，牛牛晚上闲来无聊，便躺在床上数星星。<br>牛牛把星星图看成一个平面，左上角为原点(坐标为(1, 1))。现在有n颗星星，他给每颗星星都标上坐标(xi，yi)，表示这颗星星在第x行，第y列。<br>现在，牛牛想问你m个问题，给你两个点的坐标(a1, b1)(a2，b2)，表示一个矩形的左下角的点坐标和右上角的点坐标，请问在这个矩形内有多少颗星星（边界上的点也算是矩形内）。</p>
+</blockquote>
+<p>输入</p>
+<blockquote>
+<p>星星数<br><br>星星坐标(a1,b1)<br><br>……<br><br>问题数<br><br>问题坐标a1,b1,a2,b2<br><br>……</p>
+</blockquote>
+<p>思路</p>
+<blockquote>
+<p>输入完所有星星后，遍历整个空间，计算每个点的左下角有多少个星星。在计算矩形面积时，数量为右上角-左上角-右下角+左下角的左下点（减的时候多减了一个左下角）</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">snum = int(raw_input())</span><br><span class="line">star = [[<span class="number">0</span> <span class="keyword">for</span> col <span class="keyword">in</span> range(<span class="number">1001</span>)] <span class="keyword">for</span> row <span class="keyword">in</span> range(<span class="number">1001</span>)]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(snum):</span><br><span class="line">    line = raw_input().strip()</span><br><span class="line">    x = int(line.split(<span class="string">' '</span>)[<span class="number">0</span>])</span><br><span class="line">    y = int(line.split(<span class="string">' '</span>)[<span class="number">1</span>])</span><br><span class="line">    star[x][y] +=<span class="number">1</span></span><br><span class="line">num = [[<span class="number">0</span> <span class="keyword">for</span> col <span class="keyword">in</span> range(<span class="number">1001</span>)] <span class="keyword">for</span> row <span class="keyword">in</span> range(<span class="number">1001</span>)]</span><br><span class="line"><span class="comment">#用动态规划计算每个点的左下角的星星数量</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>,<span class="number">1001</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">1</span>,<span class="number">1001</span>):</span><br><span class="line">        num[i][j] = num[i<span class="number">-1</span>][j] + num[i][j<span class="number">-1</span>] + star[i][j] - num[i<span class="number">-1</span>][j<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">qnum = int(raw_input())</span><br><span class="line"><span class="comment"># juxinglist = []</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(qnum):</span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    line = raw_input().strip()</span><br><span class="line">    a1 = int(line.split(<span class="string">' '</span>)[<span class="number">0</span>])</span><br><span class="line">    b1 = int(line.split(<span class="string">' '</span>)[<span class="number">1</span>])</span><br><span class="line">    a2 = int(line.split(<span class="string">' '</span>)[<span class="number">2</span>])</span><br><span class="line">    b2 = int(line.split(<span class="string">' '</span>)[<span class="number">3</span>])</span><br><span class="line">    <span class="comment">#计算矩形内的星星数量</span></span><br><span class="line">    <span class="keyword">print</span> num[a2][b2] - num[a1<span class="number">-1</span>][b2] - num[a2][b1<span class="number">-1</span>]  + num[a1<span class="number">-1</span>][b1<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/07/04/乘积和最大/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1492,180 +1623,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/26/Spark-study-7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/26/Spark-study-7/" itemprop="url">Spark SQL</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T10:18:48+08:00">
-                2018-03-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="Spark-SQL-简介"><a href="#Spark-SQL-简介" class="headerlink" title="Spark SQL 简介"></a>Spark SQL 简介</h4><p>Spark SQL是spark1.0版本中加入的组件，是Spark生态系统中最活跃的组件之一。它能够利用Spark进行结构化数据的存储和操作，结构化数据既可以来自外部结构化数据源（当前支持Hive、JSON和Parquet等操作，Spark1.2版本开始对JDBC/ODBC等的支持），也可以通过向已有RDD增加Schema的方式得到。</p>
-<h4 id="DataFrame-Dataset介绍"><a href="#DataFrame-Dataset介绍" class="headerlink" title="DataFrame/Dataset介绍"></a>DataFrame/Dataset介绍</h4><p>Spark的RDD API 比传统的MapReduce API 在易用性有了巨大的提升，但是对于没有MapReduce和函数式变成经验的新手，RDD Api还是存在一定的门槛。另一方面，数据分析人员所使用的R和Pandas等传统数据分析工具虽然提供只管的API，却由于这些工具只能处理单机的数据，无法胜任大数据处理任务。为了解决这两个问题，从Spark SQL 1.3版本开始在原有SchemaRDD的基础上提供了与R和Pandas风格类似的DataFrame Api，新的DataFrameAPi降低了学习门槛，还支持了Scala，java和python</p>
-<p>在Spark中，DataFrame是一种以RDD为基础的分布式数据集，类细雨传统数据库汇总的二维表哥。与RDD的主要区别在于；前者带有Schema源数据，即DataFrame所表示的二维表数据集的每一列都带有名称和类型。由于无法知道RDD数据集内部的结构，SPark作业执行只能在调度阶段层面进行简单通用的优化，而对于DataFrame带有数据集内部的结构，可以根据这些信息进行针对性的优化。</p>
-<p><img src="spark1.png" alt="spark1"></p>
-<h4 id="DataFrame优点"><a href="#DataFrame优点" class="headerlink" title="DataFrame优点"></a>DataFrame优点</h4><ol>
-<li><p>代码简洁</p>
-<p> DataFrame最大的优点之一就是能够使用更精简的代码。代码量Hadoop MapReduce&gt;Python RDD API&gt;Python DataFrame API。</p>
-</li>
-<li><p>提升执行效率</p>
-<p> Python DataFrame API相对于Python RDD API的执行效率有了5倍的提升，这是因为DataFrame API实际上仅仅组黄了一段体积小巧的逻辑查询计划，Python端只需要将查询计划发送到JVM端即可，计算任务的大头都有JVM端负责。使用Python RDD API时，Python VM和JVM之间需要进行大量跨进程数据交换。<br> 使用Scala DataFrame API的版本也要比Python RDD API快一倍，因为PYthonRDD API是函数试的，强调不变形，在大部分场景下倾向于创建新对象而不是修改老对象，这点岁软可以实现整洁的API，但使得SPark在应用程序运行过程中倾向创建大量临时对象，对GC造成较大压力。而在Spark SQL 中尽可能重用对象，这样虽然在内部打破了不变形，但在数据返回给用户时，还会重新转化为不可变数据，这样用户利用DataFrame API能能够使用到优化效果。</p>
-<p> <img src="spark2.png" alt="spark2"></p>
-</li>
-<li><p>减少数据存取</p>
-<p> 分析大数据最有效的方法就是忽略无关的数据，根据查询条件进行适当的裁剪。对一些格式，Spark SQL可以根据数据文件中附带的统计信息来进行剪枝。在这类数据格式中，数据是分段保存的，每段数据都带有最大值、最小值和NULL值数量等统计信息。当统计信息表名某一数据段肯定不包括符合查询条件的目标数据时，改数据段就可以直接跳过（例如某整数列A某段的最大值为100，而查询条件要求a&gt;200）</p>
-</li>
-</ol>
-<h4 id="Spark-SQL-运行原理"><a href="#Spark-SQL-运行原理" class="headerlink" title="Spark SQL 运行原理"></a>Spark SQL 运行原理</h4><p><strong>通用SQL执行原理</strong></p>
-<p>在传统关系型数据库中，最基本的SQL查询语句如SELECT fieldA，fieldB，fieldC FROM tableA WHERE fieldA &gt; 10，由Projection（fieldA，fieldB，fieldC）、Data Source（tableA）和Filter（fieldA &gt; 10）三部分组成，分别对应SQL查询过程中的Result、Data Source和Operation。也就是说SQL语句按Result-&gt;Data Source-&gt;Operation的次序来描述的，<br>而实际执行SQL语句的过程中是按照Operation-&gt;Data Source-&gt;Result的顺序来执行。<br>    <img src="spark3.png" alt="spark3"></p>
-<p>具体执行过程如下：</p>
-<ul>
-<li>词法和语法解析（Parse）：对读入的SQL语句进行词法和语法解析，分辨出SQL语句中哪些词是关键词（如SELECT、FROM和WHERE），哪些是表达式、哪些是Projection、哪些是Data Source等，判断SQL语句是否规范，并形成逻辑计划。</li>
-<li>绑定（Bind）：将SQL语句和数据库的数据字典（列、表和视图等）进行绑定（Bind），如果相关的Projection和Data Source等都存在的话，则表示这个SQL语句是可以执行的。</li>
-<li>优化（Optimize）：一般的数据库会提供几个执行计划，这些计划一般都有运行统计数据，数据库会在这些计划中选择一个最优计划。</li>
-<li>执行（Execute）：执行签名的步骤获取的最优执行计划，返回从数据库中查询的数据集。</li>
-</ul>
-<p>关系数据库在运行过程中，会在缓冲解析锅的SQL语句，在后续的过程中如果能够命中缓存SQL就可以直接返回可执行的计划，比如重新运行刚运行过的SQL语句，坑你直接从数据库的缓冲池中获取返回结果。</p>
-<p><strong>SparkSQL运行架构</strong></p>
-<p>Spark SQL先换将SQL语句进行解析（Parse）形成一个Tree，然后使用Rule对Tree进行绑定、优化等处理过程，通过模式匹配对不同类型的节点采用不同的操作。而Spark SQL的查询优化器是Catalyst，他负责处理查询语句的解析、绑定、优化和生成物理计划等过程，Catalyst是Spark SQL最和新部分，其性能优劣将决定整体的性能。</p>
-<p>Spark SQL由Core、Catalyst、Hive和Hive-ThriftServer 4个部分组成。</p>
-<ul>
-<li>Core：负责处理数据的输入/输出，从不同的数据源获取数据（如RDD、Parquet文件和JSON文件等），然后将查询结果输出成Data Frame。</li>
-<li>Catalyst：负责处理查询语句的整个处理过程</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1716,7 +1673,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1738,7 +1695,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
