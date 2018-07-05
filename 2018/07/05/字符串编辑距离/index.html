@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="leetcode,python,code," />
+  <meta name="keywords" content="面试,动态规划," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="[Leetcode] Generate ParenthesesGiven n pairs of parentheses, write a function to generate all combinations of well-formed parentheses. For example:given n = 3, a solution set is: “((()))”, “(()())”, “">
-<meta name="keywords" content="leetcode,python,code">
+<meta name="description" content="字符串A与B的编辑距离,Edit Distance,是指由A转换为B所需的最少编辑操作次数。编辑操作包括字符的替换、插入与删除。如kitten(小猫)-&amp;gt;sitting（坐）：距离为3.kitten–&amp;gt;（k→s）–&amp;gt;sitten–&amp;gt; （e→i）–&amp;gt;sittin–&amp;gt;（g）-&amp;gt;sitting 1234567891011121314151617181920212">
+<meta name="keywords" content="面试,动态规划">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Generate Parentheses">
-<meta property="og:url" content="https://codingsu.github.io/2018/03/14/Generate-Parentheses/index.html">
+<meta property="og:title" content="字符串编辑距离">
+<meta property="og:url" content="https://codingsu.github.io/2018/07/05/字符串编辑距离/index.html">
 <meta property="og:site_name" content="sjw_blog">
-<meta property="og:description" content="[Leetcode] Generate ParenthesesGiven n pairs of parentheses, write a function to generate all combinations of well-formed parentheses. For example:given n = 3, a solution set is: “((()))”, “(()())”, “">
+<meta property="og:description" content="字符串A与B的编辑距离,Edit Distance,是指由A转换为B所需的最少编辑操作次数。编辑操作包括字符的替换、插入与删除。如kitten(小猫)-&amp;gt;sitting（坐）：距离为3.kitten–&amp;gt;（k→s）–&amp;gt;sitten–&amp;gt; （e→i）–&amp;gt;sittin–&amp;gt;（g）-&amp;gt;sitting 1234567891011121314151617181920212">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-15T03:24:19.982Z">
+<meta property="og:updated_time" content="2018-07-05T08:17:00.322Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Generate Parentheses">
-<meta name="twitter:description" content="[Leetcode] Generate ParenthesesGiven n pairs of parentheses, write a function to generate all combinations of well-formed parentheses. For example:given n = 3, a solution set is: “((()))”, “(()())”, “">
+<meta name="twitter:title" content="字符串编辑距离">
+<meta name="twitter:description" content="字符串A与B的编辑距离,Edit Distance,是指由A转换为B所需的最少编辑操作次数。编辑操作包括字符的替换、插入与删除。如kitten(小猫)-&amp;gt;sitting（坐）：距离为3.kitten–&amp;gt;（k→s）–&amp;gt;sitten–&amp;gt; （e→i）–&amp;gt;sittin–&amp;gt;（g）-&amp;gt;sitting 1234567891011121314151617181920212">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://codingsu.github.io/2018/03/14/Generate-Parentheses/"/>
+  <link rel="canonical" href="https://codingsu.github.io/2018/07/05/字符串编辑距离/"/>
 
 
 
 
 
-  <title>Generate Parentheses | sjw_blog</title>
+  <title>字符串编辑距离 | sjw_blog</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/14/Generate-Parentheses/">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/07/05/字符串编辑距离/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sujunwei">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Generate Parentheses</h1>
+          <h1 class="post-title" itemprop="name headline">字符串编辑距离</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-14T09:53:03+08:00">
-                2018-03-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-05T16:15:14+08:00">
+                2018-07-05
               </time>
             
 
@@ -302,28 +302,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -352,13 +330,8 @@
       
 
       
-        <h1 id="Leetcode-Generate-Parentheses"><a href="#Leetcode-Generate-Parentheses" class="headerlink" title="[Leetcode] Generate Parentheses"></a>[Leetcode] Generate Parentheses</h1><p>Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.</p>
-<p>For example:<br>given n = 3, a solution set is:</p>
-<p>“((()))”, “(()())”, “(())()”, “()(())”, “()()()”</p>
-<p><strong>解题思路：</strong><br>这道题给定一个数字n，让生成共有n个括号的所有正确的形式，对于这种列出所有结果的题首先还是考虑用递归Recursion来解。由于字符串只有左括号和右括号两种字符，而且最终结果必定是左括号n个，右括号n个，所以我们定义两个变量left和right分别表示剩余左右括号的个数，如果在某次递归时，左括号的个数大于右括号的个数，说明此时生成的字符串中右括号的个数大于左括号的个数，即会出现’)(‘这样的非法串，所以这种情况直接返回，不继续处理。如果left和right都为0，则说明此时生成的字符串已有n个左括号和n个右括号，且字符串合法，则存入结果中后返回。如果以上两种情况都不满足，若此时left大于0，则调用递归函数，注意参数的更新，若right大于0，则调用递归函数，同样要更新参数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">generateParenthesis</span><span class="params">(self, n)</span>:</span></span><br><span class="line">	    <span class="string">"""</span></span><br><span class="line"><span class="string">	    :type n: int</span></span><br><span class="line"><span class="string">	    :rtype: List[str]</span></span><br><span class="line"><span class="string">	    """</span></span><br><span class="line">	    res = []</span><br><span class="line">	    res = helper(n,n,<span class="string">''</span>,res)</span><br><span class="line">	    <span class="keyword">return</span> res</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">helper</span><span class="params">(left,right,out,res)</span>:</span></span><br><span class="line">	    <span class="keyword">if</span> left &lt; <span class="number">0</span> <span class="keyword">or</span> right &lt; <span class="number">0</span> <span class="keyword">or</span> left &gt; right:</span><br><span class="line">	        <span class="keyword">return</span> res</span><br><span class="line">	    <span class="keyword">if</span> left == <span class="number">0</span> <span class="keyword">and</span> right == <span class="number">0</span>:</span><br><span class="line">	        res.append(out)</span><br><span class="line">	        <span class="keyword">return</span> res</span><br><span class="line">	    <span class="keyword">if</span> left &gt; <span class="number">0</span>:</span><br><span class="line">	        helper(left <span class="number">-1</span>, right, out + <span class="string">'('</span>, res)</span><br><span class="line">	    <span class="keyword">if</span> right &gt; <span class="number">0</span>:</span><br><span class="line">	        helper(left, right <span class="number">-1</span>, out + <span class="string">')'</span>, res)</span><br><span class="line">	    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-<p>别人用循环完成的代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generateParenthesis</span><span class="params">(self, N)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> N == <span class="number">0</span>: <span class="keyword">return</span> [<span class="string">''</span>]</span><br><span class="line">        ans = []</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> xrange(N):</span><br><span class="line">            <span class="keyword">for</span> left <span class="keyword">in</span> self.generateParenthesis(c):</span><br><span class="line">                <span class="keyword">for</span> right <span class="keyword">in</span> self.generateParenthesis(N<span class="number">-1</span>-c):</span><br><span class="line">                    ans.append(<span class="string">'(&#123;&#125;)&#123;&#125;'</span>.format(left, right))</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure></p>
-
+        <p>字符串A与B的编辑距离,Edit Distance,是指由A转换为B所需的最少编辑操作次数。编辑操作包括字符的替换、插入与删除。<br>如kitten(小猫)-&gt;sitting（坐）：距离为3.<br>kitten–&gt;（k→s）–&gt;sitten–&gt; （e→i）–&gt;sittin–&gt;（g）-&gt;sitting</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringDistance</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> dp[][];<span class="comment">// matrix</span></span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getStringSimilar</span><span class="params">(String s1, String s2)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> n, m;<span class="comment">// respective length</span></span><br><span class="line">		<span class="keyword">int</span> i, j;<span class="comment">// cursor</span></span><br><span class="line">		n = s1.length();</span><br><span class="line">		m = s2.length();</span><br><span class="line">		 <span class="keyword">if</span> (n == <span class="number">0</span> || m == <span class="number">0</span>) &#123;</span><br><span class="line">		 <span class="keyword">return</span> Math.abs(m - n);</span><br><span class="line">		 &#125;</span><br><span class="line">		</span><br><span class="line">		dp = <span class="keyword">new</span> <span class="keyword">int</span>[n][m];</span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">			dp[i][<span class="number">0</span>] = <span class="number">1</span> + i;</span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; m; i++)</span><br><span class="line">			dp[<span class="number">0</span>][i] = <span class="number">1</span> + i;</span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) </span><br><span class="line">			<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; m; j++) </span><br><span class="line">				<span class="keyword">if</span> (s1.charAt(i) == s2.charAt(j))</span><br><span class="line">					dp[i][j] = getDP(i - <span class="number">1</span>, j - <span class="number">1</span>);</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">					<span class="comment">//注意是min(a,b,c)三个形参</span></span><br><span class="line">					dp[i][j] = min(getDP(i - <span class="number">1</span>, j), getDP(i, j - <span class="number">1</span>), getDP(i-<span class="number">1</span>, j - <span class="number">1</span>)) + <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">return</span> dp[n - <span class="number">1</span>][m - <span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">min</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Math.min(Math.min(a, b),c);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">getDP</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (i &lt;<span class="number">0</span> &amp;&amp; j &lt;<span class="number">0</span>)</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">if</span>(i&lt;<span class="number">0</span>)</span><br><span class="line">			<span class="keyword">return</span> j+<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">if</span>(j&lt;<span class="number">0</span>)</span><br><span class="line">			<span class="keyword">return</span> i+<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">else</span> </span><br><span class="line">			<span class="keyword">return</span> dp[i][j];</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getStringDistance</span><span class="params">(String s1, String s2)</span> </span>&#123;</span><br><span class="line">		StringDistance obj = <span class="keyword">new</span> StringDistance();</span><br><span class="line">		<span class="keyword">return</span> obj.getStringSimilar(s1, s2);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGetStringSimilar</span><span class="params">()</span></span>&#123;</span><br><span class="line">		assertEquals(<span class="number">3</span>,getStringSimilar(<span class="string">"kitten"</span>, <span class="string">"sitting"</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -375,11 +348,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+            <a href="/tags/面试/" rel="tag"># 面试</a>
           
-            <a href="/tags/python/" rel="tag"># python</a>
-          
-            <a href="/tags/code/" rel="tag"># code</a>
+            <a href="/tags/动态规划/" rel="tag"># 动态规划</a>
           
         </div>
       
@@ -392,8 +363,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/05/Remove Nth Node From End of List/" rel="next" title="Remove Nth Node From End of List">
-                <i class="fa fa-chevron-left"></i> Remove Nth Node From End of List
+              <a href="/2018/07/04/牛牛数星星/" rel="next" title="牛牛数星星">
+                <i class="fa fa-chevron-left"></i> 牛牛数星星
               </a>
             
           </div>
@@ -401,10 +372,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/14/hexo博客上传/" rel="prev" title="hexo博客上传">
-                hexo博客上传 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -456,17 +423,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -526,22 +484,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Leetcode-Generate-Parentheses"><span class="nav-number">1.</span> <span class="nav-text">[Leetcode] Generate Parentheses</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
