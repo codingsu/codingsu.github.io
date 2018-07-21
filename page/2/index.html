@@ -259,6 +259,300 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/05/25/最长公共子序列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/25/最长公共子序列/" itemprop="url">最长公共子序列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-25T10:26:46+08:00">
+                2018-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定两个字符串str1和str2，返回两个字符串的最长公共子序列。<br>str1 = 1A2B3D4B56 str2 = B1D23CA45B6A<br>公共子序列123456 ,12C4B6都可以</p>
+<p>解法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//计算出最长公共子序列长度</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[][] getdp(<span class="keyword">char</span>[] str1, <span class="keyword">char</span>[] str2)&#123;</span><br><span class="line">	<span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[str1.length][str2.length];</span><br><span class="line">	dp[<span class="number">0</span>][<span class="number">0</span>] = str[<span class="number">0</span>] == str[<span class="number">1</span>] ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; str1.length; i++)&#123;</span><br><span class="line">		dp[i][<span class="number">0</span>] = Math.max(dp[i-<span class="number">1</span>][<span class="number">0</span>], str1[i] == str2[<span class="number">0</span>] ? <span class="number">1</span> : <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; i &lt; str2.length; j++)&#123;</span><br><span class="line">		dp[<span class="number">0</span>][j] = Math.max(dp[<span class="number">0</span>][j-<span class="number">1</span>], str1[<span class="number">0</span>] == str2[j] ? <span class="number">1</span> : <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; str1.length; i++)&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; str2.length; j++)&#123;</span><br><span class="line">			dp[i][j] = Math.max(dp[i-<span class="number">1</span>][j],dp[i][j-<span class="number">1</span>]);</span><br><span class="line">			<span class="keyword">if</span> (str1[i] == str2[j])&#123;</span><br><span class="line">				dp[i][j] == Math.max(dp[i][j], dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> dp</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//取出最长公共子序列</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">lcse</span><span class="params">(String str1, String str2)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(str1 == <span class="keyword">null</span> || str2 == <span class="keyword">null</span> || str1 == <span class="string">""</span> || str2 == <span class="string">""</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">char</span>[] chs1 = str1.toCharArray();</span><br><span class="line">	<span class="keyword">char</span>[] chs2 = str2.toCharArray();</span><br><span class="line">	<span class="keyword">int</span>[][] dp = getdp(chs1, chs2);</span><br><span class="line">	<span class="keyword">int</span> m = chs1.length -<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> n = chs2.length -<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">char</span>[] res = <span class="keyword">new</span> <span class="keyword">char</span>[dp[m][n]];</span><br><span class="line">	<span class="keyword">int</span> index = res.length -<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(index &gt;= <span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span> (n &gt; <span class="number">0</span> &amp;&amp; dp[m][n] == dp[m][n-<span class="number">1</span>])&#123;</span><br><span class="line">			n--;</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(m &gt;<span class="number">0</span> &amp;&amp; dp[m][n] == dp[m-<span class="number">1</span>][n])&#123;</span><br><span class="line">			m--;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			res[index--] = chs1[m]</span><br><span class="line">			n--;</span><br><span class="line">			m--;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/05/24/换钱的方法数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/24/换钱的方法数/" itemprop="url">换钱的方法数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T16:38:55+08:00">
+                2018-05-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定数组arr,arr中所有的值都为正数且不重复。每个值代表一种面值的货币，没中面值的货币可以使用人一丈，再给定一个正数aim代表要找的钱数，求换钱有多少种方法。<br>解法一：暴力递归</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">coins1</span><span class="params">(<span class="keyword">int</span>[] arr , <span class="keyword">int</span> aim)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (arr == <span class="keyword">null</span> || arr.length == <span class="number">0</span> || aim &lt; <span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> process1(arr,<span class="number">0</span>,aim);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">process1</span><span class="params">(<span class="keyword">int</span>[] arr, index, <span class="keyword">int</span> aim)</span></span>&#123;</span><br><span class="line">	res = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span> (index == arr.length)&#123;</span><br><span class="line">		res = aim==<span class="number">0</span>? <span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; arr[index] *i &lt;=aim; i++)&#123;</span><br><span class="line">			res += process1(arr,index+<span class="number">1</span>,aim-arr[index]*i);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解法二：记忆搜索。使用map记录已经计算过的值，当使用0张5元和1张10元情况和使用2张5元和0张10元的情况是一样的。所以记录index和aim-arr[index]*i值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">cosins1</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> aim)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(arr == <span class="keyword">null</span> || arr.length == <span class="number">0</span> || aim &lt; <span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span>[][] map = <span class="keyword">new</span> <span class="keyword">int</span>[arr.lenth+<span class="number">1</span>][aim+<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">return</span> process1(arr,index,aim,map);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">process1</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> index, <span class="keyword">int</span> aim, <span class="keyword">int</span>[][] map)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span> (index == arr.length)&#123;</span><br><span class="line">		res = aim ==<span class="number">0</span> ?<span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">int</span> maxvalue = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; arr[index] *i&lt;=aim; i++)&#123;</span><br><span class="line">			mapvalue = <span class="keyword">int</span>[index+<span class="number">1</span>][aim-arr[index]*i];</span><br><span class="line">			<span class="keyword">if</span> (mapvalue !=<span class="number">0</span>)&#123;</span><br><span class="line">				res += mavalue ==-<span class="number">1</span>?<span class="number">0</span>:mapvalue;</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				res += process1(arr,index+<span class="number">1</span>,aim,map);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	map[index][aim] = res == <span class="number">0</span>? -<span class="number">1</span>:res;</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解法三：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public int coins3(int[] arr, int aim)&#123;</span><br><span class="line">	if(arr == null || arr.length == 0 || aim &lt; 0)&#123;</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	int[][] dp = new int[arr.length][aim+1];</span><br><span class="line">	for(int i=0; i&lt; arr.length; i++)&#123;</span><br><span class="line">		dp[i][0] = 1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	for (int j = 1; arr[0] * j&lt;=aim; j++)&#123;</span><br><span class="line">		dp[0][j] = 1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	int num = 0;</span><br><span class="line">	</span><br><span class="line">	for(int i = 1; i&lt; arr.length; i++)&#123;</span><br><span class="line">		for(int j=1; j &lt;=aim; j++)&#123;</span><br><span class="line">			num = 0;</span><br><span class="line">			for(int k = 0; j-arr[i] * k&gt;=0; k++)&#123;</span><br><span class="line">				num += dp[i-1][j-arr[i] * k];</span><br><span class="line">			&#125;</span><br><span class="line">			dp[i][j] = num;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return dp[arr.length][aim];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>解法三：动态规划</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public int coins3(int[] arr, int aim)&#123;</span><br><span class="line">	if(arr == null || arr.length == 0 || aim &lt; 0)&#123;</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	int[][] dp = new int[arr.length][aim+1];</span><br><span class="line">	for (int i =0; i&lt; arr.length; i++)&#123;</span><br><span class="line">		dp[i][0] = 1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	for (int j = 1; j *arr[0] &lt;= aim; j++)&#123;</span><br><span class="line">		dp[0][j*arr[0]] = 1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	for (int i = 1; i&lt; arr.length; i++)&#123;</span><br><span class="line">		for (int j = 1; j&lt;= aim; j++)&#123;</span><br><span class="line">			dp[i][j] = dp[i-1][j];</span><br><span class="line">			dp[i][j] +=j-arr[i] &gt;= 0 ? dp[i][j-arr[i]]:0;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解法四：动态规划+空间压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public int coins3(int[] arr, int aim)&#123;</span><br><span class="line">	if(arr == null || arr.length == 0 || aim &lt; 0)&#123;</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	int[] dp = new int[aim+1];</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	for (int j = 1; j *arr[0] &lt;= aim; j++)&#123;</span><br><span class="line">		dp[j*arr[0]] = 1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	for (int i = 1; i&lt; arr.length; i++)&#123;</span><br><span class="line">		for (int j = 1; j&lt;= aim; j++)&#123;</span><br><span class="line">			dp[j] +=j-arr[i] &gt;= 0 ? dp[j-arr[i]]:0;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过本题目的优化过程，可以梳理出暴力递归通用的优化过程。一般先想到暴力递归的过程，在通过查看函数中有哪些参数是不发生变化的，忽略不变化的，只看变化的，并且可以表示递归过程的参数，找到这些参数之后，记忆搜索的方法就可以写出来，将计算完成的记录保存到map中，并在下次直接拿来使用。之后看每个位置是通过哪个位置求出来的，先求出被依赖的位置，就能写出动态规划，如果依赖的位置</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/05/24/换钱最少货币数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1515,343 +1809,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/25/Spark-study-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/25/Spark-study-3/" itemprop="url">Spark学习笔记(3) —— 消息通信原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-25T11:30:26+08:00">
-                2018-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Spark学习笔记-3-——-消息通信原理"><a href="#Spark学习笔记-3-——-消息通信原理" class="headerlink" title="Spark学习笔记(3) —— 消息通信原理"></a>Spark学习笔记(3) —— 消息通信原理</h1><h4 id="Spark-消息通信架构"><a href="#Spark-消息通信架构" class="headerlink" title="Spark 消息通信架构"></a>Spark 消息通信架构</h4><p>Spark定义了通信框架接口，这些接口实现中调用Netty的具体方法。通信框架使用了工厂设计模式实现，这种设计方式实现了对Netty的解耦，能够根据需要引入其他的消息通信工具。</p>
-<p><img src="spark1.png" alt="spark1"></p>
-<h4 id="Spark-启动消息通信"><a href="#Spark-启动消息通信" class="headerlink" title="Spark 启动消息通信"></a>Spark 启动消息通信</h4><p>Spark启动过程中主要是进行Master与Worker之间的通信，首先由Worker节点想Master发送注册消息，然后Master处理完毕后，返回注册成功消息或失败消息，如果成功注册，则Worker定时发送心跳消息给Master。</p>
-<p><img src="spark2.png" alt="spark2"></p>
-<p>详细过程：</p>
-<ol>
-<li><p>当Master启动后，随之启动个Worker,Worker启动是会创建消息通信环境RpcEnv和终端点EndPoint，并向Master发送注册Worker的消息RegisterWorker。</p>
-<p> 由于Worker可能需要注册到多个Master中，在Worker的tryRegisterAllMasters方法中创建注册线程池registerMasterThreadPool，把需要申请注册的请求放在该线程池中，然后通过该线程池启动注册线程。在该注册过程中，获取Master终端店引用，截止调用RegisterWithMaster方法，根据master终端店引用的send方法发送注册RegisterWorker消息。</p>
-</li>
-<li><p>Master收到消息后，需要对Worker发送的消息进行验证，记录。如果注册成功，则发送RegisteredWorker消息给对应的Worker，告诉他已经完成注册，随之进行步骤3，Worker定期发送心跳信息给Master；如果注册失败，则发送registerWorkerFailed消息。</p>
-<p> 在Master中，Master接到注册消息后，先判断Master当前状态是否是standby，如果是则忽略注册消息。如果在注册列表中发现该Worker的编号，则返回重复注册的失败消息，如果没有问题，则使用registerWorker方法把该Worker加入到列表中。</p>
-</li>
-</ol>
-<h4 id="Spark-运行时消息通信"><a href="#Spark-运行时消息通信" class="headerlink" title="Spark 运行时消息通信"></a>Spark 运行时消息通信</h4><p><img src="spark3.png" alt="spark3"></p>
-<p>用户提交应用程序时，应用程序的SparkContext会向Master发送应用注册消息。</p>
-<p>Master接收到注册应用信息后，Master将该应用放入应用列表中，并返回RegisteredApplication消息给应用程序。</p>
-<p>同时Master在Worker列表中选取运行应用的Worker，发送LaunchExecutor消息给Worker，通知Worker启动Executor。</p>
-<p>Executor启动成功后，Worker返回ExecutorStateChanged消息给Master，通知Executor容器已经创建完毕。</p>
-<p>同时Executor会向SparkContext发送注册成功消息。</p>
-<p>当SparkContext的RDD出发行动操作后，将创建RDD的DAG，通过DAGScheduler进行划分Stage，并将Stage转化为TaskSe。</p>
-<p>接着有TaskScheduler向注册的Executor发送执行消息，Executor接收到任务消息后启动并运行。</p>
-<p>最后当所有任务运行时，有Driver处理结果并回收资源。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/23/Spark-study-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/23/Spark-study-2/" itemprop="url">Spark学习笔记(2) —— spark RDD</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-23T11:07:09+08:00">
-                2018-03-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Spark学习笔记-2-——-Spark-RDD"><a href="#Spark学习笔记-2-——-Spark-RDD" class="headerlink" title="Spark学习笔记(2) —— Spark RDD"></a>Spark学习笔记(2) —— Spark RDD</h1><h4 id="Spark-RDD"><a href="#Spark-RDD" class="headerlink" title="Spark RDD"></a>Spark RDD</h4><p>四类操作</p>
-<ul>
-<li>创建操作： 用于RDD创建工作，RDD创建只有两种方法，中是来自于内存集合和外部存储系统，另一种是通过转换操作生成的RDD</li>
-<li>转换操作：将RDD通过一定的操作变换成新的RDD，比如HadoopRDD可以使用map操作变换为MappedRDD，RDD的转换操作是惰性操作。</li>
-<li>控制操作：进行RDD出九华，可以让RDD按不同的存储侧率保存在磁盘和内存中，比如cache接口默认将RDD缓存在内存中。</li>
-<li>行动操作：能够出发Spark运行的操作，李璐，对RDD进行collect就是行动操作。Spark中行动操作。</li>
-</ul>
-<h4 id="RDD的实现"><a href="#RDD的实现" class="headerlink" title="RDD的实现"></a>RDD的实现</h4><ul>
-<li>作业调度</li>
-</ul>
-<p>当对RDD执行转换操作是，调度器会根据RDD的血统来构建有若干调度阶段组成的有向无环图，每个调度阶段包含尽可能多的连续窄依赖转换。调度器按照有向无环图顺序进行计算，并最总得到目标RDD。</p>
-<ul>
-<li>解析器集成</li>
-</ul>
-<p>Scala</p>
-<ul>
-<li>内存管理</li>
-</ul>
-<p>Spark 提供了3中持久化RDD的存储策略：未序列化Java对象存在内存中、序列化的数据存于内存中已经存储在磁盘中。第一个选项的性能是最优的，因为可以直接访问在Java虚拟机内存里的RDD对象；在空间有限的情况下，第二种方式可以让用户采用比Java对象更有效的内存组织方式，但代价是降低了性能；第三种策略使用于RDD太大的情形，每次重新计算该RDD会带来额外的资源开销。</p>
-<p>对于内存使用LRU回收算法进行管理，当计算得到一个新的RDD分区，但没有足够的空间来存储时，系统会从最近最少使用的RDD中回收一个分区的空间，除非新加的RDD分区是这个RDD对应的分区，在这种情况下则会保留这个最少使用的RDD，避免多次调入调出数据。</p>
-<ul>
-<li>检查点支持</li>
-</ul>
-<p>尽管血统可以用于错误后RDD的恢复，但是对于很长的血统的RDD来说，这样的恢复耗时较长，所以需要通过检查点操作保存到外部存储中。</p>
-<ul>
-<li>多用户管理</li>
-</ul>
-<p>RDD模型将计算分解为多个相互独立的细粒度任务，这使得它在多用户集群能够支持多种资源共享算法。</p>
-<ul>
-<li>RDD依赖关系</li>
-</ul>
-<p>RDD中将依赖划分成了两种类型：窄依赖和宽依赖。</p>
-<pre><code>窄依赖是指每个父RDD的分区都之多被一个子RDD的分区使用（一对一）， 宽依赖是多个子RDD的分区依赖一个父RDD的分区（多对一）
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1902,7 +1859,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
