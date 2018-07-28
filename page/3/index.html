@@ -259,6 +259,163 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/25/Spark-study-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/25/Spark-study-4/" itemprop="url">Spark学习笔记(4) —— 作业执行原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-25T14:05:08+08:00">
+                2018-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Spark学习笔记-4-——-作业执行原理"><a href="#Spark学习笔记-4-——-作业执行原理" class="headerlink" title="Spark学习笔记(4) —— 作业执行原理"></a>Spark学习笔记(4) —— 作业执行原理</h1><p>Spark的作业和任务调度系统是其核心，它能够有效地进行调度是因为对任务的DAG划分和容错，是的它对低层到顶层的各个模块之间的调度和处理都显得游刃有余。</p>
+<ul>
+<li><strong>作业(job)</strong>: RDD中由行动操作所生成的一个或多个调度阶段。</li>
+<li><strong>调度阶段(stage)</strong>: 每个作业会因为RDD之间的依赖关系拆分成多组任务集合，称为调度阶段，也叫任务集(TaskSet)。调度阶段的划分是由DAGScheduler来划分的。调度阶段有Shuffle Map Stage和Result Stage两种</li>
+<li><strong>任务(task)</strong>: 分发到Executor上的工作任务，是Spark实际执行应用的最小单元。</li>
+<li><strong>DAGScheduler</strong>: DAGScheduler是面向调度阶段的任务调度器，负责接收Spark应用提交的作业，根据RDD的依赖关系划分调度阶段，并提交调度阶段给TaskCheduler。</li>
+<li><strong>TaskScheduler</strong>: TaskScheduler是面向任务的调度器，它接收DagScheduler提交过来的调度阶段，然后以把任务分发到Work节点运行，由Worker节点的Executor来运行任务。</li>
+</ul>
+<p>Spark的作业调度主要是指基于RDD的一系列操作构成一个作业，然后在Executor中执行。这些操作算子主要分为转换操作和行动操作，对于转换操作的计算是lazy级别的，也就是延迟执行，只有出现了行动操作才出发了作业的提交。在Spark调度中最重要的是DAGScheduler和TaskScheduler两个调度器，其中，DAGSscheduler负责任务的逻辑调度。将作业拆分成不同阶段的具有依赖关系的任务集，而TaskCheduler则负责具体任务的调度执行。</p>
+<p><img src="spark1.png" alt="spark1"></p>
+<ol>
+<li>Spark应用程序进行各种转换操作，通过行动操作触发作业运行。提交之后根据RDD之间的依赖关系构建DAG图，DAG图提交给DAGScheduler进行解析。</li>
+<li>DAGScheduler是面向调度阶段的高层次的调度器，DAGScheduler把DAG拆分成相互依赖的调度阶段，拆分调度阶段是以RDD的依赖是否为宽依赖，当遇到宽依赖就划分为新的调度阶段。每个调度阶段包含一个或多个任务，这些任务形成任务集，提交给底层调度器TaskCheduer进行调度运行。另外，DAGScheduler记录哪些RDD被存入磁盘等物化动作，同时要寻求任务的最优化调度，例如数据本地星等；DAGScheduler监控运行调度阶段过程，如果某个调度阶段运行失败，则需要重新提交该调度阶段。</li>
+<li>每个TaskScheduler只为一个SparkContext实例服务，TaskScheduler接收来自DAGScheduler发送过来的任务集，TaskSchduler收到任务集后负责把任务集以任务的形式一个个分发到集群Worker节点的Executor中去运行。如果某个任务运行失败，TaskScheduler要负责重试。另外，如果TaskScheduler发现某个任务一直未运行完，就可能启动同样的任务运行同一个任务，哪一个任务先运行完就用哪个任务的结果。</li>
+<li>Worker中的Executor收到TaskScheduler发送过来的任务后，以多线程的方式运行，每一个线程负责一个任务。任务运行结束后要返回给TaskScheduler，不同类型的任务，返回的方式也不同。ShuffleMapTask返回的是一个MapStatus对象，而不是结果本身;ResultTask根据结果大小的不同，返回的方式又可以分为两类。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/25/Spark-study-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1659,153 +1816,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/14/Generate-Parentheses/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/14/Generate-Parentheses/" itemprop="url">Generate Parentheses</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-14T09:53:03+08:00">
-                2018-03-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Leetcode-Generate-Parentheses"><a href="#Leetcode-Generate-Parentheses" class="headerlink" title="[Leetcode] Generate Parentheses"></a>[Leetcode] Generate Parentheses</h1><p>Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.</p>
-<p>For example:<br>given n = 3, a solution set is:</p>
-<p>“((()))”, “(()())”, “(())()”, “()(())”, “()()()”</p>
-<p><strong>解题思路：</strong><br>这道题给定一个数字n，让生成共有n个括号的所有正确的形式，对于这种列出所有结果的题首先还是考虑用递归Recursion来解。由于字符串只有左括号和右括号两种字符，而且最终结果必定是左括号n个，右括号n个，所以我们定义两个变量left和right分别表示剩余左右括号的个数，如果在某次递归时，左括号的个数大于右括号的个数，说明此时生成的字符串中右括号的个数大于左括号的个数，即会出现’)(‘这样的非法串，所以这种情况直接返回，不继续处理。如果left和right都为0，则说明此时生成的字符串已有n个左括号和n个右括号，且字符串合法，则存入结果中后返回。如果以上两种情况都不满足，若此时left大于0，则调用递归函数，注意参数的更新，若right大于0，则调用递归函数，同样要更新参数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">generateParenthesis</span><span class="params">(self, n)</span>:</span></span><br><span class="line">	    <span class="string">"""</span></span><br><span class="line"><span class="string">	    :type n: int</span></span><br><span class="line"><span class="string">	    :rtype: List[str]</span></span><br><span class="line"><span class="string">	    """</span></span><br><span class="line">	    res = []</span><br><span class="line">	    res = helper(n,n,<span class="string">''</span>,res)</span><br><span class="line">	    <span class="keyword">return</span> res</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">helper</span><span class="params">(left,right,out,res)</span>:</span></span><br><span class="line">	    <span class="keyword">if</span> left &lt; <span class="number">0</span> <span class="keyword">or</span> right &lt; <span class="number">0</span> <span class="keyword">or</span> left &gt; right:</span><br><span class="line">	        <span class="keyword">return</span> res</span><br><span class="line">	    <span class="keyword">if</span> left == <span class="number">0</span> <span class="keyword">and</span> right == <span class="number">0</span>:</span><br><span class="line">	        res.append(out)</span><br><span class="line">	        <span class="keyword">return</span> res</span><br><span class="line">	    <span class="keyword">if</span> left &gt; <span class="number">0</span>:</span><br><span class="line">	        helper(left <span class="number">-1</span>, right, out + <span class="string">'('</span>, res)</span><br><span class="line">	    <span class="keyword">if</span> right &gt; <span class="number">0</span>:</span><br><span class="line">	        helper(left, right <span class="number">-1</span>, out + <span class="string">')'</span>, res)</span><br><span class="line">	    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-<p>别人用循环完成的代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generateParenthesis</span><span class="params">(self, N)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> N == <span class="number">0</span>: <span class="keyword">return</span> [<span class="string">''</span>]</span><br><span class="line">        ans = []</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> xrange(N):</span><br><span class="line">            <span class="keyword">for</span> left <span class="keyword">in</span> self.generateParenthesis(c):</span><br><span class="line">                <span class="keyword">for</span> right <span class="keyword">in</span> self.generateParenthesis(N<span class="number">-1</span>-c):</span><br><span class="line">                    ans.append(<span class="string">'(&#123;&#125;)&#123;&#125;'</span>.format(left, right))</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1856,7 +1866,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
