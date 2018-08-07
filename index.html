@@ -259,6 +259,501 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/03/面试day3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/03/面试day3/" itemprop="url">面试day3</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-03T15:56:34+08:00">
+                2018-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#JAVA进程间的通信方式（IPC）</p>
+<p>JAVA进程间通信的方法主要有以下几种：</p>
+<ol>
+<li>管道（Pipe）：管道可用于具有亲缘关系进程间的通信，允许一个进程和另一个与它有共同祖先的进程之间进行通信。
+　　</li>
+<li>命名管道（named pipe）：命名管道克服了管道没有名字的限制，除具有管道所具有的功能外，它还允许无亲缘关系进程间的通信。
+　　</li>
+<li>信号（Signal）：信号是比较复杂的通信方式，用于通知接受进程有某种事件发生，除了用于进程间通信外，进程还可以发送 信号给进程本身。
+　　</li>
+<li>消息（Message）队列：消息队列是消息的链接表，包括Posix消息队列system V消息队列。
+　　</li>
+<li>共享内存：使得多个进程可以访问同一块内存空间，是最快的可用IPC形式。是针对其他通信机制运行效率较低而设计的。
+　　</li>
+<li>内存映射（mapped memory）：内存映射允许任何多个进程间通信，每一个使用该机制的进程通过把一个共享的文件映射到自己的进程地址空间来实现它。
+　　</li>
+<li>信号量（semaphore）：主要作为进程间以及同一进程不同线程之间的同步手段。
+　　</li>
+<li>套接口（Socket）：更为一般的进程间通信机制，可用于不同机器之间的进程间通信。</li>
+</ol>
+<p>#Java线程间的通信方式</p>
+<p>###锁<br>synchronized、notify、wait</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (threadToGo) &#123;</span><br><span class="line">                            <span class="keyword">while</span>(条件)                                										threadToGo.wait();</span><br><span class="line">                      		  <span class="keyword">do</span> something</span><br><span class="line">                            threadToGo.notify();</span><br><span class="line">                        &#125;</span><br></pre></td></tr></table></figure>
+<p>Lock和Condition</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock(<span class="keyword">true</span>);</span><br><span class="line"><span class="keyword">private</span> Condition condition = lock.newCondition();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">lock.lock();</span><br><span class="line"><span class="keyword">while</span>(threadToGo.value == <span class="number">2</span>)</span><br><span class="line">   condition.await();</span><br><span class="line">   <span class="keyword">do</span> something</span><br><span class="line">   condition.signal();</span><br></pre></td></tr></table></figure>
+<p>volatile</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> ThreadToGo threadToGo = <span class="keyword">new</span> ThreadToGo();</span><br><span class="line"><span class="keyword">while</span>(threadToGo.value==<span class="number">2</span>)&#123;&#125;</span><br><span class="line">     Helper.print(arr[i], arr[i + <span class="number">1</span>]);</span><br><span class="line">     threadToGo.value=<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>AtomicInteger</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(threadToGo.get()==<span class="number">2</span>)&#123;&#125;</span><br><span class="line">     Helper.print(arr[i], arr[i + <span class="number">1</span>]);</span><br><span class="line">     threadToGo.set(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<p>PipedInputStreamAPI通道</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> PipedInputStream inputStream1;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> PipedOutputStream outputStream1;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> PipedInputStream inputStream2;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> PipedOutputStream outputStream2;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">byte</span>[] MSG;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">MethodSix</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    inputStream1 = <span class="keyword">new</span> PipedInputStream();</span><br><span class="line">    outputStream1 = <span class="keyword">new</span> PipedOutputStream();</span><br><span class="line">    inputStream2 = <span class="keyword">new</span> PipedInputStream();</span><br><span class="line">    outputStream2 = <span class="keyword">new</span> PipedOutputStream();</span><br><span class="line">    MSG = <span class="string">"Go"</span>.getBytes();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        inputStream1.connect(outputStream2);</span><br><span class="line">        inputStream2.connect(outputStream1);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shutdown</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    inputStream1.close();</span><br><span class="line">    inputStream2.close();</span><br><span class="line">    outputStream1.close();</span><br><span class="line">    outputStream2.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/03/JVM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/03/JVM/" itemprop="url">JVM</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-03T11:28:43+08:00">
+                2018-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#类加载器</p>
+<p>###ClassLoader(类加载器)</p>
+<ul>
+<li>加载：查找并加载类的二进制数据</li>
+<li>连接：<ul>
+<li>验证：确保被加载的类的正确性</li>
+<li>准备：为类的静态变量分配内存，并将其初始化问默认值</li>
+<li>解析：把勒种的符号引用转换为直接引用</li>
+</ul>
+</li>
+<li>初始化：为类的静态变量赋予正确的初始值</li>
+</ul>
+<p>###主动使用-类-初始化</p>
+<ul>
+<li>创建类的实例</li>
+<li>访问某个类或者访问类的静态变量，或者对静态变量赋值</li>
+<li>调用类的静态方法</li>
+<li>反射 （Class.forName）</li>
+<li>初始化一个类的子类</li>
+<li>Java虚拟机启动是包含main函数的类</li>
+</ul>
+<p>###类的加载</p>
+<p>将类的.class文件中的二进制数据读入到内存中，将其放在运行时数据区的方法区内，然后在堆区创建一个Java.lang.Class对象，用来封装类在方法区内的构造函数。</p>
+<p>#对象的内存布局</p>
+<p>###对象</p>
+<p>对象在内存中的存储布局分为3块区域：对象头，实例数据，对齐填充</p>
+<p>对象头包括 Mark Word 如哈希码，GC分代年龄，锁状态标志，线程持有锁，偏向锁id，偏向时间戳。</p>
+<p>对象头还包括类型指针，指向方法区中的那个类实例</p>
+<p>###对象的访问定位</p>
+<p>reference类型来操作具体对象</p>
+<ul>
+<li>句柄引用，句柄中包含了实例数据和类型数据的地址信息（方法区）</li>
+<li>直接引用，存储的就是对象的地址，对象中还包含有类型数据的地址信息（方法去）</li>
+</ul>
+<p>#枚举根节点</p>
+<p>###stop the world</p>
+<ul>
+<li><p>OopMap 记录哪些地方是存储着对象引用</p>
+</li>
+<li><p>安全点(safe point) 在安全点上时，线程可以进入GC</p>
+</li>
+</ul>
+<p>安全点选在以程序“是否具有让程序长时间执行的特征（指令序列复用，比如方法调用，循环指令，异常跳转）”</p>
+<p>当需要GC时，设置一个标志，各个线程执行时都会去轮询这个标志，然后在安全点自己主动挂起</p>
+<ul>
+<li>安全区域（safe Region） 指在一段代码片段中，引用关系不会发生变化，在任意地方GC都是安全的，当线程执行到安全区域，首先把自己表示为进入安全区域，当离开时，需要检查系统是否完成了根节点枚举。</li>
+</ul>
+<p>#方法区中的永久区资源清理</p>
+<ul>
+<li><p>常量  当没有对象引用这个常量时，如果内存不足的话，才会被清理</p>
+</li>
+<li><p>类 判断类的条件比较苛刻</p>
+<ul>
+<li>该类的所有实例都被回收</li>
+<li>加载该类的ClassLoader已经被回收</li>
+<li>该类的java.lang.Class对象没有在任何地方被引用，没有被反射调用该方法</li>
+</ul>
+</li>
+</ul>
+<p>#Class文件</p>
+<p>###包括无符号数和表</p>
+<p>无符号数包括u1,u2,u4,u8(1字节，2字节，4字节，8字节)</p>
+<p>表可以包含多个表，以_info结尾</p>
+<p>###Class文件</p>
+<p>魔数 0xCAFEBABE</p>
+<p>主次版本号第5，6为次版本号，7，8为主板本号</p>
+<p>常量池</p>
+<p>访问标记</p>
+<p>类索引和父类索引 接口索引集合</p>
+<p>……</p>
+<p>#类的加载</p>
+<p>加载-（验证-准备-解析）【连接】-初始化-使用-卸载</p>
+<p>###开始加载</p>
+<ul>
+<li>遇到new，读取或者设置一个类的静态字段，以及调用一个类的静态方法时</li>
+<li>使用java.lang.reflect包的方法对类进行反射调用</li>
+<li>当初始化一个类是，如果父类没有初始化，则初始化父类</li>
+<li>当虚拟机启动时，初始化包含main函数的类</li>
+</ul>
+<p>###加载的工作</p>
+<ul>
+<li>通过一个类的全限定名来获取定义此类的二进制字节流。</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</li>
+<li>在内存中（堆）生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口</li>
+</ul>
+<p>###验证</p>
+<ul>
+<li>文件格式验证 </li>
+</ul>
+<p>验证字节流是否符合Class文件的规范，并且可以由当前版本的虚拟机进行处理</p>
+<ul>
+<li>元数据验证（数据类型的验证，类是否合法）</li>
+</ul>
+<p>对字节码描述的信息进行语义分析，以保证其描述的信息符合Java语言的规范要求</p>
+<ul>
+<li>字节码验证</li>
+</ul>
+<p>通过数据流和控制流分析，确定程序语义是否合法，符合逻辑，对类的方法体进行校验分析</p>
+<ul>
+<li>符号引用验证</li>
+</ul>
+<p>对类自身以外的信息进行匹配性校验</p>
+<p>###准备</p>
+<p>准备节点是正式为类变量分配内存并设置类变量初始值的阶段，这些变量所使用的内存都将在方法区中进行分配。内存分配的仅包括类静态变量（static），初始值是该数据类型的零值，不是代码设置的值。</p>
+<p>###解析</p>
+<p>解析阶段虚拟机将常量池内的符号引用替换为直接引用的过程</p>
+<p>###初始化</p>
+<p>根据程序员通过程序制定的主管计划去初始化类变量和其他资源</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/01/笔试day2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/01/笔试day2/" itemprop="url">笔试day2</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T13:51:29+08:00">
+                2018-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#堆排序<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">adjustDown</span><span class="params">(a,int i, int N)</span>:</span></span><br><span class="line">	<span class="comment">#找到i节点的子节点</span></span><br><span class="line">	j = i * <span class="number">2</span> +<span class="number">1</span></span><br><span class="line">	<span class="keyword">while</span> j &lt; N:</span><br><span class="line">		<span class="comment">#找到两个子节点中最小的那个</span></span><br><span class="line">		<span class="keyword">if</span> j + <span class="number">1</span> &lt; N <span class="keyword">and</span> a[j] &gt; a[j+<span class="number">1</span>]:</span><br><span class="line">			j +=<span class="number">1</span></span><br><span class="line">		<span class="comment">#如果父节点是最小的了，说明符合条件，则不进行交换</span></span><br><span class="line">		<span class="keyword">if</span> a[i] &lt; a[j]:</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		<span class="comment">#父节点和最小的子节点进行交换</span></span><br><span class="line">		swap(i,j)</span><br><span class="line">		<span class="comment">#继续判断交换后的子节点的子树情况</span></span><br><span class="line">		i = j</span><br><span class="line">		j = j * <span class="number">2</span> +<span class="number">1</span></span><br><span class="line">	</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">makeHeap</span><span class="params">(a,N)</span>:</span></span><br><span class="line">	<span class="comment">#找到该数组中的最后一个非叶子节点</span></span><br><span class="line">	i = N /<span class="number">2</span> <span class="number">-1</span></span><br><span class="line">	<span class="comment">#从这个叶子节点开始判断调整堆</span></span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> range(i,<span class="number">0</span>,<span class="number">-1</span>):</span><br><span class="line">		adjustDown(a,i,N)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">HeapSort</span><span class="params">(a)</span>:</span></span><br><span class="line">	N = len(a)</span><br><span class="line">	<span class="comment">#开始建堆</span></span><br><span class="line">	makeHeap(a,N)</span><br><span class="line">	<span class="comment">#每次取出堆顶点，与最后的节点交换，再重新调整堆</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(N<span class="number">-1</span>,<span class="number">0</span>,<span class="number">-1</span>):</span><br><span class="line">		swap(<span class="number">0</span>,i)</span><br><span class="line">		adjustDown(a,<span class="number">0</span>,i)</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/07/31/笔试算法day1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -336,7 +831,7 @@
 <p>#希尔排序算法</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sort</span><span class="params">(a)</span>:</span></span><br><span class="line">	N = len(a)</span><br><span class="line">	<span class="comment">#将整个数组分成3份</span></span><br><span class="line">	h = N</span><br><span class="line">	<span class="keyword">while</span> h &gt; <span class="number">1</span>:</span><br><span class="line">		h = h / <span class="number">3</span> +<span class="number">1</span></span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> range(h,N):</span><br><span class="line">			j = i</span><br><span class="line">			<span class="keyword">while</span> j-h &gt;= <span class="number">0</span>:</span><br><span class="line">				<span class="keyword">if</span> a[j] &lt; a[j-h]:</span><br><span class="line">					temp = a[j]</span><br><span class="line">					a[j] = a[j-h]</span><br><span class="line">					a[j-h] = temp</span><br><span class="line">				j = j-h</span><br></pre></td></tr></table></figure>
 <p>#归并排序<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#设置临时数组保存数据</span></span><br><span class="line">temp = [<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> a]</span><br><span class="line"><span class="comment">#将分组进行合并</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge</span><span class="params">(a,left,mid,right)</span>:</span></span><br><span class="line">	l = left</span><br><span class="line">	r = mid + <span class="number">1</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(left,right+<span class="number">1</span>):</span><br><span class="line">		temp[i] = a[i]</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(left,right+<span class="number">1</span>):</span><br><span class="line">		<span class="comment">#左半边的数据已经导入数组完毕，直接将剩下的右边数据导入</span></span><br><span class="line">		<span class="keyword">if</span> l &gt; mid:</span><br><span class="line">			a[i] = temp[r++]</span><br><span class="line">		<span class="keyword">elif</span> r &gt; right:</span><br><span class="line">			a[i] = temp[l++]</span><br><span class="line">		<span class="keyword">if</span> temp[l] &gt; temp[r]:</span><br><span class="line">			a[i] = temp[r++]</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			a[i] = temp[l++]</span><br><span class="line"><span class="comment">#将列表进行分组</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sort</span><span class="params">(a,left,right)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> (left &gt;= right):</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	mid = left + (right - left)/<span class="number">2</span></span><br><span class="line">	</span><br><span class="line">	sort(a, left, mid)</span><br><span class="line">	sort(a, mid, right)</span><br><span class="line">	merge(a,left,mid,right)</span><br></pre></td></tr></table></figure></p>
-<p>#快速排序<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sort</span><span class="params">(a,low,high)</span>:</span></span><br><span class="line">	left = low</span><br><span class="line">	right = high</span><br><span class="line">	<span class="keyword">if</span> left &gt;= right:</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	key = a[left]</span><br><span class="line">	l = left</span><br><span class="line">	<span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">		<span class="keyword">while</span> a[left] &lt;= key <span class="keyword">and</span> left &lt; right:</span><br><span class="line">			left +=<span class="number">1</span></span><br><span class="line">		<span class="keyword">while</span> a[right] &gt; key <span class="keyword">and</span> left &lt; right:</span><br><span class="line">			right -=<span class="number">1</span></span><br><span class="line">		<span class="keyword">if</span> left &gt;= right:</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		temp = a[left]</span><br><span class="line">		a[left] = a[right]</span><br><span class="line">		a[right] = temp</span><br><span class="line">	a[right] = key</span><br><span class="line">	sort(a,low,right)</span><br><span class="line">	sort(a,right,high)</span><br></pre></td></tr></table></figure></p>
+<p>#快速排序<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sort</span><span class="params">(a,low,high)</span>:</span></span><br><span class="line">	left = low</span><br><span class="line">	right = high</span><br><span class="line">	<span class="keyword">if</span> left &gt;= right:</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	key = a[left]</span><br><span class="line">	l = left</span><br><span class="line">	<span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">		<span class="keyword">while</span> a[left] &lt;= key <span class="keyword">and</span> left &lt; right:</span><br><span class="line">			left +=<span class="number">1</span></span><br><span class="line">		<span class="keyword">while</span> a[right] &gt; key <span class="keyword">and</span> left &lt; right:</span><br><span class="line">			right -=<span class="number">1</span></span><br><span class="line">		</span><br><span class="line">		temp = a[left]</span><br><span class="line">		a[left] = a[right]</span><br><span class="line">		a[right] = temp</span><br><span class="line">		<span class="keyword">if</span> left &gt;= right:</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">	a[right] = key</span><br><span class="line">	sort(a,low,right)</span><br><span class="line">	sort(a,right,high)</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -895,6 +1390,9 @@
 <ol>
 <li>织入（weaving） 把切面应用到目标对象来创建新的代理对象的过程。有三种方式，spring采用的是运行时，为什么是运行时，在上一文《Spring AOP开发漫谈之初探AOP及AspectJ的用法》中第二个标提到。</li>
 </ol>
+<p>AOP是目前Spring框架中的核心之一，在应用中具有非常重要的作用，也是Spring其他组件的基础。它是一种面向切面编程的思想。关于AOP的基础知识，相信多数童鞋都已经了如指掌，我们就略过这部分，来讲解下AOP的核心功能的底层实现机制：如何用动态代理来实现切面拦截。</p>
+<p>AOP的拦截功能是由java中的动态代理来实现的。说白了，就是在目标类的基础上增加切面逻辑，生成增强的目标类（该切面逻辑或者在目标类函数执行之前，或者目标类函数执行之后，或者在目标类函数抛出异常时候执行。不同的切入时机对应不同的Interceptor的种类，如BeforeAdviseInterceptor，AfterAdviseInterceptor以及ThrowsAdviseInterceptor等）。</p>
+<p>AOP的源码中用到了两种动态代理来实现拦截切入功能：<strong><em>jdk动态代理</em></strong> 和 <strong><em>cglib动态代理</em></strong>。两种方法同时存在，各有优劣。jdk动态代理是由java内部的反射机制来实现的，cglib动态代理底层则是借助asm来实现的。总的来说，反射机制在生成类的过程中比较高效，而asm在生成类之后的相关执行过程中比较高效（可以通过将asm生成的类进行缓存，这样解决asm生成类过程低效问题）。还有一点必须注意：jdk动态代理的应用前提，必须是目标类基于统一的接口。如果没有上述前提，jdk动态代理不能应用。由此可以看出，jdk动态代理有一定的局限性，cglib这种第三方类库实现的动态代理应用更加广泛，且在效率上更有优势。</p>
 <p>#数据库事务</p>
 <p>####属性ACID（acid，酸)<br>事务具有ACID（四个单词的首字母）属性：</p>
 <ol>
@@ -1386,401 +1884,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/07/11/快排/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/11/快排/" itemprop="url">快排</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-11T10:45:48+08:00">
-                2018-07-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/面试/" itemprop="url" rel="index">
-                    <span itemprop="name">面试</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#快速排序算法，简称快排，是最实用的排序算法，没有之一</p>
-<p>一行代码的版本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">quick_sort = <span class="keyword">lambda</span> array: array <span class="keyword">if</span> len(array) &lt;= <span class="number">1</span> <span class="keyword">else</span> quick_sort([item <span class="keyword">for</span> item <span class="keyword">in</span> array[<span class="number">1</span>:] <span class="keyword">if</span> item &lt;= array[<span class="number">0</span>]]) + [array[<span class="number">0</span>]] + quick_sort([item <span class="keyword">for</span> item <span class="keyword">in</span> array[<span class="number">1</span>:] <span class="keyword">if</span> item &gt; array[<span class="number">0</span>]])</span><br></pre></td></tr></table></figure></p>
-<p>正常的快排：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(array, left, right)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> left &gt;= right:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    low = left</span><br><span class="line">    high = right</span><br><span class="line">    key = array[low]</span><br><span class="line">    <span class="keyword">while</span> left &lt; right:</span><br><span class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> array[right] &gt; key:</span><br><span class="line">            right -= <span class="number">1</span></span><br><span class="line">        array[left] = array[right]</span><br><span class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> array[left] &lt;= key:</span><br><span class="line">            left += <span class="number">1</span></span><br><span class="line">        array[right] = array[left]</span><br><span class="line">    array[right] = key</span><br><span class="line">    quick_sort(array, low, left - <span class="number">1</span>)</span><br><span class="line">    quick_sort(array, left + <span class="number">1</span>, high)</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span> []array,<span class="keyword">int</span> lo,<span class="keyword">int</span> hi)</span></span>&#123;</span><br><span class="line">        <span class="comment">//固定的切分方式</span></span><br><span class="line">        <span class="keyword">int</span> key=array[lo];</span><br><span class="line">        <span class="keyword">while</span>(lo&lt;hi)&#123;</span><br><span class="line">            <span class="keyword">while</span>(array[hi]&gt;=key&amp;&amp;hi&gt;lo)&#123;<span class="comment">//从后半部分向前扫描</span></span><br><span class="line">                hi--;</span><br><span class="line">            &#125;</span><br><span class="line">            array[lo]=array[hi];</span><br><span class="line">            <span class="keyword">while</span>(array[lo]&lt;=key&amp;&amp;hi&gt;lo)&#123;从前半部分向后扫描</span><br><span class="line">                lo++;</span><br><span class="line">            &#125;</span><br><span class="line">            array[hi]=array[lo];</span><br><span class="line">        &#125;</span><br><span class="line">        array[hi]=key;</span><br><span class="line">        <span class="keyword">return</span> hi;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] array,<span class="keyword">int</span> lo ,<span class="keyword">int</span> hi)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(lo&gt;=hi)&#123;</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> index=partition(array,lo,hi);</span><br><span class="line">        sort(array,lo,index-<span class="number">1</span>);</span><br><span class="line">        sort(array,index+<span class="number">1</span>,hi); </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/07/05/字符串s是否是字符串t的子序列/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/05/字符串s是否是字符串t的子序列/" itemprop="url">字符串s是否是字符串t的子序列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-05T21:37:11+08:00">
-                2018-07-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>题目</p>
-<blockquote>
-<p>牛牛拿到了一个藏宝图，顺着藏宝图的指示，牛牛发现了一个藏宝盒，藏宝盒上有一个机关，机关每次会显示两个字符串 s 和 t，根据古老的传说，牛牛需要每次都回答 t 是否是 s 的子序列。注意，子序列不要求在原字符串中是连续的，例如串 abc，它的子序列就有 {空串, a, b, c, ab, ac, bc, abc} 8 种。</p>
-</blockquote>
-<p>解法1：<br><br>同时互相遍历<br></p>
-<p>解法2：<br><br>动态规划</p>
-<p>解法3：<br><br>正则表达式<br><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">str1 = raw_input()</span><br><span class="line">str2 = raw_input()</span><br><span class="line">item = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> str2:</span><br><span class="line">    item +=<span class="string">".*"</span>+i</span><br><span class="line">item += <span class="string">".*"</span></span><br><span class="line"><span class="keyword">if</span> re.search(item, str1):</span><br><span class="line">    print(<span class="string">"Yes"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"No"</span>)</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/07/05/字符串编辑距离/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/05/字符串编辑距离/" itemprop="url">字符串编辑距离</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-05T16:15:14+08:00">
-                2018-07-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>字符串A与B的编辑距离,Edit Distance,是指由A转换为B所需的最少编辑操作次数。编辑操作包括字符的替换、插入与删除。<br>如kitten(小猫)-&gt;sitting（坐）：距离为3.<br>kitten–&gt;（k→s）–&gt;sitten–&gt; （e→i）–&gt;sittin–&gt;（g）-&gt;sitting</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringDistance</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> dp[][];<span class="comment">// matrix</span></span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getStringSimilar</span><span class="params">(String s1, String s2)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> n, m;<span class="comment">// respective length</span></span><br><span class="line">		<span class="keyword">int</span> i, j;<span class="comment">// cursor</span></span><br><span class="line">		n = s1.length();</span><br><span class="line">		m = s2.length();</span><br><span class="line">		 <span class="keyword">if</span> (n == <span class="number">0</span> || m == <span class="number">0</span>) &#123;</span><br><span class="line">		 <span class="keyword">return</span> Math.abs(m - n);</span><br><span class="line">		 &#125;</span><br><span class="line">		</span><br><span class="line">		dp = <span class="keyword">new</span> <span class="keyword">int</span>[n][m];</span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">			dp[i][<span class="number">0</span>] = <span class="number">1</span> + i;</span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; m; i++)</span><br><span class="line">			dp[<span class="number">0</span>][i] = <span class="number">1</span> + i;</span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) </span><br><span class="line">			<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; m; j++) </span><br><span class="line">				<span class="keyword">if</span> (s1.charAt(i) == s2.charAt(j))</span><br><span class="line">					dp[i][j] = getDP(i - <span class="number">1</span>, j - <span class="number">1</span>);</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">					<span class="comment">//注意是min(a,b,c)三个形参</span></span><br><span class="line">					dp[i][j] = min(getDP(i - <span class="number">1</span>, j), getDP(i, j - <span class="number">1</span>), getDP(i-<span class="number">1</span>, j - <span class="number">1</span>)) + <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">return</span> dp[n - <span class="number">1</span>][m - <span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">min</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Math.min(Math.min(a, b),c);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">getDP</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (i &lt;<span class="number">0</span> &amp;&amp; j &lt;<span class="number">0</span>)</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">if</span>(i&lt;<span class="number">0</span>)</span><br><span class="line">			<span class="keyword">return</span> j+<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">if</span>(j&lt;<span class="number">0</span>)</span><br><span class="line">			<span class="keyword">return</span> i+<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">else</span> </span><br><span class="line">			<span class="keyword">return</span> dp[i][j];</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getStringDistance</span><span class="params">(String s1, String s2)</span> </span>&#123;</span><br><span class="line">		StringDistance obj = <span class="keyword">new</span> StringDistance();</span><br><span class="line">		<span class="keyword">return</span> obj.getStringSimilar(s1, s2);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGetStringSimilar</span><span class="params">()</span></span>&#123;</span><br><span class="line">		assertEquals(<span class="number">3</span>,getStringSimilar(<span class="string">"kitten"</span>, <span class="string">"sitting"</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1826,7 +1934,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

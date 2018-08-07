@@ -259,6 +259,494 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/29/Spark-study-9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/29/Spark-study-9/" itemprop="url">Spark MLlib</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-29T10:28:17+08:00">
+                2018-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="Spark-MLlib介绍"><a href="#Spark-MLlib介绍" class="headerlink" title="Spark MLlib介绍"></a>Spark MLlib介绍</h4><p>MLlib是Spark机器学习库，它的目标是让机器学习更加容易和可伸缩星。MLlib是MLBase的一部分，其中MLBase分为4个部分，分别是MLlib、MLI，ML Optimizer和MLRuntime。</p>
+<ul>
+<li>ML Optimizer会选择它认为最适合的已经在内部实现好了的机器学习算法和相关参数，来处理用户输入的数据，并返回模型或其他的帮助分析的结果。</li>
+<li>MLI 是一个进行特征抽取和高级ML编程抽象的算法实现的API或平台</li>
+<li>MLlib是Spark实现一些常见的机器学习算法和使用程序。</li>
+<li>MLRuntime基于Spark计算框架，将Spark的分布式计算应用到机器学习领域。</li>
+</ul>
+<p>MLlib提供了常用机器学习算法的实现，包括分类、回归，聚集、系统过滤和降维等。使用MLlib来做机器学习。</p>
+<p>MLlib主要包含两部分。</p>
+<ul>
+<li>底层基础：主要包括Spark的运行库、矩阵库和想良苦，其中向量接口和矩阵接口基于Netlib和BLAS/LAPACK开发的先写袋鼠库Breeze。MLlib支持本地的密集向量和稀疏向量，并且支持标量向量；它同时支持本地矩阵和分布式矩阵，支持的分布式矩阵分为RowMatrix、IndexedRowMatrix和CoordinateMatrix等。</li>
+<li>算法库：包含分类、回归、聚集、协同过滤、梯度下降和特征提取和变换的呢该算法。</li>
+</ul>
+<p><img src="spark1.png" alt="spark1"></p>
+<h4 id="Spark-MLlib数据类型"><a href="#Spark-MLlib数据类型" class="headerlink" title="Spark MLlib数据类型"></a>Spark MLlib数据类型</h4><ol>
+<li><p>本地变量</p>
+<p> 本地向量是由整型索引和双精度浮点型数值组成的数据结构，本地向量的使用方便了MLlib对数据的描述和操作。其中本地向量分为密集向量和稀疏向量两种类型，密集向量通过一个浮点数组来表示，而稀疏向量通过索引和值两个并列的数据来表示，比如，向量（1.0，0.0，3.0）可以以密集格式[1.0，0.0，3.0]或者稀疏格式（3，[0，2]，[1.0，3.0]）表示，后者第一个3表示向量长度，即列数。</p>
+</li>
+<li><p>标签点</p>
+<p> 标签点由一个本地向量（密集或稀疏）和一个类标签组成。其中使用双精度浮点型来存储一个类标签，在二元分类中标签或为0（负向）或为1（正向），而在多元分类中标签应该是从0开始的索引，如0，1，2……</p>
+</li>
+<li><p>本地矩阵</p>
+<p> MLlib中的矩阵是向量型的RDD，分为本地矩阵和分布式矩阵两种。本地矩阵有整型行列索引数据和对应的双精度浮点型值数据组成并存储。MLlib支持密集矩阵，实体值以列优先的方式存储在一个双精度浮点数组中。本地矩阵提供了密集矩阵和稀疏矩阵两种实现方法。</p>
+</li>
+<li><p>分布式矩阵</p>
+<p> 分布式矩阵有长整型行列索引和双精度浮点型数据组成，分布式存储在一个或多个RDD中。MLlib实现了三类分布式矩阵存储格式，分别为行矩阵、行索引矩阵、三元组矩阵和分块矩阵四种。</p>
+<ul>
+<li><strong>行矩阵</strong>：行矩阵是一个面向行的分布式矩阵，通过一个RDD来代表所有的行，每一行就是一个本地向量。行矩阵直接通过RDD[Vector]来定义并可以用来统计平均数、方差、协同方差等。</li>
+<li><strong>行索引矩阵</strong>：行索引矩阵和行矩阵类似，但其行索引具有特定含义，本质上是一个含有索引信息的行数据集合，每一行有长整型索引和一个本地向量组成。行索引可从一个RDD[IndexedRow]实例创建，IndexedRow是（Long，Vector）的封装类，剔除行索引矩阵中的行索引信息就变成一个行矩阵。</li>
+<li><strong>三元组矩阵</strong>：三元组矩阵是一个分布式矩阵，其实体集合是一个RDD，每一个实体是一个（i:Long，j:Long，value：Double）三元组，其中i代表行索引，j代表列索引，value代表实体的值。三元组矩阵常用于稀疏星比较高的计算中，是由RDD[MatrixEntry]来构建的。MatrixEntry是一个Tuple类型的元素，其中包含行列和元素值。</li>
+<li><strong>分块矩阵</strong>：分块矩阵是支持矩阵分块RDD的分布式矩阵，其中矩阵分块有(（Int,Int),Matrix）元组所构成，（Int,Int）表示该分块矩阵所处福矩阵的索引位置，Matrix表示该索引位置上的子矩阵。分块矩阵支持矩阵的加法和乘法，并设有辅助函数验证用于检查分块矩阵是否设置正确。</li>
+</ul>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/28/Spark-study-8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/28/Spark-study-8/" itemprop="url">Spark Streaming</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-28T15:31:39+08:00">
+                2018-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Spark-Streaming-简介"><a href="#Spark-Streaming-简介" class="headerlink" title="Spark Streaming 简介"></a>Spark Streaming 简介</h1><p>Spark Steaming 是Spark核心API的一个扩展，具有吞吐量高，容错能力强的实时流数据处理系统，支持包括Kafka、Flume、HFDS/S3、Twitter、ZeroMQ以及TCP Sockets等数据源，获取数据后可以使用Map、Reduce、Join和Window等高级函数进行复杂算法的处理，处理结果存储到文件系统、数据库火战士到仪表盘等，其中Spark Streaming数据处理流程如图所示：</p>
+<p><img src="spark1.png" alt="spark1"></p>
+<p>Spark的各个子组件都是基于Spark核心，Spark Streaming在内部的处理 机制是：先接收实时流的数据，并根据一定的时间间隔拆分成一批批的数据，这些批数据在Spark内核对应一个RDD实例，因此，流数据的DStream可以看成一组RDDs，然后调用Spark核心的作业处理这些批数据，最终得到处理后的一批批结果数据。通俗点理解的话，在流数据分成一批批后，通过一个先进先出的队列，然后Spark核心的作业从该队列中一次取出一个个批数据，把批数据封装成一个RDD，然后进行处理，这是一个典型的生产者消费者模型。</p>
+<h4 id="术语定义"><a href="#术语定义" class="headerlink" title="术语定义"></a>术语定义</h4><ol>
+<li><p>离散流（Discretized Stream）或DStream</p>
+<p> DStream 作为Spark Streaming的基础抽象，它代表持续性的数据流。这里数据流既可以通过外部输入源获取，也可以通过现有的DStream转换操作来获得。在内部实现上，DStream有一组时间序列上连续的RDD来表示。<br> 在DStream中定义了名为generatedRDDs离散数据流，它是以时间为键，RDD为值的哈希列表，在流数据接收过程中，远远不断地把接收到的数据放入到该列表中，而对于不需要的就RDD从该列表中删除。</p>
+</li>
+</ol>
+<h4 id="Spark-Streaming特点"><a href="#Spark-Streaming特点" class="headerlink" title="Spark Streaming特点"></a>Spark Streaming特点</h4><ol>
+<li><p>流式处理</p>
+<p> Spark Streaming是讲流式计算分解成一系列短小的批处理作业。这里的批处理引擎是Spark Core，也就是把Spark Streaming的输入数据按照批处理间隔（如1s）分成一段一段的数据（Discretized Stream），每一段数据都转换成Spark中的RDD（Resilient Distributed Dataset），然后将Spark Streaming中对DStream的Transformation操作变为针对Spark中对RDD的Transformation操作，将RDD经过操作变成中检结果保存在内存中。整个流式计算根据业务的需求可以对中间的结果进行叠加或者存储到外部设备。</p>
+</li>
+<li><p>高容错</p>
+<p> 对于流式计算来说，容错性至关重要。每一个RDD都是一个不可变的分布式可重算的数据集，其记录着确定性的操作“血统”，所以只要输入数据是可容错的，那么任意一个RDD的分区出错或不可用，都是可以利用原始输入数据通过转换操作而重新算出的。</p>
+</li>
+<li><p>低延迟</p>
+<p> Spark Streaming将流式计算分解成多个Spark Job，对于每一段数据的处理都会经过Spark DAG图分解以及Spark的任务集的调度过程。对于目前版本的Spark Streaming而言，其最小的Batch Size的选取在0.5~2s，所以Spark Streaming能够满足除对实时性要求非常高之外的所有流式准实时计算场景。</p>
+</li>
+<li><p>吞吐量高</p>
+<p> Spark目前在EC2上已经能够线性扩展到100个节点，可以以树苗的延迟处理6GB/s的数据量，其吞吐量也比流行的Storm高2~5倍。</p>
+</li>
+</ol>
+<h4 id="Spark-Streaming-运行架构"><a href="#Spark-Streaming-运行架构" class="headerlink" title="Spark Streaming 运行架构"></a>Spark Streaming 运行架构</h4><p>Spark Stream相对其他流处理系统最大的优势在于流处理引擎和数据处理在同一个软件栈，其中Spark Streaming功能主要包括流处理引擎的流数据接收与存储以及批处理作业的生成与管理，而Spark核心负责处理SPark Streaming发送过来的作业。Spark Streaming 分成为Driver端和Client端，运行在Driver端为StreamingContext十里。改十里包括DStreamGraph和JobScheduler等，而Client包括ReciveSupervisor和Reciver等。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/26/reversestack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/26/reversestack/" itemprop="url">如何仅用递归函数和栈操作逆序一个栈</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T16:50:49+08:00">
+                2018-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一个栈一次压入1、2、3、4、5，那么从栈顶到栈底分别为5、4、3、2、1.将这个栈转置后，从栈顶到栈底为1、2、3、4、5，也就是实现栈中元素的逆序，但是只能用递归函数来实现，不能用其他数据结构。</p>
+<p><strong>解题思路</strong></p>
+<p>本题考查栈的操作和递归函数的设计，需要设计两个递归函数。<br>函数一：将栈stack的栈底元素返回并移除。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getAndRemoveLastElement</span><span class="params">(Stack&lt;Integer&gt; stack)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = stack.pop();</span><br><span class="line">        <span class="keyword">if</span> (stack.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">int</span> last = getAndRemoveLastElement(stack);</span><br><span class="line">            stack.push(result);</span><br><span class="line">            <span class="keyword">return</span> last;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="fun1.png" alt="fun1"></p>
+<p>函数二：逆序一个栈。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(Stack&lt;Integer&gt; stack)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (stack.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> i = getAndRemoveLastElement(stack);</span><br><span class="line">        reverse(stack);</span><br><span class="line">        stack.push(i);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="fun2.png" alt="fun2"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/26/Spark-study-7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1412,454 +1900,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/16/Search-for-a-Range/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/16/Search-for-a-Range/" itemprop="url">Search for a Range</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T10:08:40+08:00">
-                2018-03-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Leetcode-Search-for-a-Range"><a href="#Leetcode-Search-for-a-Range" class="headerlink" title="[Leetcode] Search for a Range"></a>[Leetcode] Search for a Range</h1><p>Given an array of integers sorted in ascending order, find the starting and ending position of a given target value.</p>
-<p>Your algorithm’s runtime complexity must be in the order of O(log n).</p>
-<p>If the target is not found in the array, return [-1, -1].</p>
-<p>For example,<br>Given [5, 7, 7, 8, 8, 10] and target value 8,<br>return [3, 4].</p>
-<p><strong>解题思路：</strong><br>该题要求时间复杂度要在O(logn)内，所以使用折半查找法，在查找到对应的位置后，需要在该位置前后去查找相同的值。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">searchRange</span><span class="params">(self, nums, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> nums == <span class="keyword">None</span> <span class="keyword">or</span> len(nums) == <span class="number">0</span> <span class="keyword">or</span> target &lt; nums[<span class="number">0</span>] <span class="keyword">or</span> target &gt; nums[<span class="number">-1</span>]:</span><br><span class="line">            <span class="keyword">return</span> [<span class="number">-1</span>,<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">        l = <span class="number">0</span></span><br><span class="line">        r = len(nums) <span class="number">-1</span></span><br><span class="line">        <span class="keyword">return</span> self.helper(l, r, nums, target)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">helper</span><span class="params">(self, l, r, nums, target)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> l &lt;= r:</span><br><span class="line">            m = (l + r)/<span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> nums[m] == target:</span><br><span class="line">                i1 = m</span><br><span class="line">                i2 = m</span><br><span class="line">                <span class="keyword">while</span>(i1<span class="number">-1</span> &gt;=l <span class="keyword">and</span> nums[i1<span class="number">-1</span>] == target):</span><br><span class="line">                    i1 -=<span class="number">1</span></span><br><span class="line">                <span class="keyword">while</span>(i2+<span class="number">1</span> &lt;len(nums) <span class="keyword">and</span> nums[i2+<span class="number">1</span>] == target):</span><br><span class="line">                    i2 +=<span class="number">1</span></span><br><span class="line">                <span class="keyword">return</span> [i1,i2]</span><br><span class="line">            <span class="keyword">elif</span> nums[m] &gt; target:</span><br><span class="line">                <span class="keyword">return</span> self.helper(l, m<span class="number">-1</span>, nums, target)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> self.helper(m+<span class="number">1</span>, r, nums, target)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> [<span class="number">-1</span>,<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/16/Search-in-Rotated-Sorted-Array/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/16/Search-in-Rotated-Sorted-Array/" itemprop="url">Search in Rotated Sorted Array</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T09:43:56+08:00">
-                2018-03-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Leetcode-Search-in-Rotated-Sorted-Array"><a href="#Leetcode-Search-in-Rotated-Sorted-Array" class="headerlink" title="[Leetcode] Search in Rotated Sorted Array"></a>[Leetcode] Search in Rotated Sorted Array</h1><p>Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.</p>
-<p>(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).</p>
-<p>You are given a target value to search. If found in the array return its index, otherwise return -1.</p>
-<p>You may assume no duplicate exists in the array.</p>
-<p><strong>解题思路：</strong><br>判断目标数字和数组头尾的大小比较，然后根据比较结果，进行遍历，同时添加遍历退出的判断。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(self, nums, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> nums == <span class="keyword">None</span> <span class="keyword">or</span> len(nums) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> nums[<span class="number">0</span>] &lt;= target:</span><br><span class="line">            <span class="keyword">for</span> n <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">                <span class="keyword">if</span> target &lt; nums[n]:</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">                <span class="keyword">if</span> target == nums[n]:</span><br><span class="line">                    <span class="keyword">return</span> n</span><br><span class="line">        <span class="keyword">elif</span> nums[<span class="number">-1</span>] &gt;= target:</span><br><span class="line">            <span class="keyword">for</span> n <span class="keyword">in</span> range(len(nums))[::<span class="number">-1</span>]:</span><br><span class="line">                <span class="keyword">if</span> target &gt; nums[n]:</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">                <span class="keyword">if</span> target == nums[n]:</span><br><span class="line">                    <span class="keyword">return</span> n</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/15/Divide-Two-Integers/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/15/Divide-Two-Integers/" itemprop="url">Divide Two Integers</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-15T11:06:53+08:00">
-                2018-03-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Leetcode-Divide-Two-Integers"><a href="#Leetcode-Divide-Two-Integers" class="headerlink" title="[Leetcode] Divide Two Integers"></a>[Leetcode] Divide Two Integers</h1><p>Divide two integers without using multiplication, division and mod operator.（在不使用乘法，除法和取余操作的情况下实现整数的除法运算。）</p>
-<p>If it is overflow, return MAX_INT.</p>
-<p><strong>解题思路</strong><br>最简单的方法就是用被除数一直减去除数，知道差小于除数，则循环次数等于商，最后的差为余数，这个算法时间复杂度为O(n)的。除了这个方法，还可以使用移位运算。</p>
-<p>例如 f(32,5)=32/5=20/5+10/5+2/5=4+2+0=6</p>
-<p>5左移2位就是20，而左移3位就是40超过了32，因此第一部分商为2*2=4.</p>
-<p>对余数12再进行分析，左移2位是20，超过了12，则第二部分的商为2*1=2.</p>
-<p>对余数2再进行分析，发现5不需要移位就比2大，因此第二部分商为0. </p>
-<p>加和可得，商为6,余数为2</p>
-<p>该题还需要注意边界值的处理，除数为0时，结果为int最大值，当被除数为最小int值且除数为-1时，结果为int最大值。</p>
-<p>同时符号的处理也需要注意。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">divide</span><span class="params">(self, dividend, divisor)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type dividend: int</span></span><br><span class="line"><span class="string">        :type divisor: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> divisor == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2147483647</span>;</span><br><span class="line">        <span class="keyword">if</span> dividend == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> dividend == <span class="number">-2147483648</span> <span class="keyword">and</span> divisor == <span class="number">-1</span>:</span><br><span class="line">            <span class="keyword">return</span> ~dividend</span><br><span class="line">        <span class="keyword">if</span> (dividend &lt; <span class="number">0</span> <span class="keyword">and</span> divisor &gt; <span class="number">0</span>)<span class="keyword">or</span> (dividend &gt; <span class="number">0</span> <span class="keyword">and</span> divisor &lt; <span class="number">0</span>):</span><br><span class="line">            sign = <span class="number">-1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            sign = <span class="number">1</span></span><br><span class="line">        dividend = abs(dividend)</span><br><span class="line">        divisor = abs(divisor)</span><br><span class="line">        n = <span class="number">0</span> <span class="comment">#商</span></span><br><span class="line">        <span class="keyword">while</span>(dividend &gt;= divisor):</span><br><span class="line">            index = <span class="number">1</span></span><br><span class="line">            <span class="keyword">while</span> (dividend &gt; divisor &lt;&lt; index):</span><br><span class="line">                index +=<span class="number">1</span></span><br><span class="line">            index -=<span class="number">1</span></span><br><span class="line">            dividend -= divisor &lt;&lt; index</span><br><span class="line">            n += <span class="number">2</span>**index</span><br><span class="line">        <span class="keyword">return</span> n * sign</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1905,7 +1950,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

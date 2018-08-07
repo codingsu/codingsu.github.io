@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="sjw_blog">
 <meta property="og:description" content="分布式锁实现原理一、什么是分布式锁？要介绍分布式锁，首先要提到与分布式锁相对应的是线程锁、进程锁。 线程锁：主要用来给方法、代码块加锁。当某个方法或代码使用锁，在同一时刻仅有一个线程执行该方法或该代码段。线程锁只在同一JVM中有效果，因为线程锁的实现在根本上是依靠线程之间共享内存实现的，比如synchronized是共享对象头，显示锁Lock是共享某个变量（state）。 进程锁：为了控制同一操作">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-28T07:42:19.413Z">
+<meta property="og:updated_time" content="2018-08-07T07:40:16.991Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面经day1">
 <meta name="twitter:description" content="分布式锁实现原理一、什么是分布式锁？要介绍分布式锁，首先要提到与分布式锁相对应的是线程锁、进程锁。 线程锁：主要用来给方法、代码块加锁。当某个方法或代码使用锁，在同一时刻仅有一个线程执行该方法或该代码段。线程锁只在同一JVM中有效果，因为线程锁的实现在根本上是依靠线程之间共享内存实现的，比如synchronized是共享对象头，显示锁Lock是共享某个变量（state）。 进程锁：为了控制同一操作">
@@ -479,6 +479,9 @@
 <ol>
 <li>织入（weaving） 把切面应用到目标对象来创建新的代理对象的过程。有三种方式，spring采用的是运行时，为什么是运行时，在上一文《Spring AOP开发漫谈之初探AOP及AspectJ的用法》中第二个标提到。</li>
 </ol>
+<p>AOP是目前Spring框架中的核心之一，在应用中具有非常重要的作用，也是Spring其他组件的基础。它是一种面向切面编程的思想。关于AOP的基础知识，相信多数童鞋都已经了如指掌，我们就略过这部分，来讲解下AOP的核心功能的底层实现机制：如何用动态代理来实现切面拦截。</p>
+<p>AOP的拦截功能是由java中的动态代理来实现的。说白了，就是在目标类的基础上增加切面逻辑，生成增强的目标类（该切面逻辑或者在目标类函数执行之前，或者目标类函数执行之后，或者在目标类函数抛出异常时候执行。不同的切入时机对应不同的Interceptor的种类，如BeforeAdviseInterceptor，AfterAdviseInterceptor以及ThrowsAdviseInterceptor等）。</p>
+<p>AOP的源码中用到了两种动态代理来实现拦截切入功能：<strong><em>jdk动态代理</em></strong> 和 <strong><em>cglib动态代理</em></strong>。两种方法同时存在，各有优劣。jdk动态代理是由java内部的反射机制来实现的，cglib动态代理底层则是借助asm来实现的。总的来说，反射机制在生成类的过程中比较高效，而asm在生成类之后的相关执行过程中比较高效（可以通过将asm生成的类进行缓存，这样解决asm生成类过程低效问题）。还有一点必须注意：jdk动态代理的应用前提，必须是目标类基于统一的接口。如果没有上述前提，jdk动态代理不能应用。由此可以看出，jdk动态代理有一定的局限性，cglib这种第三方类库实现的动态代理应用更加广泛，且在效率上更有优势。</p>
 <p>#数据库事务</p>
 <p>####属性ACID（acid，酸)<br>事务具有ACID（四个单词的首字母）属性：</p>
 <ol>
@@ -632,7 +635,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
