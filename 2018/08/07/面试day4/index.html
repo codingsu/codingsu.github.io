@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="spark," />
+  <meta name="keywords" content="SJW, Blog" />
 
 
 
@@ -79,22 +79,17 @@
 
 
 
-<meta name="description" content="Spark学习笔记(3) —— 消息通信原理Spark 消息通信架构Spark定义了通信框架接口，这些接口实现中调用Netty的具体方法。通信框架使用了工厂设计模式实现，这种设计方式实现了对Netty的解耦，能够根据需要引入其他的消息通信工具。  Spark 启动消息通信Spark启动过程中主要是进行Master与Worker之间的通信，首先由Worker节点想Master发送注册消息，然后Mas">
-<meta name="keywords" content="spark">
+<meta name="description" content="#java hashcode和equals hashcode是JVM对对象的内存地址做一定的计算后的到的一个int值 对于equals()与hashcode()，比较通用的规则：①两个obj，如果equals()相等，hashCode()一定相等②两个obj，如果hashCode()相等，equals()不一定相等 2）在设计一个类的时候往往需要重写equals方法，比如String类，在重写eq">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark学习笔记(3) —— 消息通信原理">
-<meta property="og:url" content="https://codingsu.github.io/2018/03/25/Spark-study-3/index.html">
+<meta property="og:title" content="面试day4">
+<meta property="og:url" content="https://codingsu.github.io/2018/08/07/面试day4/index.html">
 <meta property="og:site_name" content="sjw_blog">
-<meta property="og:description" content="Spark学习笔记(3) —— 消息通信原理Spark 消息通信架构Spark定义了通信框架接口，这些接口实现中调用Netty的具体方法。通信框架使用了工厂设计模式实现，这种设计方式实现了对Netty的解耦，能够根据需要引入其他的消息通信工具。  Spark 启动消息通信Spark启动过程中主要是进行Master与Worker之间的通信，首先由Worker节点想Master发送注册消息，然后Mas">
+<meta property="og:description" content="#java hashcode和equals hashcode是JVM对对象的内存地址做一定的计算后的到的一个int值 对于equals()与hashcode()，比较通用的规则：①两个obj，如果equals()相等，hashCode()一定相等②两个obj，如果hashCode()相等，equals()不一定相等 2）在设计一个类的时候往往需要重写equals方法，比如String类，在重写eq">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://codingsu.github.io/2018/03/25/Spark-study-3/spark1.png">
-<meta property="og:image" content="https://codingsu.github.io/2018/03/25/Spark-study-3/spark2.png">
-<meta property="og:image" content="https://codingsu.github.io/2018/03/25/Spark-study-3/spark3.png">
-<meta property="og:updated_time" content="2018-03-26T01:42:50.668Z">
+<meta property="og:updated_time" content="2018-08-07T09:15:01.054Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spark学习笔记(3) —— 消息通信原理">
-<meta name="twitter:description" content="Spark学习笔记(3) —— 消息通信原理Spark 消息通信架构Spark定义了通信框架接口，这些接口实现中调用Netty的具体方法。通信框架使用了工厂设计模式实现，这种设计方式实现了对Netty的解耦，能够根据需要引入其他的消息通信工具。  Spark 启动消息通信Spark启动过程中主要是进行Master与Worker之间的通信，首先由Worker节点想Master发送注册消息，然后Mas">
-<meta name="twitter:image" content="https://codingsu.github.io/2018/03/25/Spark-study-3/spark1.png">
+<meta name="twitter:title" content="面试day4">
+<meta name="twitter:description" content="#java hashcode和equals hashcode是JVM对对象的内存地址做一定的计算后的到的一个int值 对于equals()与hashcode()，比较通用的规则：①两个obj，如果equals()相等，hashCode()一定相等②两个obj，如果hashCode()相等，equals()不一定相等 2）在设计一个类的时候往往需要重写equals方法，比如String类，在重写eq">
 
 
 
@@ -124,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://codingsu.github.io/2018/03/25/Spark-study-3/"/>
+  <link rel="canonical" href="https://codingsu.github.io/2018/08/07/面试day4/"/>
 
 
 
 
 
-  <title>Spark学习笔记(3) —— 消息通信原理 | sjw_blog</title>
+  <title>面试day4 | sjw_blog</title>
   
 
 
@@ -267,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/25/Spark-study-3/">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/07/面试day4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sujunwei">
@@ -284,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spark学习笔记(3) —— 消息通信原理</h1>
+          <h1 class="post-title" itemprop="name headline">面试day4</h1>
         
 
         <div class="post-meta">
@@ -296,8 +291,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-25T11:30:26+08:00">
-                2018-03-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-07T16:32:09+08:00">
+                2018-08-07
               </time>
             
 
@@ -306,28 +301,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -356,28 +329,34 @@
       
 
       
-        <h1 id="Spark学习笔记-3-——-消息通信原理"><a href="#Spark学习笔记-3-——-消息通信原理" class="headerlink" title="Spark学习笔记(3) —— 消息通信原理"></a>Spark学习笔记(3) —— 消息通信原理</h1><h4 id="Spark-消息通信架构"><a href="#Spark-消息通信架构" class="headerlink" title="Spark 消息通信架构"></a>Spark 消息通信架构</h4><p>Spark定义了通信框架接口，这些接口实现中调用Netty的具体方法。通信框架使用了工厂设计模式实现，这种设计方式实现了对Netty的解耦，能够根据需要引入其他的消息通信工具。</p>
-<p><img src="spark1.png" alt="spark1"></p>
-<h4 id="Spark-启动消息通信"><a href="#Spark-启动消息通信" class="headerlink" title="Spark 启动消息通信"></a>Spark 启动消息通信</h4><p>Spark启动过程中主要是进行Master与Worker之间的通信，首先由Worker节点想Master发送注册消息，然后Master处理完毕后，返回注册成功消息或失败消息，如果成功注册，则Worker定时发送心跳消息给Master。</p>
-<p><img src="spark2.png" alt="spark2"></p>
-<p>详细过程：</p>
-<ol>
-<li><p>当Master启动后，随之启动个Worker,Worker启动是会创建消息通信环境RpcEnv和终端点EndPoint，并向Master发送注册Worker的消息RegisterWorker。</p>
-<p> 由于Worker可能需要注册到多个Master中，在Worker的tryRegisterAllMasters方法中创建注册线程池registerMasterThreadPool，把需要申请注册的请求放在该线程池中，然后通过该线程池启动注册线程。在该注册过程中，获取Master终端店引用，截止调用RegisterWithMaster方法，根据master终端店引用的send方法发送注册RegisterWorker消息。</p>
-</li>
-<li><p>Master收到消息后，需要对Worker发送的消息进行验证，记录。如果注册成功，则发送RegisteredWorker消息给对应的Worker，告诉他已经完成注册，随之进行步骤3，Worker定期发送心跳信息给Master；如果注册失败，则发送registerWorkerFailed消息。</p>
-<p> 在Master中，Master接到注册消息后，先判断Master当前状态是否是standby，如果是则忽略注册消息。如果在注册列表中发现该Worker的编号，则返回重复注册的失败消息，如果没有问题，则使用registerWorker方法把该Worker加入到列表中。</p>
-</li>
-</ol>
-<h4 id="Spark-运行时消息通信"><a href="#Spark-运行时消息通信" class="headerlink" title="Spark 运行时消息通信"></a>Spark 运行时消息通信</h4><p><img src="spark3.png" alt="spark3"></p>
-<p>用户提交应用程序时，应用程序的SparkContext会向Master发送应用注册消息。</p>
-<p>Master接收到注册应用信息后，Master将该应用放入应用列表中，并返回RegisteredApplication消息给应用程序。</p>
-<p>同时Master在Worker列表中选取运行应用的Worker，发送LaunchExecutor消息给Worker，通知Worker启动Executor。</p>
-<p>Executor启动成功后，Worker返回ExecutorStateChanged消息给Master，通知Executor容器已经创建完毕。</p>
-<p>同时Executor会向SparkContext发送注册成功消息。</p>
-<p>当SparkContext的RDD出发行动操作后，将创建RDD的DAG，通过DAGScheduler进行划分Stage，并将Stage转化为TaskSe。</p>
-<p>接着有TaskScheduler向注册的Executor发送执行消息，Executor接收到任务消息后启动并运行。</p>
-<p>最后当所有任务运行时，有Driver处理结果并回收资源。</p>
+        <p>#java hashcode和equals</p>
+<p>hashcode是JVM对对象的内存地址做一定的计算后的到的一个int值</p>
+<p>对于equals()与hashcode()，比较通用的规则：<br>①两个obj，如果equals()相等，hashCode()一定相等<br>②两个obj，如果hashCode()相等，equals()不一定相等</p>
+<p>2）在设计一个类的时候往往需要重写equals方法，比如String类，在重写equals方法的同时，必须重写hashCode方法。<br>如果我们对一个对象重写了euqals，意思是只要对象的成员变量值都相等那么euqals就等于true，但不重写hashcode，那么我们再new一个新的对象，当原对象.equals（新对象）等于true时，两者的hashcode却是不一样的，由此将产生了理解的不一致，如在存储散列集合时（如Set类），将会存储了两个值一样的对象，导致混淆，因此，就也需要重写hashcode()。 </p>
+<p>#内部类</p>
+<p>###为什么成员内部类可以无条件访问外部类的成员？</p>
+<p>编译器会默认为成员内部类添加了一个指向外部类对象的引用，那么这个引用是如何赋初值的呢？</p>
+<p>虽然在定义的内部类的构造器是无参构造器，编译器还是会默认添加一个参数，该参数的类型为指向外部类对象的一个引用，所以成员内部类中的Outter this&amp;0 指针便指向了外部类对象，因此可以在成员内部类中随意访问外部类的成员。从这里也间接说明了成员内部类是依赖于外部类的，如果没有创建外部类的对象，则无法对Outter this&amp;0引用进行初始化赋值，也就无法创建成员内部类的对象了。</p>
+<p>###为什么局部内部类和匿名内部类只能访问局部final变量？</p>
+<p>　当外部类方法执行完毕之后，变量的生命周期就结束了，而此时内部类对象的生命周期很可能还没有结束，那么在内部类的方法中继续访问变量就变成不可能了，但是又要实现这样的效果，怎么办呢？Java采用了final复制的手段来解决这个问题。将这段代码的字节码反编译可以得到下面的内容
+　
+　</p>
+<p>#synchronized与Lock的区别</p>
+<p>###synchronized与Lock的区别</p>
+<p><strong>synchronized</strong></p>
+<p>Java的关键字，在jvm层面上</p>
+<p>1、以获取锁的线程执行完同步代码，释放锁 2、线程执行发生异常，jvm会让线程释放锁</p>
+<p>假设A线程获得锁，B线程等待。如果A线程阻塞，B线程会一直等待</p>
+<p>可重入 不可中断 非公平</p>
+<p><strong>Lock</strong></p>
+<p>是一个类</p>
+<p>在finally中必须释放锁，不然容易造成线程死锁</p>
+<p>分情况而定，Lock有多个锁获取的方式，具体下面会说道，大致就是可以尝试获得锁，线程可以不用一直等待</p>
+<p>可重入 可判断 可公平（两者皆可）</p>
+<p>###两种锁的底层实现方式</p>
+<p>synchronized映射成字节码指令就是增加来两个指令：<strong>monitorenter</strong>和<strong>monitorexit</strong>。当一条线程进行执行的遇到monitorenter指令的时候，它会去尝试获得锁，如果获得锁那么锁计数+1（为什么会加一呢，因为它是一个可重入锁，所以需要用这个锁计数判断锁的情况），如果没有获得锁，那么阻塞。当它遇到monitorexit的时候，锁计数器-1，当计数器为0，那么就释放锁。</p>
+<p>那么有的朋友看到这里就疑惑了，那图上有2个monitorexit呀？马上回答这个问题：上面我以前写的文章也有表述过，synchronized锁释放有两种机制，一种就是执行完释放；另外一种就是发送异常，虚拟机释放。</p>
+<p>而Lock用的是乐观锁方式。所谓乐观锁就是，每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。乐观锁实现的机制就是CAS操作（Compare and Swap）。我们可以进一步研究ReentrantLock的源代码，会发现其中比较重要的获得锁的一个方法是compareAndSetState。这里其实就是调用的CPU提供的特殊指令。</p>
 
       
     </div>
@@ -393,12 +372,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/spark/" rel="tag"># spark</a>
-          
-        </div>
-      
 
       
       
@@ -408,8 +381,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/23/Spark-study-2/" rel="next" title="Spark学习笔记(2) —— spark RDD">
-                <i class="fa fa-chevron-left"></i> Spark学习笔记(2) —— spark RDD
+              <a href="/2018/08/03/面试day3/" rel="next" title="面试day3">
+                <i class="fa fa-chevron-left"></i> 面试day3
               </a>
             
           </div>
@@ -418,8 +391,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/25/Spark-study-4/" rel="prev" title="Spark学习笔记(4) —— 作业执行原理">
-                Spark学习笔记(4) —— 作业执行原理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/08/09/面试day5/" rel="prev" title="面试day5">
+                面试day5 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -472,17 +445,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -542,22 +506,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark学习笔记-3-——-消息通信原理"><span class="nav-number">1.</span> <span class="nav-text">Spark学习笔记(3) —— 消息通信原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spark-消息通信架构"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">Spark 消息通信架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spark-启动消息通信"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">Spark 启动消息通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spark-运行时消息通信"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">Spark 运行时消息通信</span></a></li></ol></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
