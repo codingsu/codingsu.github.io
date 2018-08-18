@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="sjw_blog">
 <meta property="og:description" content="#java hashcode和equals hashcode是JVM对对象的内存地址做一定的计算后的到的一个int值 对于equals()与hashcode()，比较通用的规则：①两个obj，如果equals()相等，hashCode()一定相等②两个obj，如果hashCode()相等，equals()不一定相等 2）在设计一个类的时候往往需要重写equals方法，比如String类，在重写eq">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-11T03:06:17.420Z">
+<meta property="og:updated_time" content="2018-08-11T10:15:14.071Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面试day4">
 <meta name="twitter:description" content="#java hashcode和equals hashcode是JVM对对象的内存地址做一定的计算后的到的一个int值 对于equals()与hashcode()，比较通用的规则：①两个obj，如果equals()相等，hashCode()一定相等②两个obj，如果hashCode()相等，equals()不一定相等 2）在设计一个类的时候往往需要重写equals方法，比如String类，在重写eq">
@@ -357,6 +357,23 @@
 <p>synchronized映射成字节码指令就是增加来两个指令：<strong>monitorenter</strong>和<strong>monitorexit</strong>。当一条线程进行执行的遇到monitorenter指令的时候，它会去尝试获得锁，如果获得锁那么锁计数+1（为什么会加一呢，因为它是一个可重入锁，所以需要用这个锁计数判断锁的情况），如果没有获得锁，那么阻塞。当它遇到monitorexit的时候，锁计数器-1，当计数器为0，那么就释放锁。</p>
 <p>那么有的朋友看到这里就疑惑了，那图上有2个monitorexit呀？马上回答这个问题：上面我以前写的文章也有表述过，synchronized锁释放有两种机制，一种就是执行完释放；另外一种就是发送异常，虚拟机释放。</p>
 <p>而Lock用的是乐观锁方式。所谓乐观锁就是，每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。乐观锁实现的机制就是CAS操作（Compare and Swap）。我们可以进一步研究ReentrantLock的源代码，会发现其中比较重要的获得锁的一个方法是compareAndSetState。这里其实就是调用的CPU提供的特殊指令。</p>
+<p>###索引</p>
+<ul>
+<li>数据唯一性差的字段不要使用索引</li>
+</ul>
+<p>比如性别，只有两种可能数据。意味着索引的二叉树级别少，多是平级。这样的二叉树查找无异于全表扫描。</p>
+<ul>
+<li>频繁更新的字段不要使用索引</li>
+</ul>
+<p>比如logincount登录次数，频繁变化导致索引也频繁变化，增大数据库工作量，降低效率。</p>
+<ul>
+<li>字段不在where语句出现时不要添加索引</li>
+</ul>
+<p>只有在where语句出现，mysql才会去使用索引</p>
+<ul>
+<li>数据量少的表不要使用索引</li>
+</ul>
+<p>使用了改善也不大<br>另外。如果mysql估计使用全表扫描要比使用索引快，则不会使用索引。</p>
 
       
     </div>
@@ -461,7 +478,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -259,6 +259,829 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/07/05/字符串编辑距离/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/05/字符串编辑距离/" itemprop="url">字符串编辑距离</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-05T16:15:14+08:00">
+                2018-07-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>字符串A与B的编辑距离,Edit Distance,是指由A转换为B所需的最少编辑操作次数。编辑操作包括字符的替换、插入与删除。<br>如kitten(小猫)-&gt;sitting（坐）：距离为3.<br>kitten–&gt;（k→s）–&gt;sitten–&gt; （e→i）–&gt;sittin–&gt;（g）-&gt;sitting</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringDistance</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> dp[][];<span class="comment">// matrix</span></span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getStringSimilar</span><span class="params">(String s1, String s2)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> n, m;<span class="comment">// respective length</span></span><br><span class="line">		<span class="keyword">int</span> i, j;<span class="comment">// cursor</span></span><br><span class="line">		n = s1.length();</span><br><span class="line">		m = s2.length();</span><br><span class="line">		 <span class="keyword">if</span> (n == <span class="number">0</span> || m == <span class="number">0</span>) &#123;</span><br><span class="line">		 <span class="keyword">return</span> Math.abs(m - n);</span><br><span class="line">		 &#125;</span><br><span class="line">		</span><br><span class="line">		dp = <span class="keyword">new</span> <span class="keyword">int</span>[n][m];</span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">			dp[i][<span class="number">0</span>] = <span class="number">1</span> + i;</span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; m; i++)</span><br><span class="line">			dp[<span class="number">0</span>][i] = <span class="number">1</span> + i;</span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) </span><br><span class="line">			<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; m; j++) </span><br><span class="line">				<span class="keyword">if</span> (s1.charAt(i) == s2.charAt(j))</span><br><span class="line">					dp[i][j] = getDP(i - <span class="number">1</span>, j - <span class="number">1</span>);</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">					<span class="comment">//注意是min(a,b,c)三个形参</span></span><br><span class="line">					dp[i][j] = min(getDP(i - <span class="number">1</span>, j), getDP(i, j - <span class="number">1</span>), getDP(i-<span class="number">1</span>, j - <span class="number">1</span>)) + <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">return</span> dp[n - <span class="number">1</span>][m - <span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">min</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Math.min(Math.min(a, b),c);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">getDP</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (i &lt;<span class="number">0</span> &amp;&amp; j &lt;<span class="number">0</span>)</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">if</span>(i&lt;<span class="number">0</span>)</span><br><span class="line">			<span class="keyword">return</span> j+<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">if</span>(j&lt;<span class="number">0</span>)</span><br><span class="line">			<span class="keyword">return</span> i+<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">else</span> </span><br><span class="line">			<span class="keyword">return</span> dp[i][j];</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getStringDistance</span><span class="params">(String s1, String s2)</span> </span>&#123;</span><br><span class="line">		StringDistance obj = <span class="keyword">new</span> StringDistance();</span><br><span class="line">		<span class="keyword">return</span> obj.getStringSimilar(s1, s2);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGetStringSimilar</span><span class="params">()</span></span>&#123;</span><br><span class="line">		assertEquals(<span class="number">3</span>,getStringSimilar(<span class="string">"kitten"</span>, <span class="string">"sitting"</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/07/04/牛牛数星星/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/04/牛牛数星星/" itemprop="url">牛牛数星星</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T15:14:33+08:00">
+                2018-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>题目</p>
+<blockquote>
+<p>一闪一闪亮晶晶，满天都是小星星，牛牛晚上闲来无聊，便躺在床上数星星。<br>牛牛把星星图看成一个平面，左上角为原点(坐标为(1, 1))。现在有n颗星星，他给每颗星星都标上坐标(xi，yi)，表示这颗星星在第x行，第y列。<br>现在，牛牛想问你m个问题，给你两个点的坐标(a1, b1)(a2，b2)，表示一个矩形的左下角的点坐标和右上角的点坐标，请问在这个矩形内有多少颗星星（边界上的点也算是矩形内）。</p>
+</blockquote>
+<p>输入</p>
+<blockquote>
+<p>星星数<br><br>星星坐标(a1,b1)<br><br>……<br><br>问题数<br><br>问题坐标a1,b1,a2,b2<br><br>……</p>
+</blockquote>
+<p>思路</p>
+<blockquote>
+<p>输入完所有星星后，遍历整个空间，计算每个点的左下角有多少个星星。在计算矩形面积时，数量为右上角-左上角-右下角+左下角的左下点（减的时候多减了一个左下角）</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">snum = int(raw_input())</span><br><span class="line">star = [[<span class="number">0</span> <span class="keyword">for</span> col <span class="keyword">in</span> range(<span class="number">1001</span>)] <span class="keyword">for</span> row <span class="keyword">in</span> range(<span class="number">1001</span>)]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(snum):</span><br><span class="line">    line = raw_input().strip()</span><br><span class="line">    x = int(line.split(<span class="string">' '</span>)[<span class="number">0</span>])</span><br><span class="line">    y = int(line.split(<span class="string">' '</span>)[<span class="number">1</span>])</span><br><span class="line">    star[x][y] +=<span class="number">1</span></span><br><span class="line">num = [[<span class="number">0</span> <span class="keyword">for</span> col <span class="keyword">in</span> range(<span class="number">1001</span>)] <span class="keyword">for</span> row <span class="keyword">in</span> range(<span class="number">1001</span>)]</span><br><span class="line"><span class="comment">#用动态规划计算每个点的左下角的星星数量</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>,<span class="number">1001</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> xrange(<span class="number">1</span>,<span class="number">1001</span>):</span><br><span class="line">        num[i][j] = num[i<span class="number">-1</span>][j] + num[i][j<span class="number">-1</span>] + star[i][j] - num[i<span class="number">-1</span>][j<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">qnum = int(raw_input())</span><br><span class="line"><span class="comment"># juxinglist = []</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(qnum):</span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    line = raw_input().strip()</span><br><span class="line">    a1 = int(line.split(<span class="string">' '</span>)[<span class="number">0</span>])</span><br><span class="line">    b1 = int(line.split(<span class="string">' '</span>)[<span class="number">1</span>])</span><br><span class="line">    a2 = int(line.split(<span class="string">' '</span>)[<span class="number">2</span>])</span><br><span class="line">    b2 = int(line.split(<span class="string">' '</span>)[<span class="number">3</span>])</span><br><span class="line">    <span class="comment">#计算矩形内的星星数量</span></span><br><span class="line">    <span class="keyword">print</span> num[a2][b2] - num[a1<span class="number">-1</span>][b2] - num[a2][b1<span class="number">-1</span>]  + num[a1<span class="number">-1</span>][b1<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/07/04/乘积和最大/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/04/乘积和最大/" itemprop="url">乘积和最大</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T15:04:52+08:00">
+                2018-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>题目</p>
+<blockquote>
+<p>有 n 个学生站成一排，每个学生有一个能力值，想从这 n 个学生中按照顺序选取 k 名学生，要求相邻两个学生的位置编号的差不超过 d，使得这 k 个学生的能力值的乘积最大，你能返回最大的乘积吗？</p>
+</blockquote>
+<p>输入描述</p>
+<blockquote>
+<p>每个输入包含 1 个测试用例。每个测试数据的第一行包含一个整数 n (1 &lt;= n &lt;= 50)，表示学生的个数，接下来的一行，包含 n 个整数，按顺序表示每个学生的能力值 ai（-50 &lt;= ai &lt;= 50）。接下来的一行包含两个整数，k 和 d (1 &lt;= k &lt;= 10, 1 &lt;= d &lt;= 50)。</p>
+</blockquote>
+<p>输出描述</p>
+<blockquote>
+<p>输出一行表示最大的乘积。</p>
+</blockquote>
+<p>例子</p>
+<blockquote>
+<p>3 <br><br>7 4 7 <br><br>2 50</p>
+</blockquote>
+<p>输出</p>
+<blockquote>
+<p>49</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">n = int(raw_input().strip())</span><br><span class="line"></span><br><span class="line">line = raw_input().strip().split(<span class="string">' '</span>)</span><br><span class="line"></span><br><span class="line">line2 = raw_input().strip()</span><br><span class="line">arr = []</span><br><span class="line"><span class="keyword">for</span> l <span class="keyword">in</span> line:</span><br><span class="line">    arr.append(int(l))</span><br><span class="line"></span><br><span class="line">getnum = int(line2.split(<span class="string">' '</span>)[<span class="number">0</span>])</span><br><span class="line">maxspace = int(line2.split(<span class="string">' '</span>)[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">maxresult = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">fmax = [[<span class="number">0</span> <span class="keyword">for</span> col <span class="keyword">in</span> xrange(n+<span class="number">1</span>)] <span class="keyword">for</span> row <span class="keyword">in</span> xrange(getnum + <span class="number">1</span>)]</span><br><span class="line">fmin = [[<span class="number">0</span> <span class="keyword">for</span> col <span class="keyword">in</span> xrange(n+<span class="number">1</span>)] <span class="keyword">for</span> row <span class="keyword">in</span> xrange(getnum + <span class="number">1</span>)]</span><br><span class="line"><span class="comment"># print getnum</span></span><br><span class="line"><span class="comment"># print n</span></span><br><span class="line"><span class="comment"># print fmax</span></span><br><span class="line">res = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, n+<span class="number">1</span>):</span><br><span class="line">    fmax[<span class="number">1</span>][i] = arr[i<span class="number">-1</span>]</span><br><span class="line">    fmin[<span class="number">1</span>][i] = arr[i<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> xrange(<span class="number">2</span>,getnum+<span class="number">1</span>):</span><br><span class="line">        j = i<span class="number">-1</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">            <span class="keyword">if</span> j &gt; <span class="number">0</span> <span class="keyword">and</span> i-j &lt;= maxspace:</span><br><span class="line">                <span class="keyword">print</span> fmax[k][i]</span><br><span class="line">                <span class="keyword">print</span> fmax[k - <span class="number">1</span>][j] * arr[i - <span class="number">1</span>]</span><br><span class="line">                <span class="keyword">print</span> fmin[k - <span class="number">1</span>][j] * arr[i - <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">                fmax[k][i] = max(fmax[k][i], max(fmax[k - <span class="number">1</span>][j] * arr[i - <span class="number">1</span>], fmin[k - <span class="number">1</span>][j] * arr[i - <span class="number">1</span>]))</span><br><span class="line">                fmin[k][i] = min(fmax[k][i], min(fmax[k - <span class="number">1</span>][j] * arr[i - <span class="number">1</span>], fmin[k - <span class="number">1</span>][j] * arr[i - <span class="number">1</span>]))</span><br><span class="line">                j -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    res = max(res, fmax[getnum][i])</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> res</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PuductMax</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Scanner cin = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">while</span> (cin.hasNextInt()) &#123;</span><br><span class="line">            <span class="keyword">int</span> n = cin.nextInt();          <span class="comment">// n 个学生</span></span><br><span class="line">            <span class="keyword">int</span>[] arr = <span class="keyword">new</span> <span class="keyword">int</span> [n+<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;=n ; i++) &#123;</span><br><span class="line">                arr[i] = cin.nextInt();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> K = cin.nextInt();            <span class="comment">// 选出K个</span></span><br><span class="line">            <span class="keyword">int</span> d = cin.nextInt();            <span class="comment">// 两个学生的位置编号的差不超过 d</span></span><br><span class="line">            <span class="keyword">long</span>[][] fmax = <span class="keyword">new</span> <span class="keyword">long</span>[K+<span class="number">1</span>][n+<span class="number">1</span>]; <span class="comment">// 记录最大乘积</span></span><br><span class="line">            <span class="keyword">long</span>[][] fmin = <span class="keyword">new</span> <span class="keyword">long</span>[K+<span class="number">1</span>][n+<span class="number">1</span>]; <span class="comment">// 记录最小乘积</span></span><br><span class="line">            <span class="comment">// fmax[k][i]表示 : 当选中了k个学生，并且以第i个学生为结尾，所产生的最大乘积；</span></span><br><span class="line">            <span class="comment">// fmin[k][i]表示 : 当选中了k个学生，并且以第i个学生为结尾，所产生的最小乘积；</span></span><br><span class="line">            <span class="comment">//初始化第一行</span></span><br><span class="line">            <span class="keyword">long</span>  res = Integer.MIN_VALUE; <span class="comment">// 记得用Long类型，考虑数值范围</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;=n; i++) &#123;</span><br><span class="line">                fmax[<span class="number">1</span>][i] = arr[i];</span><br><span class="line">                fmin[<span class="number">1</span>][i] = arr[i];</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">2</span>; k &lt;=K; k++) &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> j = i-<span class="number">1</span> ; j &gt; <span class="number">0</span> &amp;&amp;  i-j&lt;=d ; j--) &#123;</span><br><span class="line">                        fmax[k][i] = Math.max(fmax[k][i], Math.max(fmax[k-<span class="number">1</span>][j] * arr[i], fmin[k-<span class="number">1</span>][j] * arr[i]));</span><br><span class="line">                        fmin[k][i] = Math.min(fmin[k][i], Math.min(fmax[k-<span class="number">1</span>][j] * arr[i], fmin[k-<span class="number">1</span>][j] * arr[i]));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                res = Math.max(res ,fmax[K][i]);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(res);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/07/03/世界杯买票/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/03/世界杯买票/" itemprop="url">世界杯买票</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T15:53:12+08:00">
+                2018-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>今年的世界杯要开始啦，牛牛作为一个球迷，当然不会放过去开幕式现场的机会。但是牛牛一个人去又觉得太过寂寞，<br>便想叫上了他的n个小伙伴陪他一起去莫斯科(一共n+1人)。当牛牛开始订开幕式的门票时，发现门票有m种套餐，每种套餐需要花费x元，<br>包含y张门票，每张门票也可以单独购买，此时这张门票的价格为k元。请问牛牛要怎样选择购买门票，使得他花费的钱最少。<br>(每种套餐可以购买次数没有限制)。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">start</span><span class="params">()</span>:</span></span><br><span class="line">    line = raw_input().strip()</span><br><span class="line">    <span class="keyword">if</span> line == <span class="string">''</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    line = line.split(<span class="string">' '</span>)</span><br><span class="line">    num = int(line[<span class="number">0</span>])+<span class="number">1</span></span><br><span class="line">    mnum = int(line[<span class="number">1</span>])</span><br><span class="line">    k = int(line[<span class="number">2</span>])</span><br><span class="line">    dp = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(num):</span><br><span class="line">        dp.append((i+<span class="number">1</span>)*k)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(mnum):</span><br><span class="line">        line = raw_input().strip()</span><br><span class="line">        <span class="keyword">if</span> line == <span class="string">''</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        x = int(line.split(<span class="string">' '</span>)[<span class="number">0</span>])</span><br><span class="line">        y = int(line.split(<span class="string">' '</span>)[<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>,num+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> i - y &gt;<span class="number">0</span>:</span><br><span class="line">                dp[i<span class="number">-1</span>] = min(dp[i<span class="number">-1</span>],dp[i<span class="number">-1</span>-y]+x)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dp[i<span class="number">-1</span>] = min(dp[i<span class="number">-1</span>],x)</span><br><span class="line">    <span class="keyword">print</span> dp[num<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    start()</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/05/25/最长公共子串/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/25/最长公共子串/" itemprop="url">最长公共子串</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-25T11:15:42+08:00">
+                2018-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定两个字符串str1和str2，返回两个字符串的最长公共子串</p>
+<p>解法一：动态规划</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[][] getdp(<span class="keyword">char</span>[] str1, <span class="keyword">char</span>[] str2)&#123;</span><br><span class="line">	<span class="keyword">int</span>[][] dp = nex <span class="keyword">int</span>[str1.length][str2.length];</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i =<span class="number">0</span>; i &lt; str1.length; i++)&#123;</span><br><span class="line">		<span class="keyword">if</span> (str1[i] == str2[<span class="number">0</span>])&#123;</span><br><span class="line">			dp[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j =<span class="number">0</span>; j &lt; str2.length; j++)&#123;</span><br><span class="line">		<span class="keyword">if</span> (str1[<span class="number">0</span>] == str2[j])&#123;</span><br><span class="line">			dp[<span class="number">0</span>][j] = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; str1.length; i++)&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; str2.length; j++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(str1[i] == str2[j])&#123;</span><br><span class="line">				dp[i][j] = dp[i-<span class="number">1</span>][j-<span class="number">1</span>] +<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> dp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">lcst1</span><span class="params">(String str1, String str2)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (str1 == <span class="keyword">null</span> || str2 == <span class="keyword">null</span> || str1 == <span class="string">""</span> || str2 == <span class="string">""</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">char</span>[] chs1 = str1.toCharArray();</span><br><span class="line">	<span class="keyword">char</span>[] chs2 = str2.tocharArray();</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span>[][] dp = getdp(chs1, chs2);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> end = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> max = <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; chs1.length; i++)&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j =<span class="number">0</span>; j &lt; chs2.length; j++)&#123;</span><br><span class="line">			<span class="keyword">if</span> (dp[i][j] &gt; max)&#123;</span><br><span class="line">				end = i;</span><br><span class="line">				max = dp[i][j];</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> str1.substring(end-max+<span class="number">1</span>, end+<span class="number">1</span>);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解法二：从斜线最左上的位置想右下依次计算每个位置的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">lcat2</span><span class="params">(String str1, String str2)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (str1 == <span class="keyword">null</span> || str2 == <span class="keyword">null</span> || str1 == <span class="string">""</span> || str2 == <span class="string">""</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">char</span>[] chs1 = str1.toCharArray();</span><br><span class="line">	<span class="keyword">char</span>[] chs2 = str2.toCharArray();</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> row = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> col = chs2.length -<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> max = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> end = <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(row &lt; chs1.length)&#123;</span><br><span class="line">		<span class="keyword">int</span> i = row;</span><br><span class="line">		<span class="keyword">int</span> j = col;</span><br><span class="line">		<span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">while</span> (i &lt; chs1.length &amp;&amp; j &lt; chs2.length)&#123;</span><br><span class="line">			<span class="keyword">if</span> (chs1[i] != chs2[j])&#123;</span><br><span class="line">				len = <span class="number">0</span>;</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				len++;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//记录最大值，以及结束字符的位置</span></span><br><span class="line">			<span class="keyword">if</span> (len &gt; max) &#123;</span><br><span class="line">				end = i;</span><br><span class="line">				max = len;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			i++;</span><br><span class="line">			j++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (col &gt; <span class="number">0</span>)&#123;</span><br><span class="line">			col--;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			row++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> str1.substring(end -max +<span class="number">1</span>,end +<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/05/25/最长公共子序列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/25/最长公共子序列/" itemprop="url">最长公共子序列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-25T10:26:46+08:00">
+                2018-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定两个字符串str1和str2，返回两个字符串的最长公共子序列。<br>str1 = 1A2B3D4B56 str2 = B1D23CA45B6A<br>公共子序列123456 ,12C4B6都可以</p>
+<p>解法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//计算出最长公共子序列长度</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[][] getdp(<span class="keyword">char</span>[] str1, <span class="keyword">char</span>[] str2)&#123;</span><br><span class="line">	<span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[str1.length][str2.length];</span><br><span class="line">	dp[<span class="number">0</span>][<span class="number">0</span>] = str[<span class="number">0</span>] == str[<span class="number">1</span>] ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; str1.length; i++)&#123;</span><br><span class="line">		dp[i][<span class="number">0</span>] = Math.max(dp[i-<span class="number">1</span>][<span class="number">0</span>], str1[i] == str2[<span class="number">0</span>] ? <span class="number">1</span> : <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; i &lt; str2.length; j++)&#123;</span><br><span class="line">		dp[<span class="number">0</span>][j] = Math.max(dp[<span class="number">0</span>][j-<span class="number">1</span>], str1[<span class="number">0</span>] == str2[j] ? <span class="number">1</span> : <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; str1.length; i++)&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; str2.length; j++)&#123;</span><br><span class="line">			dp[i][j] = Math.max(dp[i-<span class="number">1</span>][j],dp[i][j-<span class="number">1</span>]);</span><br><span class="line">			<span class="keyword">if</span> (str1[i] == str2[j])&#123;</span><br><span class="line">				dp[i][j] == Math.max(dp[i][j], dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> dp</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//取出最长公共子序列</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">lcse</span><span class="params">(String str1, String str2)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(str1 == <span class="keyword">null</span> || str2 == <span class="keyword">null</span> || str1 == <span class="string">""</span> || str2 == <span class="string">""</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">char</span>[] chs1 = str1.toCharArray();</span><br><span class="line">	<span class="keyword">char</span>[] chs2 = str2.toCharArray();</span><br><span class="line">	<span class="keyword">int</span>[][] dp = getdp(chs1, chs2);</span><br><span class="line">	<span class="keyword">int</span> m = chs1.length -<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> n = chs2.length -<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">char</span>[] res = <span class="keyword">new</span> <span class="keyword">char</span>[dp[m][n]];</span><br><span class="line">	<span class="keyword">int</span> index = res.length -<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(index &gt;= <span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span> (n &gt; <span class="number">0</span> &amp;&amp; dp[m][n] == dp[m][n-<span class="number">1</span>])&#123;</span><br><span class="line">			n--;</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(m &gt;<span class="number">0</span> &amp;&amp; dp[m][n] == dp[m-<span class="number">1</span>][n])&#123;</span><br><span class="line">			m--;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			res[index--] = chs1[m]</span><br><span class="line">			n--;</span><br><span class="line">			m--;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/05/24/换钱的方法数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -881,954 +1704,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/26/reversestack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/26/reversestack/" itemprop="url">如何仅用递归函数和栈操作逆序一个栈</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T16:50:49+08:00">
-                2018-03-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>一个栈一次压入1、2、3、4、5，那么从栈顶到栈底分别为5、4、3、2、1.将这个栈转置后，从栈顶到栈底为1、2、3、4、5，也就是实现栈中元素的逆序，但是只能用递归函数来实现，不能用其他数据结构。</p>
-<p><strong>解题思路</strong></p>
-<p>本题考查栈的操作和递归函数的设计，需要设计两个递归函数。<br>函数一：将栈stack的栈底元素返回并移除。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getAndRemoveLastElement</span><span class="params">(Stack&lt;Integer&gt; stack)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = stack.pop();</span><br><span class="line">        <span class="keyword">if</span> (stack.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">int</span> last = getAndRemoveLastElement(stack);</span><br><span class="line">            stack.push(result);</span><br><span class="line">            <span class="keyword">return</span> last;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p><img src="fun1.png" alt="fun1"></p>
-<p>函数二：逆序一个栈。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(Stack&lt;Integer&gt; stack)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (stack.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> i = getAndRemoveLastElement(stack);</span><br><span class="line">        reverse(stack);</span><br><span class="line">        stack.push(i);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p><img src="fun2.png" alt="fun2"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/26/Spark-study-7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/26/Spark-study-7/" itemprop="url">Spark SQL</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T10:18:48+08:00">
-                2018-03-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="Spark-SQL-简介"><a href="#Spark-SQL-简介" class="headerlink" title="Spark SQL 简介"></a>Spark SQL 简介</h4><p>Spark SQL是spark1.0版本中加入的组件，是Spark生态系统中最活跃的组件之一。它能够利用Spark进行结构化数据的存储和操作，结构化数据既可以来自外部结构化数据源（当前支持Hive、JSON和Parquet等操作，Spark1.2版本开始对JDBC/ODBC等的支持），也可以通过向已有RDD增加Schema的方式得到。</p>
-<h4 id="DataFrame-Dataset介绍"><a href="#DataFrame-Dataset介绍" class="headerlink" title="DataFrame/Dataset介绍"></a>DataFrame/Dataset介绍</h4><p>Spark的RDD API 比传统的MapReduce API 在易用性有了巨大的提升，但是对于没有MapReduce和函数式变成经验的新手，RDD Api还是存在一定的门槛。另一方面，数据分析人员所使用的R和Pandas等传统数据分析工具虽然提供只管的API，却由于这些工具只能处理单机的数据，无法胜任大数据处理任务。为了解决这两个问题，从Spark SQL 1.3版本开始在原有SchemaRDD的基础上提供了与R和Pandas风格类似的DataFrame Api，新的DataFrameAPi降低了学习门槛，还支持了Scala，java和python</p>
-<p>在Spark中，DataFrame是一种以RDD为基础的分布式数据集，类细雨传统数据库汇总的二维表哥。与RDD的主要区别在于；前者带有Schema源数据，即DataFrame所表示的二维表数据集的每一列都带有名称和类型。由于无法知道RDD数据集内部的结构，SPark作业执行只能在调度阶段层面进行简单通用的优化，而对于DataFrame带有数据集内部的结构，可以根据这些信息进行针对性的优化。</p>
-<p><img src="spark1.png" alt="spark1"></p>
-<h4 id="DataFrame优点"><a href="#DataFrame优点" class="headerlink" title="DataFrame优点"></a>DataFrame优点</h4><ol>
-<li><p>代码简洁</p>
-<p> DataFrame最大的优点之一就是能够使用更精简的代码。代码量Hadoop MapReduce&gt;Python RDD API&gt;Python DataFrame API。</p>
-</li>
-<li><p>提升执行效率</p>
-<p> Python DataFrame API相对于Python RDD API的执行效率有了5倍的提升，这是因为DataFrame API实际上仅仅组黄了一段体积小巧的逻辑查询计划，Python端只需要将查询计划发送到JVM端即可，计算任务的大头都有JVM端负责。使用Python RDD API时，Python VM和JVM之间需要进行大量跨进程数据交换。<br> 使用Scala DataFrame API的版本也要比Python RDD API快一倍，因为PYthonRDD API是函数试的，强调不变形，在大部分场景下倾向于创建新对象而不是修改老对象，这点岁软可以实现整洁的API，但使得SPark在应用程序运行过程中倾向创建大量临时对象，对GC造成较大压力。而在Spark SQL 中尽可能重用对象，这样虽然在内部打破了不变形，但在数据返回给用户时，还会重新转化为不可变数据，这样用户利用DataFrame API能能够使用到优化效果。</p>
-<p> <img src="spark2.png" alt="spark2"></p>
-</li>
-<li><p>减少数据存取</p>
-<p> 分析大数据最有效的方法就是忽略无关的数据，根据查询条件进行适当的裁剪。对一些格式，Spark SQL可以根据数据文件中附带的统计信息来进行剪枝。在这类数据格式中，数据是分段保存的，每段数据都带有最大值、最小值和NULL值数量等统计信息。当统计信息表名某一数据段肯定不包括符合查询条件的目标数据时，改数据段就可以直接跳过（例如某整数列A某段的最大值为100，而查询条件要求a&gt;200）</p>
-</li>
-</ol>
-<h4 id="Spark-SQL-运行原理"><a href="#Spark-SQL-运行原理" class="headerlink" title="Spark SQL 运行原理"></a>Spark SQL 运行原理</h4><p><strong>通用SQL执行原理</strong></p>
-<p>在传统关系型数据库中，最基本的SQL查询语句如SELECT fieldA，fieldB，fieldC FROM tableA WHERE fieldA &gt; 10，由Projection（fieldA，fieldB，fieldC）、Data Source（tableA）和Filter（fieldA &gt; 10）三部分组成，分别对应SQL查询过程中的Result、Data Source和Operation。也就是说SQL语句按Result-&gt;Data Source-&gt;Operation的次序来描述的，<br>而实际执行SQL语句的过程中是按照Operation-&gt;Data Source-&gt;Result的顺序来执行。<br>    <img src="spark3.png" alt="spark3"></p>
-<p>具体执行过程如下：</p>
-<ul>
-<li>词法和语法解析（Parse）：对读入的SQL语句进行词法和语法解析，分辨出SQL语句中哪些词是关键词（如SELECT、FROM和WHERE），哪些是表达式、哪些是Projection、哪些是Data Source等，判断SQL语句是否规范，并形成逻辑计划。</li>
-<li>绑定（Bind）：将SQL语句和数据库的数据字典（列、表和视图等）进行绑定（Bind），如果相关的Projection和Data Source等都存在的话，则表示这个SQL语句是可以执行的。</li>
-<li>优化（Optimize）：一般的数据库会提供几个执行计划，这些计划一般都有运行统计数据，数据库会在这些计划中选择一个最优计划。</li>
-<li>执行（Execute）：执行签名的步骤获取的最优执行计划，返回从数据库中查询的数据集。</li>
-</ul>
-<p>关系数据库在运行过程中，会在缓冲解析锅的SQL语句，在后续的过程中如果能够命中缓存SQL就可以直接返回可执行的计划，比如重新运行刚运行过的SQL语句，坑你直接从数据库的缓冲池中获取返回结果。</p>
-<p><strong>SparkSQL运行架构</strong></p>
-<p>Spark SQL先换将SQL语句进行解析（Parse）形成一个Tree，然后使用Rule对Tree进行绑定、优化等处理过程，通过模式匹配对不同类型的节点采用不同的操作。而Spark SQL的查询优化器是Catalyst，他负责处理查询语句的解析、绑定、优化和生成物理计划等过程，Catalyst是Spark SQL最和新部分，其性能优劣将决定整体的性能。</p>
-<p>Spark SQL由Core、Catalyst、Hive和Hive-ThriftServer 4个部分组成。</p>
-<ul>
-<li>Core：负责处理数据的输入/输出，从不同的数据源获取数据（如RDD、Parquet文件和JSON文件等），然后将查询结果输出成Data Frame。</li>
-<li>Catalyst：负责处理查询语句的整个处理过程</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/26/Spark-study-6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/26/Spark-study-6/" itemprop="url">Spark学习笔记(6) —— 容错和HA</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T09:41:47+08:00">
-                2018-03-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Spark学习笔记-6-——-容错和HA"><a href="#Spark学习笔记-6-——-容错和HA" class="headerlink" title="Spark学习笔记(6) —— 容错和HA"></a>Spark学习笔记(6) —— 容错和HA</h1><p>所谓容错是指一个系统的部分出现错误的情况还能够持续地提供服务，不会因为一些细微的错误导致系统性能严重下降或者出现系统瘫痪。在一个集群出现机器故障、网络问题等是常态，尤其集群达到较大规模后，很可能较频繁出现机器故障不能进行提供服务，因此对于分布式集群需要进行容错设计。</p>
-<p><strong>Executor异常</strong></p>
-<p>Spark支持多种运行模式，这些运行模式中的集群管理器会为任务分配运行资源，在运行资源中启动Executor，由Executor是负责执行任务的运行，最终把任务运行状态发送给Driver。下面以独立运行模式分析Executor出现异常的情况。</p>
-<p><img src="spark1.png" alt="Executor异常容错过程图"></p>
-<ol>
-<li>首先看Executor的启动过程：在集群中由Master给应用程序分配资源后，然后在Worker中启动ExecutorRunner，而ExecutorRunner根据当前的运行模式启动CoarseGrainedExecutorBackend进程，当改进程会向Driver发送注册Executor信息，如果注册成功，则在其内部启动Executor。Executor由ExecutorRunner进行管理，当Executor出现异常时，由ExecutorRunner捕获该异常并发送ExecutorStateChanged消息给Worker。</li>
-<li>Worker接收到ExecutorStateChanged消息时，在Worker的handleExecutorStateChanged方法中，根据Executor状态进行信息更新，同时把Executor状态信息转发给Master。</li>
-<li>Master接收到Executor状态变换消息后，如果发现Executor出现异常退出，则调用Master schedule方法，尝试获取可用的Worker节点并启动Executor，而这个Worker很可能不是失败之前运行Executor的Worker节点。该尝试系统会进行10次，如果超过10次，则标记改应用运行失败并移除，集群中也移除该应用。</li>
-</ol>
-<p><strong>Worker异常</strong></p>
-<p>Spark独立运行模式才有的是Master/Slave的结构，其中Slave是有Worker来担任的，在运行的时候会发送信条给Master，让Master知道Worker的试试状态，另一方面Master也会检测注册的Worker是否超时，因为在集群运行过程中，可能由于机器宕机或者进程被杀死等原因造成Worker进程异常退出。</p>
-<p><img src="spark2.png" alt="work异常检测"></p>
-<p>当Worker初心超时时，Master调用timeOutDeadWorkers方法进行处理，在处理时根据Worker运行的是Executor和Driver处理。</p>
-<ul>
-<li>如果是Executor，Master先把改Worker上运行的Executer发送消息ExecutorUpdated给对应的Driver，告知Executor已经丢失，同时把这些Executor从其应用程序运行列表中删除。另外，相关Executor的异常也需要按照之前Executor异常处理。</li>
-<li>如果是Driver，则判断是否设置重新启动。如果需要重新启动，则调用Master.schedule方法进行调度，分配合适节点重启Driver；如果不需要重启，则删除该应用程序。</li>
-</ul>
-<p><strong>Master异常</strong></p>
-<p>Master作为Spark独立运行模式中的核心，如果Master出现异常，则整个集群的运行情况和资源将无法进行管理。Spark在集群运行的时候，Master将启动一个或多个Standby Master，当Master出现异常的时候，Standby Master将根据一定规则确定其中一个接管Master。在独立运行模式中，Spark支持如下几种策略：</p>
-<ul>
-<li>ZOOKEEPER：集群的元数据持久化到ZooKeeper中，当Master出现异常时，ZooKeeper会通过选举机制选举出新的Master，新的Master接管时需要从ZooKeeper获取持久化信息并根据这些信息回复集群状态。</li>
-<li>FILESYSTEM：集群的元数据持久化到本地文件系统中，当Master出现异常时，只要在该机器上重新启动Master，启动后新的Master获取持久化信息并根据这些信息回复集群状态。</li>
-<li>CUSTOM：自定义回复方式。</li>
-<li>NONE：不持久化集群的元数据，当Master出现异常时，新启动的Master不进行恢复集群状态，而是直接接管集群。</li>
-</ul>
-<p><img src="spark2.png" alt="Master异常容错"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/25/Spark-study-5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/25/Spark-study-5/" itemprop="url">Spark学习笔记(5) —— 调度算法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-25T14:58:13+08:00">
-                2018-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Spark学习笔记-5-——-调度算法"><a href="#Spark学习笔记-5-——-调度算法" class="headerlink" title="Spark学习笔记(5) —— 调度算法"></a>Spark学习笔记(5) —— 调度算法</h1><h4 id="应用程序之间"><a href="#应用程序之间" class="headerlink" title="应用程序之间"></a>应用程序之间</h4><p>ClusterManager提供了资源的分配和管理，而在独立运行模式中Master提供了资源管理调度功能。在调度过程中，Master先启动等待列表中应用程序的Driver，这些Driver尽可能分散在集群的Worker节点上，然后根据集群的内存和CPU使用情况，对等待的应用程序进行资源分配，在分配算法上根据先来先分配，先分配的应用程序会尽可能地获取满足条件的资源，后分配的应用程序只能在剩余资源中再次筛选。如果没有合适资源的应用程序只能等待，知道其他应用程序释放。该侧率可以认为是有条件的FIFO策略。</p>
-<h4 id="作业与调度阶段之间"><a href="#作业与调度阶段之间" class="headerlink" title="作业与调度阶段之间"></a>作业与调度阶段之间</h4><p>Spark应用程序提交执行时，会根据RDD依赖关系形成有向无环图(DAG)，然后交给DAGScheduler进行划分作业和调度阶段。这些作业之间可以没有任何依赖关系，对于多个作业之间的调度，Spark目前提供了两种调度策略：一种是FIFO模式，这也是目前默认的模式；另一种是FAIR模式，该模式的调度可以通过两个参数的配置来决定Job执行的邮箱模式。</p>
-<p>在FAIR算法中，现货区两个调度的饥饿成都，饥饿程度为正在运行的任务是否小于最小任务，如果是，则表示该调度处于饥饿成都。获取饥饿程度后进行如下比较：</p>
-<ul>
-<li>如果某个调度处于饥饿状态另外一个非饥饿状态，则先满足处于饥饿状态的调度；</li>
-<li>如果两个调度都处于饥饿状态，则比较资源比，先满足资源比小的调度；</li>
-<li>如果两个调度都出与非饥饿状态，则比较权重比，先满足权重比小的调度；</li>
-<li>以上情况均相同的情况，根据调度的名称排序。</li>
-</ul>
-<h4 id="任务之间"><a href="#任务之间" class="headerlink" title="任务之间"></a>任务之间</h4><p><strong>数据本地性</strong></p>
-<p>数据的计算尽可能在数据所在节点上进行，这样可以减少数据在网络上传输。在Spark中数据本地性优先级从高到底为PROCESS_LOCAL&gt;NONE_LOCAL&gt;NO_PREF&gt;RACK_LOCAL&gt;ANY,即最好的是任务运行的节点内存中存在数据、次好的是同一个Node（同一机器）上的，再次是同机架上，最后是任意位置。其中任务数据本地性通过以上情况来确定：</p>
-<ul>
-<li>如果任务处于作业开始的调度阶段内，这些任务对应的RDD分区都有首选运行位置，该位置也是任务运行首选位置，数据本地性为NODE_LOCAL。</li>
-<li>如果任务处于非作业开头的调度阶段，可以根据父调度阶段运行的位置得到任务的首选位置，这种情况下，如果Executor处于活动状态，则数据本地性为PROCESS_LOCAL;如果Executor不处于活动状态，但存在父调度阶段运行结果，则数据本地性为NODE_LOCAL。</li>
-<li>如果没有首选位置，则数据本地性为NO_PREF。</li>
-</ul>
-<p><strong>延迟执行</strong></p>
-<p>在任务分配运行节点时，先判断任务最佳运行节点是否空闲，如果该节点没有足够的资源运行该任务，在这种情况下任务会等待一定时间；如果在等待内该节点释放出足够的资源，则任务在该节点运行，如果还是不足会找出次佳的节点进行运行。通过这样的方式进行能地让任务运行在更高级别数据本地性的节点，从而减少磁盘I/O和网络传输。一般来说只对PROCESS_LOCAL和NODE_LOCAL两个数据本地级别进行等待。</p>
-<p>Spark任务分配的原则就是让任务运行在数据本地性优先级高的节点上，甚至可以为此等待一定的时间。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/25/Spark-study-4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/25/Spark-study-4/" itemprop="url">Spark学习笔记(4) —— 作业执行原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-25T14:05:08+08:00">
-                2018-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Spark学习笔记-4-——-作业执行原理"><a href="#Spark学习笔记-4-——-作业执行原理" class="headerlink" title="Spark学习笔记(4) —— 作业执行原理"></a>Spark学习笔记(4) —— 作业执行原理</h1><p>Spark的作业和任务调度系统是其核心，它能够有效地进行调度是因为对任务的DAG划分和容错，是的它对低层到顶层的各个模块之间的调度和处理都显得游刃有余。</p>
-<ul>
-<li><strong>作业(job)</strong>: RDD中由行动操作所生成的一个或多个调度阶段。</li>
-<li><strong>调度阶段(stage)</strong>: 每个作业会因为RDD之间的依赖关系拆分成多组任务集合，称为调度阶段，也叫任务集(TaskSet)。调度阶段的划分是由DAGScheduler来划分的。调度阶段有Shuffle Map Stage和Result Stage两种</li>
-<li><strong>任务(task)</strong>: 分发到Executor上的工作任务，是Spark实际执行应用的最小单元。</li>
-<li><strong>DAGScheduler</strong>: DAGScheduler是面向调度阶段的任务调度器，负责接收Spark应用提交的作业，根据RDD的依赖关系划分调度阶段，并提交调度阶段给TaskCheduler。</li>
-<li><strong>TaskScheduler</strong>: TaskScheduler是面向任务的调度器，它接收DagScheduler提交过来的调度阶段，然后以把任务分发到Work节点运行，由Worker节点的Executor来运行任务。</li>
-</ul>
-<p>Spark的作业调度主要是指基于RDD的一系列操作构成一个作业，然后在Executor中执行。这些操作算子主要分为转换操作和行动操作，对于转换操作的计算是lazy级别的，也就是延迟执行，只有出现了行动操作才出发了作业的提交。在Spark调度中最重要的是DAGScheduler和TaskScheduler两个调度器，其中，DAGSscheduler负责任务的逻辑调度。将作业拆分成不同阶段的具有依赖关系的任务集，而TaskCheduler则负责具体任务的调度执行。</p>
-<p><img src="spark1.png" alt="spark1"></p>
-<ol>
-<li>Spark应用程序进行各种转换操作，通过行动操作触发作业运行。提交之后根据RDD之间的依赖关系构建DAG图，DAG图提交给DAGScheduler进行解析。</li>
-<li>DAGScheduler是面向调度阶段的高层次的调度器，DAGScheduler把DAG拆分成相互依赖的调度阶段，拆分调度阶段是以RDD的依赖是否为宽依赖，当遇到宽依赖就划分为新的调度阶段。每个调度阶段包含一个或多个任务，这些任务形成任务集，提交给底层调度器TaskCheduer进行调度运行。另外，DAGScheduler记录哪些RDD被存入磁盘等物化动作，同时要寻求任务的最优化调度，例如数据本地星等；DAGScheduler监控运行调度阶段过程，如果某个调度阶段运行失败，则需要重新提交该调度阶段。</li>
-<li>每个TaskScheduler只为一个SparkContext实例服务，TaskScheduler接收来自DAGScheduler发送过来的任务集，TaskSchduler收到任务集后负责把任务集以任务的形式一个个分发到集群Worker节点的Executor中去运行。如果某个任务运行失败，TaskScheduler要负责重试。另外，如果TaskScheduler发现某个任务一直未运行完，就可能启动同样的任务运行同一个任务，哪一个任务先运行完就用哪个任务的结果。</li>
-<li>Worker中的Executor收到TaskScheduler发送过来的任务后，以多线程的方式运行，每一个线程负责一个任务。任务运行结束后要返回给TaskScheduler，不同类型的任务，返回的方式也不同。ShuffleMapTask返回的是一个MapStatus对象，而不是结果本身;ResultTask根据结果大小的不同，返回的方式又可以分为两类。</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/03/25/Spark-study-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/25/Spark-study-3/" itemprop="url">Spark学习笔记(3) —— 消息通信原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-25T11:30:26+08:00">
-                2018-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Spark学习笔记-3-——-消息通信原理"><a href="#Spark学习笔记-3-——-消息通信原理" class="headerlink" title="Spark学习笔记(3) —— 消息通信原理"></a>Spark学习笔记(3) —— 消息通信原理</h1><h4 id="Spark-消息通信架构"><a href="#Spark-消息通信架构" class="headerlink" title="Spark 消息通信架构"></a>Spark 消息通信架构</h4><p>Spark定义了通信框架接口，这些接口实现中调用Netty的具体方法。通信框架使用了工厂设计模式实现，这种设计方式实现了对Netty的解耦，能够根据需要引入其他的消息通信工具。</p>
-<p><img src="spark1.png" alt="spark1"></p>
-<h4 id="Spark-启动消息通信"><a href="#Spark-启动消息通信" class="headerlink" title="Spark 启动消息通信"></a>Spark 启动消息通信</h4><p>Spark启动过程中主要是进行Master与Worker之间的通信，首先由Worker节点想Master发送注册消息，然后Master处理完毕后，返回注册成功消息或失败消息，如果成功注册，则Worker定时发送心跳消息给Master。</p>
-<p><img src="spark2.png" alt="spark2"></p>
-<p>详细过程：</p>
-<ol>
-<li><p>当Master启动后，随之启动个Worker,Worker启动是会创建消息通信环境RpcEnv和终端点EndPoint，并向Master发送注册Worker的消息RegisterWorker。</p>
-<p> 由于Worker可能需要注册到多个Master中，在Worker的tryRegisterAllMasters方法中创建注册线程池registerMasterThreadPool，把需要申请注册的请求放在该线程池中，然后通过该线程池启动注册线程。在该注册过程中，获取Master终端店引用，截止调用RegisterWithMaster方法，根据master终端店引用的send方法发送注册RegisterWorker消息。</p>
-</li>
-<li><p>Master收到消息后，需要对Worker发送的消息进行验证，记录。如果注册成功，则发送RegisteredWorker消息给对应的Worker，告诉他已经完成注册，随之进行步骤3，Worker定期发送心跳信息给Master；如果注册失败，则发送registerWorkerFailed消息。</p>
-<p> 在Master中，Master接到注册消息后，先判断Master当前状态是否是standby，如果是则忽略注册消息。如果在注册列表中发现该Worker的编号，则返回重复注册的失败消息，如果没有问题，则使用registerWorker方法把该Worker加入到列表中。</p>
-</li>
-</ol>
-<h4 id="Spark-运行时消息通信"><a href="#Spark-运行时消息通信" class="headerlink" title="Spark 运行时消息通信"></a>Spark 运行时消息通信</h4><p><img src="spark3.png" alt="spark3"></p>
-<p>用户提交应用程序时，应用程序的SparkContext会向Master发送应用注册消息。</p>
-<p>Master接收到注册应用信息后，Master将该应用放入应用列表中，并返回RegisteredApplication消息给应用程序。</p>
-<p>同时Master在Worker列表中选取运行应用的Worker，发送LaunchExecutor消息给Worker，通知Worker启动Executor。</p>
-<p>Executor启动成功后，Worker返回ExecutorStateChanged消息给Master，通知Executor容器已经创建完毕。</p>
-<p>同时Executor会向SparkContext发送注册成功消息。</p>
-<p>当SparkContext的RDD出发行动操作后，将创建RDD的DAG，通过DAGScheduler进行划分Stage，并将Stage转化为TaskSe。</p>
-<p>接着有TaskScheduler向注册的Executor发送执行消息，Executor接收到任务消息后启动并运行。</p>
-<p>最后当所有任务运行时，有Driver处理结果并回收资源。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1879,7 +1754,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

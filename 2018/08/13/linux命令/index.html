@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SJW, Blog" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="#linux命令 ###查看端口号占用  lsof -i:端口号  netstat -tunlp | grep 端口号 ###系统信息  arch 显示机器的处理器架构(1)  uname -m 显示机器的处理器架构(2)  uname -r 显示正在使用的内核版本  cat /proc/cpuinfo 显示CPU info的信息系统管理命令 stat    显示指定文件的详细信息，比ls更详细">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux命令">
+<meta property="og:url" content="https://codingsu.github.io/2018/08/13/linux命令/index.html">
+<meta property="og:site_name" content="sjw_blog">
+<meta property="og:description" content="#linux命令 ###查看端口号占用  lsof -i:端口号  netstat -tunlp | grep 端口号 ###系统信息  arch 显示机器的处理器架构(1)  uname -m 显示机器的处理器架构(2)  uname -r 显示正在使用的内核版本  cat /proc/cpuinfo 显示CPU info的信息系统管理命令 stat    显示指定文件的详细信息，比ls更详细">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-13T02:03:20.773Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux命令">
+<meta name="twitter:description" content="#linux命令 ###查看端口号占用  lsof -i:端口号  netstat -tunlp | grep 端口号 ###系统信息  arch 显示机器的处理器架构(1)  uname -m 显示机器的处理器架构(2)  uname -r 显示正在使用的内核版本  cat /proc/cpuinfo 显示CPU info的信息系统管理命令 stat    显示指定文件的详细信息，比ls更详细">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://codingsu.github.io/2018/08/13/linux命令/"/>
+
+
+
+
+
+  <title>linux命令 | sjw_blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">sjw_blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/13/linux命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-13T09:31:52+08:00">
+                2018-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#linux命令</p>
+<p>###查看端口号占用</p>
+<p> lsof -i:端口号</p>
+<p> netstat -tunlp | grep 端口号</p>
+<p>###系统信息 </p>
+<p>arch 显示机器的处理器架构(1) </p>
+<p>uname -m 显示机器的处理器架构(2) </p>
+<p>uname -r 显示正在使用的内核版本 </p>
+<p>cat /proc/cpuinfo 显示CPU info的信息<br>系统管理命令</p>
+<p>stat    显示指定文件的详细信息，比ls更详细</p>
+<p>who     显示在线登陆用户</p>
+<p>whoami  显示当前操作用户</p>
+<p>hostname   显示主机名</p>
+<p>uname   显示系统信息</p>
+<p>top     动态显示当前耗费资源最多进程信息</p>
+<p>ps      显示瞬间进程状态 ps -aux</p>
+<p>du      查看目录大小 du -h /home带有单位显示目录信息</p>
+<p>df      查看磁盘大小 df -h 带有单位显示磁盘信息</p>
+<p>ifconfig   查看网络情况</p>
+<p>ping    测试网络连通</p>
+<p>netstat    显示网络状态信息</p>
+<p>man     命令不会用了，找男人  如：man ls</p>
+<p>clear   清屏</p>
+<p>kill    杀死进程，可以先用ps 或 top命令查看进程的id，然后再用kill命令杀死进程。</p>
+<p>###目录结构</p>
+<p>/bin：大部分的系统命令</p>
+<p>/boot：启动相关目录</p>
+<p>/dev：设备文件目录，linux下一切设备皆文件</p>
+<p>/etc：配置文件目录</p>
+<p>/home：普通用户的家目录，一个用户对应一个文件夹</p>
+<p>/lib：库文件</p>
+<p>/lib64：64位库文件</p>
+<p>/lost+found：系统异常时临时保存数据，用于恢复等操作</p>
+<p>/media：媒体目录</p>
+<p>/mnt：挂载目录，通用挂载点</p>
+<p>/opt：安装系统非必须软件目录</p>
+<p>/proc：虚拟文件系统，会映射硬件信息</p>
+<p>/root：root用户的家目录</p>
+<p>/sbin：超级用户才能执行的命令目录</p>
+<p>/selinux：linux一套安全机制，非常复杂，通常不用</p>
+<p>/srv：存放本机或本机服务器的数据或服务</p>
+<p>/sys：类似于/proc，也是虚拟文件系统，可以映射系统信息</p>
+<p>/tmp：临时文件，可能随时销毁</p>
+<p>/usr：存放用户安装的应用程序</p>
+<p>/var：系统产生的不可自动销毁的文件，如：日志、缓存等</p>
+<p>###Vim编辑器</p>
+<ul>
+<li>常用操作：</li>
+</ul>
+<p>vim filename +n 打开文件，定位到第n行</p>
+<p>vim filename + 打开文件，定位到末尾</p>
+<p>gg 定位到首行</p>
+<p>G 定位到尾行</p>
+<p>ngg 定位到第n行</p>
+<p>^ 定位到行首</p>
+<p>$ 定位到行尾</p>
+<p>yy 复制光标所在行</p>
+<p>p 粘贴</p>
+<p>nyy 复制光标开始的n行</p>
+<p>dd 删除光标所在行</p>
+<p>ndd 删除光标开始的n行</p>
+<p>u 撤销操作</p>
+<p>ctrl + r 反撤销操作 </p>
+<p>插入模式：就是可以编辑文件内容的模式，在正常模式下输入以下字符进入：</p>
+<p>i：在光标处插入</p>
+<p>I：在行首插入</p>
+<p>a：在光标下一个字符处插入</p>
+<p>A：在行尾插入</p>
+<p>o：下光标下一行插入空行</p>
+<p>O：下光标上一行插入空行</p>
+<p>s：删除光标所在字符并插入</p>
+<p>S：删除光标所在行并插入</p>
+<p>编辑模式：是对整个文件进行的操作，如：保存，退出</p>
+<p>在正常模式下输入’:’即可进入编辑模式</p>
+<p>:w 保存</p>
+<p>:q 退出</p>
+<p>:wq 保存退出，等价于 shift + zz</p>
+<p>:x 保存退出，等价于:wq</p>
+<p>:q! 强制退出</p>
+<p>:set nu 显示行号</p>
+<p>:set nonu 隐藏行号</p>
+<p>:行号 定位到指定行号</p>
+<p>/内容 查找指定内容，n下翻，N上翻</p>
+<p>:%s/原内容/新内容 使用新内容替换原内容，全部替换</p>
+<p>:m,ns/原内容/新内容 使用新内容替换原内容，替换m到n行</p>
+<p>友情提醒：若非正常关闭vim，则会生成临时文件(隐藏的)，需要删除</p>
+<p>###文件及文件夹</p>
+<p>touch：创建普通文件</p>
+<p>rm：删除文件，-f表示强制删除，-r表示递归删除</p>
+<p>cp：拷贝文件，若目标目录写上文件名可以顺便把名字改了，-r可以操作目录</p>
+<p>mv：移动文件，若目标目录写上文件名可以顺便把名字改了</p>
+<p>mkdir：创建文件夹，-p创建中间目录</p>
+<p>rmdir：删除文件夹，只能删除空目录</p>
+<p>###查看文件</p>
+<p>cat：从上到下查看文件，全部内容</p>
+<p>tac：从下到上查看文件，全部内容</p>
+<p>head：查看开头的指定行内容，默认10行，head -3 1.txt</p>
+<p>tail：查看末尾的指定行内容，默认10行，tail -5 1.txt</p>
+<p>more：逐渐查看文件，回车下翻一行，空格下翻一屏，看到结尾会自动结束，q退出查看</p>
+<p>less：逐渐查看文件，回车下翻一行，空格下翻一屏，看到结尾不会自动结束，可以上下翻</p>
+<p>nl：功能同cat，会多显示行号</p>
+<p>wc：统计文件信息，显示结果：行数 | 单词数 | 字节数</p>
+<p>###用户及用户组</p>
+<p>whoami：查看当前用户</p>
+<p>useradd：创建用户</p>
+<p>passwd：设置指定用户的密码，若不指定设置当前用户的密码</p>
+<p>userdel：删除用户，-rf删除用户相关目录，否则需要手动删除</p>
+<p>groupadd：创建用户组</p>
+<p>groupdel：删除用户组</p>
+<p>gpasswd：将用户添加到某个组，从某个组删除<br>        gpasswd -a test hello   将test用户添加到hello组<br>        gpasswd -d test hello   将test用户从hello组中删除</p>
+<p>chgrp：改变文件所属组，chgrp hello 1.txt</p>
+<p>chown：改变文件拥有者[及组]，chown root[:root] 1.txt</p>
+<p>chsh：修改用户的shell解释器，chsh test -s /sbin/nologin</p>
+<p>su -  : 切换到指定用户，若不加’-‘，只会切换目录及用户身份，不会切换执行环境<br>        若不指定用户。默认切换到root用户</p>
+<p>涉及文件：</p>
+<pre><code>/etc/passwd：存放用户信息
+
+/etc/group：存放用户组信息
+
+/etc/shadow：存放用户密码
+</code></pre><p>###文件查找</p>
+<p>tree：查看目录结构，-L指定层级深度，tree / -L 2</p>
+<p>find：查找文件</p>
+<p>-name：指定名字，find / -name 1.txt</p>
+<p>-type：指定类型，(b/c/d/p/l)</p>
+<p>-size：指定大小，单位K/M/G，+表示大于，-表示小于，find / -size<br>+1G</p>
+<p>-perm：指定权限</p>
+<p>-user：指定用户</p>
+<p>-group：指定组</p>
+<p>-maxdepth：指定最大层级深度</p>
+<p>whereis：查找程序，不要使用find(效率太低)</p>
+<p>which：专门用来查找命令</p>
+<p>alias：给某个命令起别名，alias ls=’ls –color=auto’</p>
+<p>unalias：取消别名</p>
+<p>grep：正则匹配查找</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/11/ReentrantLock源码解析1-获得非公平锁与公平锁lock/" rel="next" title="ReentrantLock源码解析1--获得非公平锁与公平锁lock()">
+                <i class="fa fa-chevron-left"></i> ReentrantLock源码解析1--获得非公平锁与公平锁lock()
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/13/计算机网络/" rel="prev" title="计算机网络">
+                计算机网络 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">sujunwei</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
