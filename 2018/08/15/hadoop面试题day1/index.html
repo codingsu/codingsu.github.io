@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="简答说一下hadoop的map-reduce编程模型 2、hadoop的TextInputFormat作用是什么，如何自定义实现 3、hadoop和spark的都是并行计算，那么他们有什么相同和区别 4、为什么要用flume导入hdfs，hdfs的构架是怎样的 5、map-reduce程序运行的时候会有什么比较常见的问题 6、简单说一下hadoop和spark的shuffle过程 ###简答说一下">
+<meta name="description" content="简答说一下hadoop的map-reduce编程模型 2、hadoop的TextInputFormat作用是什么，如何自定义实现 3、hadoop和spark的都是并行计算，那么他们有什么相同和区别 4、为什么要用flume导入hdfs，hdfs的构架是怎样的 5、map-reduce程序运行的时候会有什么比较常见的问题 6、简单说一下hadoop和spark的shuffle过程 简答说一下had">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hadoop面试题day1">
 <meta property="og:url" content="https://codingsu.github.io/2018/08/15/hadoop面试题day1/index.html">
 <meta property="og:site_name" content="sjw_blog">
-<meta property="og:description" content="简答说一下hadoop的map-reduce编程模型 2、hadoop的TextInputFormat作用是什么，如何自定义实现 3、hadoop和spark的都是并行计算，那么他们有什么相同和区别 4、为什么要用flume导入hdfs，hdfs的构架是怎样的 5、map-reduce程序运行的时候会有什么比较常见的问题 6、简单说一下hadoop和spark的shuffle过程 ###简答说一下">
+<meta property="og:description" content="简答说一下hadoop的map-reduce编程模型 2、hadoop的TextInputFormat作用是什么，如何自定义实现 3、hadoop和spark的都是并行计算，那么他们有什么相同和区别 4、为什么要用flume导入hdfs，hdfs的构架是怎样的 5、map-reduce程序运行的时候会有什么比较常见的问题 6、简单说一下hadoop和spark的shuffle过程 简答说一下had">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-15T07:40:26.789Z">
+<meta property="og:updated_time" content="2018-08-18T10:13:39.164Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hadoop面试题day1">
-<meta name="twitter:description" content="简答说一下hadoop的map-reduce编程模型 2、hadoop的TextInputFormat作用是什么，如何自定义实现 3、hadoop和spark的都是并行计算，那么他们有什么相同和区别 4、为什么要用flume导入hdfs，hdfs的构架是怎样的 5、map-reduce程序运行的时候会有什么比较常见的问题 6、简单说一下hadoop和spark的shuffle过程 ###简答说一下">
+<meta name="twitter:description" content="简答说一下hadoop的map-reduce编程模型 2、hadoop的TextInputFormat作用是什么，如何自定义实现 3、hadoop和spark的都是并行计算，那么他们有什么相同和区别 4、为什么要用flume导入hdfs，hdfs的构架是怎样的 5、map-reduce程序运行的时候会有什么比较常见的问题 6、简单说一下hadoop和spark的shuffle过程 简答说一下had">
 
 
 
@@ -335,50 +335,41 @@
 <p>4、为什么要用flume导入hdfs，hdfs的构架是怎样的</p>
 <p>5、map-reduce程序运行的时候会有什么比较常见的问题</p>
 <p>6、简单说一下hadoop和spark的shuffle过程</p>
-<p>###简答说一下hadoop的map-reduce编程模型</p>
-<p>首先map task会从本地文件系统读取数据，转换成key-value形式的键值对集合</p>
+<h3 id="简答说一下hadoop的map-reduce编程模型"><a href="#简答说一下hadoop的map-reduce编程模型" class="headerlink" title="简答说一下hadoop的map-reduce编程模型"></a>简答说一下hadoop的map-reduce编程模型</h3><p>首先map task会从本地文件系统读取数据，转换成key-value形式的键值对集合</p>
 <p>使用的是hadoop内置的数据类型，比如longwritable、text等</p>
 <p>将键值对集合输入mapper进行业务处理过程，将其转换成需要的key-value在输出</p>
 <p>之后会进行一个partition分区操作，默认使用的是hashpartitioner，可以通过重写hashpartitioner的getpartition方法来自定义分区规则</p>
 <p>之后会对key进行进行sort排序，grouping分组操作将相同key的value合并分组输出，在这里可以使用自定义的数据类型，重写WritableComparator的Comparator方法来自定义排序规则，重写RawComparator的compara方法来自定义分组规则</p>
 <p>之后进行一个combiner归约操作，其实就是一个本地段的reduce预处理，以减小后面shufle和reducer的工作量</p>
 <p>reduce task会通过网络将各个数据收集进行reduce处理，最后将数据保存或者显示，结束整个job</p>
-<p>###hadoop的TextInputFormat作用是什么，如何自定义实现</p>
-<p>InputFormat会在map操作之前对数据进行两方面的预处理</p>
+<h3 id="hadoop的TextInputFormat作用是什么，如何自定义实现"><a href="#hadoop的TextInputFormat作用是什么，如何自定义实现" class="headerlink" title="hadoop的TextInputFormat作用是什么，如何自定义实现"></a>hadoop的TextInputFormat作用是什么，如何自定义实现</h3><p>InputFormat会在map操作之前对数据进行两方面的预处理</p>
 <p>1是getSplits，返回的是InputSplit数组，对数据进行split分片，每片交给map操作一次 </p>
 <p>2是getRecordReader，返回的是RecordReader对象，对每个split分片进行转换为key-value键值对格式传递给map</p>
 <p>常用的InputFormat是TextInputFormat，使用的是LineRecordReader对每个分片进行键值对的转换，以行偏移量作为键，行内容作为值</p>
 <p>自定义类继承InputFormat接口，重写createRecordReader和isSplitable方法<br>在createRecordReader中可以自定义分隔符</p>
-<p>###hadoop和spark的都是并行计算，那么他们有什么相同和区别</p>
-<p>两者都是用mr模型来进行并行计算，hadoop的一个作业称为job，job里面分为map task和reduce task，每个task都是在自己的进程中运行的，当task结束时，进程也会结束</p>
+<h3 id="hadoop和spark的都是并行计算，那么他们有什么相同和区别"><a href="#hadoop和spark的都是并行计算，那么他们有什么相同和区别" class="headerlink" title="hadoop和spark的都是并行计算，那么他们有什么相同和区别"></a>hadoop和spark的都是并行计算，那么他们有什么相同和区别</h3><p>两者都是用mr模型来进行并行计算，hadoop的一个作业称为job，job里面分为map task和reduce task，每个task都是在自己的进程中运行的，当task结束时，进程也会结束</p>
 <p>spark用户提交的任务成为application，一个application对应一个sparkcontext，app中存在多个job，每触发一次action操作就会产生一个job</p>
 <p>这些job可以并行或串行执行，每个job中有多个stage，stage是shuffle过程中DAGSchaduler通过RDD之间的依赖关系划分job而来的，每个stage里面有多个task，组成taskset有TaskSchaduler分发到各个executor中执行，executor的生命周期是和app一样的，即使没有job运行也是存在的，所以task可以快速启动读取内存进行计算</p>
 <p>hadoop的job只有map和reduce操作，表达能力比较欠缺而且在mr过程中会重复的读写hdfs，造成大量的io操作，多个job需要自己管理关系</p>
 <p>spark的迭代计算都是在内存中进行的，API中提供了大量的RDD操作如join，groupby等，而且通过DAG图可以实现良好的容错</p>
-<p>###为什么要用flume导入hdfs，hdfs的构架是怎样的</p>
-<p>flume可以实时的导入数据到hdfs中，当hdfs上的文件达到一个指定大小的时候会形成一个文件，或者超过指定时间的话也形成一个文件</p>
+<h3 id="为什么要用flume导入hdfs，hdfs的构架是怎样的"><a href="#为什么要用flume导入hdfs，hdfs的构架是怎样的" class="headerlink" title="为什么要用flume导入hdfs，hdfs的构架是怎样的"></a>为什么要用flume导入hdfs，hdfs的构架是怎样的</h3><p>flume可以实时的导入数据到hdfs中，当hdfs上的文件达到一个指定大小的时候会形成一个文件，或者超过指定时间的话也形成一个文件</p>
 <p>文件都是存储在datanode上面的，namenode记录着datanode的元数据信息，而namenode的元数据信息是存在内存中的，所以当文件切片很小或者很多的时候会卡死</p>
-<p>###map-reduce程序运行的时候会有什么比较常见的问题</p>
-<p>比如说作业中大部分都完成了，但是总有几个reduce一直在运行</p>
+<h3 id="map-reduce程序运行的时候会有什么比较常见的问题"><a href="#map-reduce程序运行的时候会有什么比较常见的问题" class="headerlink" title="map-reduce程序运行的时候会有什么比较常见的问题"></a>map-reduce程序运行的时候会有什么比较常见的问题</h3><p>比如说作业中大部分都完成了，但是总有几个reduce一直在运行</p>
 <p>这是因为这几个reduce中的处理的数据要远远大于其他的reduce，可能是因为对键值对任务划分的不均匀造成的数据倾斜</p>
 <p>解决的方法可以在分区的时候重新定义分区规则对于value数据很多的key可以进行拆分、均匀打散等处理，或者是在map端的combiner中进行数据预处理的操作</p>
-<p>###Flume工作机制是什么？ </p>
-<p>核心概念是agent，里面包括<strong><em>source、chanel和sink</em></strong>三个组件。<br>source运行在日志收集节点进行日志采集，之后临时存储在chanel中，sink负责将chanel中的数据发送到目的地。 </p>
+<h3 id="Flume工作机制是什么？"><a href="#Flume工作机制是什么？" class="headerlink" title="Flume工作机制是什么？"></a>Flume工作机制是什么？</h3><p>核心概念是agent，里面包括<strong><em>source、chanel和sink</em></strong>三个组件。<br>source运行在日志收集节点进行日志采集，之后临时存储在chanel中，sink负责将chanel中的数据发送到目的地。 </p>
 <p>只有成功发送之后chanel中的数据才会被删除。 </p>
 <p>首先书写flume配置文件，定义agent、source、chanel和sink然后将其组装，执行flume-ng命令。</p>
-<p>###driver的功能是什么？</p>
-<p>1）一个Spark作业运行时包括一个Driver进程，也是作业的主进程，具有main函数，并且有SparkContext的实例，是程序的人口点；</p>
+<h3 id="driver的功能是什么？"><a href="#driver的功能是什么？" class="headerlink" title="driver的功能是什么？"></a>driver的功能是什么？</h3><p>1）一个Spark作业运行时包括一个Driver进程，也是作业的主进程，具有main函数，并且有SparkContext的实例，是程序的人口点；</p>
 <p>2）功能：负责向集群申请资源，向master注册信息，负责了作业的调度，负责作业的解析、生成Stage并调度Task到Executor上。包括DAGScheduler，TaskScheduler。</p>
-<p>###hadoop和spark的shuffle相同和差异？</p>
-<p>从 high-level 的角度来看，两者并没有大的差别。 都是将 mapper（Spark 里是 ShuffleMapTask）的输出进行 partition，不同的 partition 送到不同的 reducer（Spark 里 reducer 可能是下一个 stage 里的 ShuffleMapTask，也可能是 ResultTask）。Reducer 以内存作缓冲区，边 shuffle 边 aggregate 数据，等到数据 aggregate 好以后进行 reduce() （Spark 里可能是后续的一系列操作）。</p>
+<h3 id="hadoop和spark的shuffle相同和差异？"><a href="#hadoop和spark的shuffle相同和差异？" class="headerlink" title="hadoop和spark的shuffle相同和差异？"></a>hadoop和spark的shuffle相同和差异？</h3><p>从 high-level 的角度来看，两者并没有大的差别。 都是将 mapper（Spark 里是 ShuffleMapTask）的输出进行 partition，不同的 partition 送到不同的 reducer（Spark 里 reducer 可能是下一个 stage 里的 ShuffleMapTask，也可能是 ResultTask）。Reducer 以内存作缓冲区，边 shuffle 边 aggregate 数据，等到数据 aggregate 好以后进行 reduce() （Spark 里可能是后续的一系列操作）。</p>
 <p>2）从 low-level 的角度来看，两者差别不小。 Hadoop MapReduce 是 sort-based，进入 combine() 和 reduce() 的 records 必须先 sort。这样的好处在于 combine/reduce() 可以处理大规模的数据，因为其输入数据可以通过外排得到（mapper 对每段数据先做排序，reducer 的 shuffle 对排好序的每段数据做归并）。目前的 Spark 默认选择的是 hash-based，通常使用 HashMap 来对 shuffle 来的数据进行 aggregate，不会对数据进行提前排序。如果用户需要经过排序的数据，那么需要自己调用类似 sortByKey() 的操作；如果你是Spark 1.1的用户，可以将spark.shuffle.manager设置为sort，则会对数据进行排序。在Spark 1.2中，sort将作为默认的Shuffle实现。</p>
 <p>3）从实现角度来看，两者也有不少差别。 Hadoop MapReduce 将处理流程划分出明显的几个阶段：map(), spill, merge, shuffle, sort, reduce() 等。每个阶段各司其职，可以按照过程式的编程思想来逐一实现每个阶段的功能。在 Spark 中，没有这样功能明确的阶段，只有不同的 stage 和一系列的 transformation()，所以 spill, merge, aggregate 等操作需要蕴含在 transformation() 中。如果我们将 map 端划分数据、持久化数据的过程称为 shuffle write，而将 reducer 读入数据、aggregate 数据的过程称为 shuffle read。那么在 Spark 中，问题就变为怎么在 job 的逻辑或者物理执行图中加入 shuffle write 和 shuffle read 的处理逻辑？以及两个处理逻辑应该怎么高效实现？ Shuffle write由于不要求数据有序，shuffle write 的任务很简单：将数据 partition 好，并持久化。之所以要持久化，一方面是要减少内存存储空间压力，另一方面也是为了 fault-tolerance。</p>
-<p>###Spark中数据的位置是被谁管理的？</p>
-<p>每个数据分片都对应具体物理位置，数据的位置是被blockManager，无论数据是在磁盘，内存还是tacyan，都是由blockManager管理</p>
-<p>###rdd有几种操作类型？<br>1）transformation，rdd由一种转为另一种rdd</p>
+<h3 id="Spark中数据的位置是被谁管理的？"><a href="#Spark中数据的位置是被谁管理的？" class="headerlink" title="Spark中数据的位置是被谁管理的？"></a>Spark中数据的位置是被谁管理的？</h3><p>每个数据分片都对应具体物理位置，数据的位置是被blockManager，无论数据是在磁盘，内存还是tacyan，都是由blockManager管理</p>
+<h3 id="rdd有几种操作类型？"><a href="#rdd有几种操作类型？" class="headerlink" title="rdd有几种操作类型？"></a>rdd有几种操作类型？</h3><p>1）transformation，rdd由一种转为另一种rdd</p>
 <p>2）action，</p>
 <p>3）cronroller，crontroller是控制算子,cache,persist，对性能和效率的有很好的支持三种类型，不要回答只有2中操作</p>
-<p>#join操作优化经验？<br>join其实常见的就分为两类： map-side join 和  reduce-side join。当大表和小表join时，用map-side join能显著提高效率。将多份数据进行关联是数据处理过程中非常普遍的用法，不过在分布式计算系统中，这个问题往往会变的非常麻烦，因为框架提供的 join 操作一般会将所有数据根据 key 发送到所有的 reduce 分区中去，也就是 shuffle 的过程。造成大量的网络以及磁盘IO消耗，运行效率极其低下，这个过程一般被称为 reduce-side-join。如果其中有张表较小的话，我们则可以自己实现在 map 端实现数据关联，跳过大量数据进行 shuffle 的过程，运行时间得到大量缩短，根据不同数据可能会有几倍到数十倍的性能提升。</p>
+<h1 id="join操作优化经验？"><a href="#join操作优化经验？" class="headerlink" title="join操作优化经验？"></a>join操作优化经验？</h1><p>join其实常见的就分为两类： map-side join 和  reduce-side join。当大表和小表join时，用map-side join能显著提高效率。将多份数据进行关联是数据处理过程中非常普遍的用法，不过在分布式计算系统中，这个问题往往会变的非常麻烦，因为框架提供的 join 操作一般会将所有数据根据 key 发送到所有的 reduce 分区中去，也就是 shuffle 的过程。造成大量的网络以及磁盘IO消耗，运行效率极其低下，这个过程一般被称为 reduce-side-join。如果其中有张表较小的话，我们则可以自己实现在 map 端实现数据关联，跳过大量数据进行 shuffle 的过程，运行时间得到大量缩短，根据不同数据可能会有几倍到数十倍的性能提升。</p>
 
       
     </div>
@@ -467,8 +458,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -483,7 +483,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -528,6 +528,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简答说一下hadoop的map-reduce编程模型"><span class="nav-number">1.</span> <span class="nav-text">简答说一下hadoop的map-reduce编程模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hadoop的TextInputFormat作用是什么，如何自定义实现"><span class="nav-number">2.</span> <span class="nav-text">hadoop的TextInputFormat作用是什么，如何自定义实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hadoop和spark的都是并行计算，那么他们有什么相同和区别"><span class="nav-number">3.</span> <span class="nav-text">hadoop和spark的都是并行计算，那么他们有什么相同和区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要用flume导入hdfs，hdfs的构架是怎样的"><span class="nav-number">4.</span> <span class="nav-text">为什么要用flume导入hdfs，hdfs的构架是怎样的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#map-reduce程序运行的时候会有什么比较常见的问题"><span class="nav-number">5.</span> <span class="nav-text">map-reduce程序运行的时候会有什么比较常见的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flume工作机制是什么？"><span class="nav-number">6.</span> <span class="nav-text">Flume工作机制是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#driver的功能是什么？"><span class="nav-number">7.</span> <span class="nav-text">driver的功能是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hadoop和spark的shuffle相同和差异？"><span class="nav-number">8.</span> <span class="nav-text">hadoop和spark的shuffle相同和差异？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spark中数据的位置是被谁管理的？"><span class="nav-number">9.</span> <span class="nav-text">Spark中数据的位置是被谁管理的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rdd有几种操作类型？"><span class="nav-number">10.</span> <span class="nav-text">rdd有几种操作类型？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#join操作优化经验？"><span class="nav-number"></span> <span class="nav-text">join操作优化经验？</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

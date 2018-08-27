@@ -259,6 +259,634 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/27/二叉树遍历/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/27/二叉树遍历/" itemprop="url">二叉树遍历</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-27T17:51:38+08:00">
+                2018-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.Queue;</span><br><span class="line"><span class="keyword">import</span> java.util.Stack;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Tree</span>&lt;<span class="title">AnyType</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;? <span class="title">super</span> <span class="title">AnyType</span>&gt;&gt;</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryNode</span>&lt;<span class="title">AnyType</span>&gt;</span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        BinaryNode(AnyType theElement)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">this</span>(theElement, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        BinaryNode(AnyType theElement, BinaryNode&lt;AnyType&gt; lt, BinaryNode&lt;AnyType&gt; rt)</span><br><span class="line">        &#123;</span><br><span class="line">            element = theElement;</span><br><span class="line">            left = lt;</span><br><span class="line">            right = rt;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        AnyType element;</span><br><span class="line">        BinaryNode&lt;AnyType&gt; left;</span><br><span class="line">        BinaryNode&lt;AnyType&gt; right;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BinaryNode&lt;AnyType&gt; root;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(AnyType x)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        root = insert(x, root);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> root == <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> BinaryNode&lt;AnyType&gt; <span class="title">insert</span><span class="params">(AnyType x, BinaryNode&lt;AnyType&gt; t)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t == <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> BinaryNode&lt;&gt;(x, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> compareResult = x.compareTo(t.element);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(compareResult &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            t.left = insert(x, t.left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(compareResult &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            t.right = insert(x, t.right);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            ;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 前序遍历</span></span><br><span class="line"><span class="comment">     * 递归</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(BinaryNode&lt;AnyType&gt; Node)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Node != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            System.out.print(Node.element + <span class="string">" "</span>);</span><br><span class="line">            preOrder(Node.left);</span><br><span class="line">            preOrder(Node.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 中序遍历</span></span><br><span class="line"><span class="comment">     * 递归</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">midOrder</span><span class="params">(BinaryNode&lt;AnyType&gt; Node)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Node != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            midOrder(Node.left);</span><br><span class="line">            System.out.print(Node.element + <span class="string">" "</span>);</span><br><span class="line">            midOrder(Node.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 后序遍历</span></span><br><span class="line"><span class="comment">     * 递归</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">posOrder</span><span class="params">(BinaryNode&lt;AnyType&gt; Node)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Node != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            posOrder(Node.left);</span><br><span class="line">            posOrder(Node.right);</span><br><span class="line">            System.out.print(Node.element + <span class="string">" "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 层序遍历</span></span><br><span class="line"><span class="comment">     * 递归</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">levelOrder</span><span class="params">(BinaryNode&lt;AnyType&gt; Node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Node == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> depth = depth(Node);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= depth; i++) &#123;</span><br><span class="line">            levelOrder(Node, i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">levelOrder</span><span class="params">(BinaryNode&lt;AnyType&gt; Node, <span class="keyword">int</span> level)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Node == <span class="keyword">null</span> || level &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (level == <span class="number">1</span>) &#123;</span><br><span class="line">            System.out.print(Node.element + <span class="string">"  "</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 左子树</span></span><br><span class="line">        levelOrder(Node.left, level - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 右子树</span></span><br><span class="line">        levelOrder(Node.right, level - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">depth</span><span class="params">(BinaryNode&lt;AnyType&gt; Node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Node == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> l = depth(Node.left);</span><br><span class="line">        <span class="keyword">int</span> r = depth(Node.right);</span><br><span class="line">        <span class="keyword">if</span> (l &gt; r) &#123;</span><br><span class="line">            <span class="keyword">return</span> l + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> r + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 前序遍历</span></span><br><span class="line"><span class="comment">     * 非递归</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrder1</span><span class="params">(BinaryNode&lt;AnyType&gt; Node)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Stack&lt;BinaryNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span>(Node != <span class="keyword">null</span> || !stack.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(Node != <span class="keyword">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                System.out.print(Node.element + <span class="string">"   "</span>);</span><br><span class="line">                stack.push(Node);</span><br><span class="line">                Node = Node.left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(!stack.empty())</span><br><span class="line">            &#123;</span><br><span class="line">                Node = stack.pop();</span><br><span class="line">                Node = Node.right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 中序遍历</span></span><br><span class="line"><span class="comment">     * 非递归</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">midOrder1</span><span class="params">(BinaryNode&lt;AnyType&gt; Node)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Stack&lt;BinaryNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span>(Node != <span class="keyword">null</span> || !stack.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (Node != <span class="keyword">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                stack.push(Node);</span><br><span class="line">                Node = Node.left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(!stack.empty())</span><br><span class="line">            &#123;</span><br><span class="line">                Node = stack.pop();</span><br><span class="line">                System.out.print(Node.element + <span class="string">"   "</span>);</span><br><span class="line">                Node = Node.right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 后序遍历</span></span><br><span class="line"><span class="comment">     * 非递归</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">posOrder1</span><span class="params">(BinaryNode&lt;AnyType&gt; Node)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Stack&lt;BinaryNode&gt; stack1 = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        Stack&lt;Integer&gt; stack2 = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(Node != <span class="keyword">null</span> || !stack1.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (Node != <span class="keyword">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                stack1.push(Node);</span><br><span class="line">                stack2.push(<span class="number">0</span>);</span><br><span class="line">                Node = Node.left;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span>(!stack1.empty() &amp;&amp; stack2.peek() == i)</span><br><span class="line">            &#123;</span><br><span class="line">                stack2.pop();</span><br><span class="line">                System.out.print(stack1.pop().element + <span class="string">"   "</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(!stack1.empty())</span><br><span class="line">            &#123;</span><br><span class="line">                stack2.pop();</span><br><span class="line">                stack2.push(<span class="number">1</span>);</span><br><span class="line">                Node = stack1.peek();</span><br><span class="line">                Node = Node.right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 层序遍历</span></span><br><span class="line"><span class="comment">     * 非递归</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">levelOrder1</span><span class="params">(BinaryNode&lt;AnyType&gt; Node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Node == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        BinaryNode&lt;AnyType&gt; binaryNode;</span><br><span class="line">        Queue&lt;BinaryNode&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        queue.add(Node);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (queue.size() != <span class="number">0</span>) &#123;</span><br><span class="line">            binaryNode = queue.poll();</span><br><span class="line"></span><br><span class="line">            System.out.print(binaryNode.element + <span class="string">"  "</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (binaryNode.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                queue.offer(binaryNode.left);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (binaryNode.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                queue.offer(binaryNode.right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String[] args )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] input = &#123;<span class="number">4</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">10</span>&#125;;</span><br><span class="line">        Tree&lt;Integer&gt; tree = <span class="keyword">new</span> Tree&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; input.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            tree.insert(input[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.print(<span class="string">"递归前序遍历 ："</span>);</span><br><span class="line">        tree.preOrder(tree.root);</span><br><span class="line">        System.out.print(<span class="string">"\n非递归前序遍历："</span>);</span><br><span class="line">        tree.preOrder1(tree.root);</span><br><span class="line">        System.out.print(<span class="string">"\n递归中序遍历 ："</span>);</span><br><span class="line">        tree.midOrder(tree.root);</span><br><span class="line">        System.out.print(<span class="string">"\n非递归中序遍历 ："</span>);</span><br><span class="line">        tree.midOrder1(tree.root);</span><br><span class="line">        System.out.print(<span class="string">"\n递归后序遍历 ："</span>);</span><br><span class="line">        tree.posOrder(tree.root);</span><br><span class="line">        System.out.print(<span class="string">"\n非递归后序遍历 ："</span>);</span><br><span class="line">        tree.posOrder1(tree.root);</span><br><span class="line">        System.out.print(<span class="string">"\n递归层序遍历："</span>);</span><br><span class="line">        tree.levelOrder(tree.root);</span><br><span class="line">        System.out.print(<span class="string">"\n非递归层序遍历 ："</span>);</span><br><span class="line">        tree.levelOrder1(tree.root);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/23/分布式面试/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/23/分布式面试/" itemprop="url">分布式面试</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-23T09:11:54+08:00">
+                2018-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>####Memcache与Redis的区别都有哪些？</p>
+<p>1)、存储方式</p>
+<p>Memecache把数据全部存在内存之中，断电后会挂掉，数据不能超过内存大小。</p>
+<p>Redis有部份存在硬盘上，这样能保证数据的持久性。</p>
+<p>2)、数据支持类型</p>
+<p>Memcache对数据类型支持相对简单。</p>
+<p>Redis有复杂的数据类型。</p>
+<p>3)、使用底层模型不同</p>
+<p>它们之间底层实现方式 以及与客户端之间通信的应用协议不一样。</p>
+<p>Redis直接自己构建了VM 机制 ，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</p>
+<p>4），value大小</p>
+<p>redis最大可以达到1GB，而memcache只有1MB</p>
+<p>####redis常见性能问题和解决方案：</p>
+<p>(1) Master最好不要做任何持久化工作，如RDB内存快照和AOF日志文件</p>
+<p>(2) 如果数据比较重要，某个Slave开启AOF备份数据，策略设置为每秒同步一次 </p>
+<p>(3) 为了主从复制的速度和连接的稳定性，Master和Slave最好在同一个局域网内 </p>
+<p>(4) 尽量避免在压力很大的主库上增加从库 </p>
+<p>(5) 主从复制不要用图状结构，用单向链表结构更为稳定，即：Master &lt;- Slave1 &lt;- Slave2 &lt;- Slave</p>
+<p>####redis 最适合的场景</p>
+<p>Redis最适合所有数据in-momory的场景，虽然Redis也提供持久化功能，但实际更多的是一个disk-backed的功能。</p>
+<p>（1）、会话缓存（Session Cache）</p>
+<p>最常用的一种使用Redis的情景是会话缓存（session cache）。用Redis缓存会话比其他存储（如Memcached）的优势在于：Redis提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？</p>
+<p>幸运的是，随着 Redis 这些年的改进，很容易找到怎么恰当的使用Redis来缓存会话的文档。甚至广为人知的商业平台Magento也提供Redis的插件。</p>
+<p>（2）、全页缓存（FPC）</p>
+<p>除基本的会话token之外，Redis还提供很简便的FPC平台。回到一致性问题，即使重启了Redis实例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似PHP本地FPC。</p>
+<p>再次以Magento为例，Magento提供一个插件来使用Redis作为全页缓存后端。</p>
+<p>此外，对WordPress的用户来说，Pantheon有一个非常好的插件 wp-redis，这个插件能帮助你以最快速度加载你曾浏览过的页面。</p>
+<p>（3）、队列</p>
+<p>Reids在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得Redis能作为一个很好的消息队列平台来使用。Redis作为队列使用的操作，就类似于本地程序语言（如Python）对 list 的 push/pop 操作。</p>
+<p>如果你快速的在Google中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是利用Redis创建非常好的后端工具，以满足各种队列需求。例如，Celery有一个后台就是使用Redis作为broker，你可以从这里去查看。</p>
+<p>（4），排行榜/计数器</p>
+<p>Redis在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也使得我们在执行这些操作的时候变的非常简单，Redis只是正好提供了这两种数据结构。所以，我们要从排序集合中获取到排名最靠前的10个用户–我们称之为“user_scores”，我们只需要像下面一样执行即可：</p>
+<p>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执行：</p>
+<p>ZRANGE user_scores 0 10 WITHSCORES</p>
+<p>Agora Games就是一个很好的例子，用Ruby实现的，它的排行榜就是使用Redis来存储数据的，你可以在这里看到。</p>
+<p>（5）、发布/订阅</p>
+<p>最后（但肯定不是最不重要的）是Redis的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用Redis的发布/订阅功能来建立聊天系统！（不，这是真的，你可以去核实）。</p>
+<p>####集群间session共享问题</p>
+<p>session共享有多重解决办法，常用的有四种：</p>
+<p>客户端Cookie保存，</p>
+<p>服务器间session同步、</p>
+<p>使用集群管理Session、</p>
+<p>把session持久化到数据库</p>
+<p>集群中session共享解决方案</p>
+<ol>
+<li><p>客户端存储方案</p>
+</li>
+<li><p>集中式session共享方案</p>
+</li>
+<li><p>session复制方案</p>
+</li>
+<li><p>把session持久化到数据库</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/21/数据库相关面试题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/21/数据库相关面试题/" itemprop="url">数据库相关面试题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-21T20:50:36+08:00">
+                2018-08-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###索引的作用？和它的优点缺点是什么？</p>
+<p>数据库索引，是数据库管理系统中一个排序的数据结构，以协助快速查询、更新数据库表中数据。索引的实现通常使用B树及其变种B+树。</p>
+<p>在数据之外，数据库系统还维护着满足特定查找算法的数据结构，这些数据结构以某种方式引用（指向）数据，这样就可以在这些数据结构上实现高级查找算法。这种数据结构，就是索引。</p>
+<p>为表设置索引要付出代价的：一是增加了数据库的存储空间，二是在插入和修改数据时要花费较多的时间(因为索引也要随之变动)。</p>
+<p>####创建索引可以大大提高系统的性能（优点）：</p>
+<p>第一，通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。</p>
+<p>第二，可以大大加快数据的检索速度，这也是创建索引的最主要的原因。</p>
+<p>第三，可以加速表和表之间的连接，特别是在实现数据的参考完整性方面特别有意义。</p>
+<p>第四，在使用分组和排序子句进行数据检索时，同样可以显著减少查询中分组和排序的时间。</p>
+<p>第五，通过使用索引，可以在查询的过程中，使用优化隐藏器，提高系统的性能。</p>
+<p>####也许会有人要问：增加索引有如此多的优点，为什么不对表中的每一个列创建一个索引呢？因为，增加索引也有许多不利的方面：</p>
+<p>第一，创建索引和维护索引要耗费时间，这种时间随着数据量的增加而增加。</p>
+<p>第二，索引需要占物理空间，除了数据表占数据空间之外，每一个索引还要占一定的物理空间，如果要建立聚簇索引，那么需要的空间就会更大。</p>
+<p>第三，当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，这样就降低了数据的维护速度。</p>
+<p>索引是建立在数据库表中的某些列的上面。在创建索引的时候，应该考虑在哪些列上可以创建索引，在哪些列上不能创建索引。</p>
+<p>####一般来说，应该在这些列上创建索引：</p>
+<p>（1）在经常需要搜索的列上，可以加快搜索的速度；</p>
+<p>（2）在作为主键的列上，强制该列的唯一性和组织表中数据的排列结构；</p>
+<p>（3）在经常用在连接的列上，这些列主要是一些外键，可以加快连接的速度；</p>
+<p>（4）在经常需要根据范围进行搜索的列上创建索引，因为索引已经排序，其指定的范围是连续的；</p>
+<p>（5）在经常需要排序的列上创建索引，因为索引已经排序，这样查询可以利用索引的排序，加快排序查询时间；</p>
+<p>（6）在经常使用在WHERE子句中的列上面创建索引，加快条件的判断速度。</p>
+<p>####同样，对于有些列不应该创建索引：</p>
+<p>第一，对于那些在查询中很少使用或者参考的列不应该创建索引。这是因为，既然这些列很少使用到，因此有索引或者无索引，并不能提高查询速度。相反，由于增加了索引，反而降低了系统的维护速度和增大了空间需求。</p>
+<p>第二，对于那些只有很少数据值的列也不应该增加索引。这是因为，由于这些列的取值很少，例如人事表的性别列，在查询的结果中，结果集的数据行占了表中数据行的很大比例，即需要在表中搜索的数据行的比例很大。增加索引，并不能明显加快检索速度。</p>
+<p>第三，对于那些定义为text, image和bit数据类型的列不应该增加索引。这是因为，这些列的数据量要么相当大，要么取值很少。</p>
+<p>第四，当修改性能远远大于检索性能时，不应该创建索引。这是因为，修改性能和检索性能是互相矛盾的。当增加索引时，会提高检索性能，但是会降低修改性能。当减少索引时，会提高修改性能，降低检索性能。因此，当修改性能远远大于检索性能时，不应该创建索引。</p>
+<p>###列举几种表连接方式,有什么区别？</p>
+<p>内连接：只有两个元素表相匹配的才能在结果集中显示。 </p>
+<p>外连接： </p>
+<p>左外连接:左边为驱动表，驱动表的数据全部显示，匹配表的不匹配的不会显示。 </p>
+<p>右外连接:右边为驱动表，驱动表的数据全部显示，匹配表的不匹配的不会显示。 </p>
+<p>全外连接：连接的表中不匹配的数据全部会显示出来。 </p>
+<p>交叉连接： 笛卡尔效应，显示的结果是链接表数的乘积</p>
+<p>###主键和外键的区别？</p>
+<p>主键在本表中是唯一的、不可唯空的，外键可以重复可以唯空；外键和另一张表的主键关联，不能创建对应表中不存在的外键。</p>
+<p>###在数据库中查询语句速度很慢，如何优化？</p>
+<ol>
+<li><p>建索引 </p>
+</li>
+<li><p>减少表之间的关联 </p>
+</li>
+<li><p>优化sql，尽量让sql很快定位数据，不要让sql做全表查询，应该走索引,把数据 量大的表排在前面 </p>
+</li>
+<li><p>简化查询字段，没用的字段不要，已经对返回结果的控制，尽量返回少量数据 </p>
+</li>
+<li><p>尽量用PreparedStatement来查询，不要用Statement</p>
+</li>
+</ol>
+<p>###数据库三范式是什么?</p>
+<p>第一范式：列不可再分 </p>
+<p>第二范式：行可以唯一区分，主键约束 </p>
+<p>第三范式：表的非主属性不能依赖与其他表的非主属性 外键约束 </p>
+<p>三大范式是一级一级依赖的，第二范式建立在第一范式上，第三范式建立第一第二范式上</p>
+<p>###union和union all有什么不同?</p>
+<p>UNION在进行表链接后会筛选掉重复的记录，所以在表链接后会对所产生的结果集进行<strong><em>排序运算，删除重复</em></strong>的记录再返回结果。</p>
+<p>实际大部分应用中是不会产生重复的记录，最常见的是过程表与历史表UNION。 UNION ALL只是简单的将两个结果合并后就返回。这样，如果返回的两个结果集中有重复的数据，那么返回的结果集就会包含重复的数据了。 </p>
+<p>从效率上说，UNION ALL 要比UNION快很多，所以，如果可以确认合并的两个结果集中不包含重复的数据的话，那么就使用UNION ALL。</p>
+<p>###truncate与 delete区别</p>
+<p>TRUNCATE TABLE 在功能上与不带 WHERE 子句的 DELETE 语句相同：二者均删除表中的全部行。但 TRUNCATE TABLE 比 DELETE 速度快，且使用的系统和事务日志资源少。 DELETE 语句每次删除一行，并在事务日志中为所删除的每行记录一项。</p>
+<p>TRUNCATE TABLE 通过释放存储表数据所用的数据页来删除数据，并且只在事务日志中记录页的释放。 TRUNCATE,DELETE,DROP 放在一起比较：</p>
+<p>TRUNCATE TABLE ：删除内容、释放空间但不删除定义。</p>
+<p>DELETE TABLE: 删除内容不删除定义，不释放空间。</p>
+<p>DROP TABLE ：删除内容和定义，释放空间。</p>
+<p>####innodb引擎的4大特性</p>
+<ol>
+<li><p>插入缓冲（insert buffer)</p>
+</li>
+<li><p>二次写(double write) </p>
+</li>
+<li><p>自适应哈希索引(ahi) </p>
+</li>
+<li><p>预读(read ahead) </p>
+</li>
+</ol>
+<p>####什么情况下设置了索引但无法使用 </p>
+<ol>
+<li><p>以“%”开头的LIKE语句，模糊匹配</p>
+</li>
+<li><p>OR语句前后没有同时使用索引</p>
+</li>
+<li><p>数据类型出现隐式转化（如varchar不加单引号的话可能会自动转换为int型）</p>
+</li>
+</ol>
+<p>####实践中如何优化MySQL</p>
+<p>① SQL语句及索引的优化</p>
+<p>② 数据库表结构的优化</p>
+<p>③ 系统配置的优化</p>
+<p>④ 硬件的优化</p>
+<p>####简单描述mysql中，索引，主键，唯一索引，联合索引的区别，对数据库的性能有什么影响（从读写两方面）</p>
+<p>索引是一种特殊的文件(InnoDB数据表上的索引是表空间的一个组成部分)，它们包含着对数据表里所有记录的引用指针。<br>普通索引(由关键字KEY或INDEX定义的索引)的唯一任务是加快对数据的访问速度。</p>
+<p>普通索引允许被索引的数据列包含重复的值。如果能确定某个数据列将只包含彼此各不相同的值，在为这个数据列创建索引的时候就应该用关键字UNIQUE把它定义为一个唯一索引。也就是说，唯一索引可以保证数据记录的唯一性。</p>
+<p>主键，是一种特殊的唯一索引，在一张表中只能定义一个主键索引，主键用于唯一标识一条记录，使用关键字PRIMARY KEY 来创建。<br>索引可以覆盖多个数据列，如像INDEX(columnA, columnB)索引，这就是联合索引。</p>
+<p>索引可以极大的提高数据的查询速度，但是会降低插入、删除、更新表的速度，因为在执行这些写操作时，还要操作索引文件。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/20/hadoop-mapreduce框架详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sujunwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sjw_blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/20/hadoop-mapreduce框架详解/" itemprop="url">hadoop详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-20T14:37:01+08:00">
+                2018-08-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###hadoop-mapreduce框架详解</p>
+<p><a><a href="https://www.cnblogs.com/sharpxiajun/p/3151395.html" target="_blank" rel="noopener">https://www.cnblogs.com/sharpxiajun/p/3151395.html</a></a></p>
+<p>###Hbase学习笔记</p>
+<p><a><a href="https://www.cnblogs.com/sharpxiajun/p/5107470.html" target="_blank" rel="noopener">https://www.cnblogs.com/sharpxiajun/p/5107470.html</a></a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/18/链表笔试/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -600,50 +1228,41 @@
 <p>4、为什么要用flume导入hdfs，hdfs的构架是怎样的</p>
 <p>5、map-reduce程序运行的时候会有什么比较常见的问题</p>
 <p>6、简单说一下hadoop和spark的shuffle过程</p>
-<p>###简答说一下hadoop的map-reduce编程模型</p>
-<p>首先map task会从本地文件系统读取数据，转换成key-value形式的键值对集合</p>
+<h3 id="简答说一下hadoop的map-reduce编程模型"><a href="#简答说一下hadoop的map-reduce编程模型" class="headerlink" title="简答说一下hadoop的map-reduce编程模型"></a>简答说一下hadoop的map-reduce编程模型</h3><p>首先map task会从本地文件系统读取数据，转换成key-value形式的键值对集合</p>
 <p>使用的是hadoop内置的数据类型，比如longwritable、text等</p>
 <p>将键值对集合输入mapper进行业务处理过程，将其转换成需要的key-value在输出</p>
 <p>之后会进行一个partition分区操作，默认使用的是hashpartitioner，可以通过重写hashpartitioner的getpartition方法来自定义分区规则</p>
 <p>之后会对key进行进行sort排序，grouping分组操作将相同key的value合并分组输出，在这里可以使用自定义的数据类型，重写WritableComparator的Comparator方法来自定义排序规则，重写RawComparator的compara方法来自定义分组规则</p>
 <p>之后进行一个combiner归约操作，其实就是一个本地段的reduce预处理，以减小后面shufle和reducer的工作量</p>
 <p>reduce task会通过网络将各个数据收集进行reduce处理，最后将数据保存或者显示，结束整个job</p>
-<p>###hadoop的TextInputFormat作用是什么，如何自定义实现</p>
-<p>InputFormat会在map操作之前对数据进行两方面的预处理</p>
+<h3 id="hadoop的TextInputFormat作用是什么，如何自定义实现"><a href="#hadoop的TextInputFormat作用是什么，如何自定义实现" class="headerlink" title="hadoop的TextInputFormat作用是什么，如何自定义实现"></a>hadoop的TextInputFormat作用是什么，如何自定义实现</h3><p>InputFormat会在map操作之前对数据进行两方面的预处理</p>
 <p>1是getSplits，返回的是InputSplit数组，对数据进行split分片，每片交给map操作一次 </p>
 <p>2是getRecordReader，返回的是RecordReader对象，对每个split分片进行转换为key-value键值对格式传递给map</p>
 <p>常用的InputFormat是TextInputFormat，使用的是LineRecordReader对每个分片进行键值对的转换，以行偏移量作为键，行内容作为值</p>
 <p>自定义类继承InputFormat接口，重写createRecordReader和isSplitable方法<br>在createRecordReader中可以自定义分隔符</p>
-<p>###hadoop和spark的都是并行计算，那么他们有什么相同和区别</p>
-<p>两者都是用mr模型来进行并行计算，hadoop的一个作业称为job，job里面分为map task和reduce task，每个task都是在自己的进程中运行的，当task结束时，进程也会结束</p>
+<h3 id="hadoop和spark的都是并行计算，那么他们有什么相同和区别"><a href="#hadoop和spark的都是并行计算，那么他们有什么相同和区别" class="headerlink" title="hadoop和spark的都是并行计算，那么他们有什么相同和区别"></a>hadoop和spark的都是并行计算，那么他们有什么相同和区别</h3><p>两者都是用mr模型来进行并行计算，hadoop的一个作业称为job，job里面分为map task和reduce task，每个task都是在自己的进程中运行的，当task结束时，进程也会结束</p>
 <p>spark用户提交的任务成为application，一个application对应一个sparkcontext，app中存在多个job，每触发一次action操作就会产生一个job</p>
 <p>这些job可以并行或串行执行，每个job中有多个stage，stage是shuffle过程中DAGSchaduler通过RDD之间的依赖关系划分job而来的，每个stage里面有多个task，组成taskset有TaskSchaduler分发到各个executor中执行，executor的生命周期是和app一样的，即使没有job运行也是存在的，所以task可以快速启动读取内存进行计算</p>
 <p>hadoop的job只有map和reduce操作，表达能力比较欠缺而且在mr过程中会重复的读写hdfs，造成大量的io操作，多个job需要自己管理关系</p>
 <p>spark的迭代计算都是在内存中进行的，API中提供了大量的RDD操作如join，groupby等，而且通过DAG图可以实现良好的容错</p>
-<p>###为什么要用flume导入hdfs，hdfs的构架是怎样的</p>
-<p>flume可以实时的导入数据到hdfs中，当hdfs上的文件达到一个指定大小的时候会形成一个文件，或者超过指定时间的话也形成一个文件</p>
+<h3 id="为什么要用flume导入hdfs，hdfs的构架是怎样的"><a href="#为什么要用flume导入hdfs，hdfs的构架是怎样的" class="headerlink" title="为什么要用flume导入hdfs，hdfs的构架是怎样的"></a>为什么要用flume导入hdfs，hdfs的构架是怎样的</h3><p>flume可以实时的导入数据到hdfs中，当hdfs上的文件达到一个指定大小的时候会形成一个文件，或者超过指定时间的话也形成一个文件</p>
 <p>文件都是存储在datanode上面的，namenode记录着datanode的元数据信息，而namenode的元数据信息是存在内存中的，所以当文件切片很小或者很多的时候会卡死</p>
-<p>###map-reduce程序运行的时候会有什么比较常见的问题</p>
-<p>比如说作业中大部分都完成了，但是总有几个reduce一直在运行</p>
+<h3 id="map-reduce程序运行的时候会有什么比较常见的问题"><a href="#map-reduce程序运行的时候会有什么比较常见的问题" class="headerlink" title="map-reduce程序运行的时候会有什么比较常见的问题"></a>map-reduce程序运行的时候会有什么比较常见的问题</h3><p>比如说作业中大部分都完成了，但是总有几个reduce一直在运行</p>
 <p>这是因为这几个reduce中的处理的数据要远远大于其他的reduce，可能是因为对键值对任务划分的不均匀造成的数据倾斜</p>
 <p>解决的方法可以在分区的时候重新定义分区规则对于value数据很多的key可以进行拆分、均匀打散等处理，或者是在map端的combiner中进行数据预处理的操作</p>
-<p>###Flume工作机制是什么？ </p>
-<p>核心概念是agent，里面包括<strong><em>source、chanel和sink</em></strong>三个组件。<br>source运行在日志收集节点进行日志采集，之后临时存储在chanel中，sink负责将chanel中的数据发送到目的地。 </p>
+<h3 id="Flume工作机制是什么？"><a href="#Flume工作机制是什么？" class="headerlink" title="Flume工作机制是什么？"></a>Flume工作机制是什么？</h3><p>核心概念是agent，里面包括<strong><em>source、chanel和sink</em></strong>三个组件。<br>source运行在日志收集节点进行日志采集，之后临时存储在chanel中，sink负责将chanel中的数据发送到目的地。 </p>
 <p>只有成功发送之后chanel中的数据才会被删除。 </p>
 <p>首先书写flume配置文件，定义agent、source、chanel和sink然后将其组装，执行flume-ng命令。</p>
-<p>###driver的功能是什么？</p>
-<p>1）一个Spark作业运行时包括一个Driver进程，也是作业的主进程，具有main函数，并且有SparkContext的实例，是程序的人口点；</p>
+<h3 id="driver的功能是什么？"><a href="#driver的功能是什么？" class="headerlink" title="driver的功能是什么？"></a>driver的功能是什么？</h3><p>1）一个Spark作业运行时包括一个Driver进程，也是作业的主进程，具有main函数，并且有SparkContext的实例，是程序的人口点；</p>
 <p>2）功能：负责向集群申请资源，向master注册信息，负责了作业的调度，负责作业的解析、生成Stage并调度Task到Executor上。包括DAGScheduler，TaskScheduler。</p>
-<p>###hadoop和spark的shuffle相同和差异？</p>
-<p>从 high-level 的角度来看，两者并没有大的差别。 都是将 mapper（Spark 里是 ShuffleMapTask）的输出进行 partition，不同的 partition 送到不同的 reducer（Spark 里 reducer 可能是下一个 stage 里的 ShuffleMapTask，也可能是 ResultTask）。Reducer 以内存作缓冲区，边 shuffle 边 aggregate 数据，等到数据 aggregate 好以后进行 reduce() （Spark 里可能是后续的一系列操作）。</p>
+<h3 id="hadoop和spark的shuffle相同和差异？"><a href="#hadoop和spark的shuffle相同和差异？" class="headerlink" title="hadoop和spark的shuffle相同和差异？"></a>hadoop和spark的shuffle相同和差异？</h3><p>从 high-level 的角度来看，两者并没有大的差别。 都是将 mapper（Spark 里是 ShuffleMapTask）的输出进行 partition，不同的 partition 送到不同的 reducer（Spark 里 reducer 可能是下一个 stage 里的 ShuffleMapTask，也可能是 ResultTask）。Reducer 以内存作缓冲区，边 shuffle 边 aggregate 数据，等到数据 aggregate 好以后进行 reduce() （Spark 里可能是后续的一系列操作）。</p>
 <p>2）从 low-level 的角度来看，两者差别不小。 Hadoop MapReduce 是 sort-based，进入 combine() 和 reduce() 的 records 必须先 sort。这样的好处在于 combine/reduce() 可以处理大规模的数据，因为其输入数据可以通过外排得到（mapper 对每段数据先做排序，reducer 的 shuffle 对排好序的每段数据做归并）。目前的 Spark 默认选择的是 hash-based，通常使用 HashMap 来对 shuffle 来的数据进行 aggregate，不会对数据进行提前排序。如果用户需要经过排序的数据，那么需要自己调用类似 sortByKey() 的操作；如果你是Spark 1.1的用户，可以将spark.shuffle.manager设置为sort，则会对数据进行排序。在Spark 1.2中，sort将作为默认的Shuffle实现。</p>
 <p>3）从实现角度来看，两者也有不少差别。 Hadoop MapReduce 将处理流程划分出明显的几个阶段：map(), spill, merge, shuffle, sort, reduce() 等。每个阶段各司其职，可以按照过程式的编程思想来逐一实现每个阶段的功能。在 Spark 中，没有这样功能明确的阶段，只有不同的 stage 和一系列的 transformation()，所以 spill, merge, aggregate 等操作需要蕴含在 transformation() 中。如果我们将 map 端划分数据、持久化数据的过程称为 shuffle write，而将 reducer 读入数据、aggregate 数据的过程称为 shuffle read。那么在 Spark 中，问题就变为怎么在 job 的逻辑或者物理执行图中加入 shuffle write 和 shuffle read 的处理逻辑？以及两个处理逻辑应该怎么高效实现？ Shuffle write由于不要求数据有序，shuffle write 的任务很简单：将数据 partition 好，并持久化。之所以要持久化，一方面是要减少内存存储空间压力，另一方面也是为了 fault-tolerance。</p>
-<p>###Spark中数据的位置是被谁管理的？</p>
-<p>每个数据分片都对应具体物理位置，数据的位置是被blockManager，无论数据是在磁盘，内存还是tacyan，都是由blockManager管理</p>
-<p>###rdd有几种操作类型？<br>1）transformation，rdd由一种转为另一种rdd</p>
+<h3 id="Spark中数据的位置是被谁管理的？"><a href="#Spark中数据的位置是被谁管理的？" class="headerlink" title="Spark中数据的位置是被谁管理的？"></a>Spark中数据的位置是被谁管理的？</h3><p>每个数据分片都对应具体物理位置，数据的位置是被blockManager，无论数据是在磁盘，内存还是tacyan，都是由blockManager管理</p>
+<h3 id="rdd有几种操作类型？"><a href="#rdd有几种操作类型？" class="headerlink" title="rdd有几种操作类型？"></a>rdd有几种操作类型？</h3><p>1）transformation，rdd由一种转为另一种rdd</p>
 <p>2）action，</p>
 <p>3）cronroller，crontroller是控制算子,cache,persist，对性能和效率的有很好的支持三种类型，不要回答只有2中操作</p>
-<p>#join操作优化经验？<br>join其实常见的就分为两类： map-side join 和  reduce-side join。当大表和小表join时，用map-side join能显著提高效率。将多份数据进行关联是数据处理过程中非常普遍的用法，不过在分布式计算系统中，这个问题往往会变的非常麻烦，因为框架提供的 join 操作一般会将所有数据根据 key 发送到所有的 reduce 分区中去，也就是 shuffle 的过程。造成大量的网络以及磁盘IO消耗，运行效率极其低下，这个过程一般被称为 reduce-side-join。如果其中有张表较小的话，我们则可以自己实现在 map 端实现数据关联，跳过大量数据进行 shuffle 的过程，运行时间得到大量缩短，根据不同数据可能会有几倍到数十倍的性能提升。</p>
+<h1 id="join操作优化经验？"><a href="#join操作优化经验？" class="headerlink" title="join操作优化经验？"></a>join操作优化经验？</h1><p>join其实常见的就分为两类： map-side join 和  reduce-side join。当大表和小表join时，用map-side join能显著提高效率。将多份数据进行关联是数据处理过程中非常普遍的用法，不过在分布式计算系统中，这个问题往往会变的非常麻烦，因为框架提供的 join 操作一般会将所有数据根据 key 发送到所有的 reduce 分区中去，也就是 shuffle 的过程。造成大量的网络以及磁盘IO消耗，运行效率极其低下，这个过程一般被称为 reduce-side-join。如果其中有张表较小的话，我们则可以自己实现在 map 端实现数据关联，跳过大量数据进行 shuffle 的过程，运行时间得到大量缩短，根据不同数据可能会有几倍到数十倍的性能提升。</p>
 
           
         
@@ -1257,729 +1876,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/09/面试day5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/09/面试day5/" itemprop="url">面试day5</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-09T15:40:32+08:00">
-                2018-08-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##HashMap的Key为Object怎么办</p>
-<p>HashMap中，如果要比较key是否相等，要同时使用hashcode(),equals(),因为自定义的类的hashcode()方法继承于Object类，其hashcode码为默认的内存地 址，这样即便有相同含义的两个对象，比较也是不相等的，例如，生成了两个“羊”对象，正常理解这两个对象应该是相等的，但如果你不重写 hashcode（）方法的话，比较是不相等的！<br>      HashMap中的比较key是这样的，先求出key的hashcode(),比较其值是否相等，若相等再比较equals(),若相等则认为他们是相等 的。若equals()不相等则认为他们不相等。如果只重写hashcode()不重写equals()方法，当比较equals()时只是看他们是否为 同一对象（即进行内存地址的比较）,所以必定要两个方法一起重写。HashMap用来判断key是否相等的方法，其实是调用了HashSet判断加入元素 是否相等。</p>
-<p>##浏览器从接收到一个URL到最后展示出页面，经历了哪些过程。</p>
-<p>####整体通信</p>
-<p>有了客户端和服务器，就可以开始通信了，整体上分为3个步骤：</p>
-<ul>
-<li>因为http是构建在TCP之上，那么自然是要经过3次握手创建连接。</li>
-<li>创建连接后，服务器会根据url请求中的信息进行处理，作出响应，一般来说是找到一个html文件返回给客户端。</li>
-<li>客户端即浏览器得到html，进行渲染。</li>
-</ul>
-<ol>
-<li><p>缓存解析</p>
-<p> 浏览器缓存-系统缓存-路由器缓存 当中查看，如果有从缓存当中显示页面</p>
-</li>
-<li><p>DNS解析</p>
-<p> 域名到IP地址的转换过程，递归查询，非递归查询</p>
-</li>
-<li><p>创建连接</p>
-<p> http三次握手</p>
-<p> <strong><em>为什么要三次握手</em></strong></p>
-<p> 计算机A和B之间的通信，假定B给A发送一个连接请求分组，A收到了这个分组，并发送了确认应答分组。按照两次握手的协定，A认为连接已经成功地建立了，可以开始发送数据分组。可是，B在A的应答分组在传输中被丢失的情况下，将不知道A是否已准备好，不知道A建议什么样的序列号，B甚至怀疑A是否收到自己的连接请求分组。在这种情况下，B认为连接还未建立成功，将忽略A发来的任何数据分组，只等待连接确认应答分组。而A在发出的分组超时后，重复发送同样的分组。这样就形成了死锁</p>
-</li>
-<li><p>服务器处理</p>
-<p> 建立好连接后，客户端就会发送http请求，请求信息包含一个头部和一个请求体，</p>
-<p> 一般的web技术都会把请求进行封装然后交给我们的服务器进行处理，比如servlet会把请求封装成httpservletrequest对象，把响应封装成httpsevletresponse对象。nodejs的http模块，当你创建服务器的时候会写一个回调函数，回调的参数用来接受http请求对象和响应对象，然后在回调函数中对请求进行处理。</p>
-</li>
-<li><p>客户端渲染</p>
-<p>客户端接收到服务器传来的响应对象，从中得到html字符串和MIME，根据MIME知道了要用页面渲染引擎来处理内容即html字符串。<br>渲染引擎得到html字符串作为输入，然后对html进行转换，转化成能够被DOM处理的形式，接着转换成一个dom树，在解析html的过程，解析到<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line"></span><br><span class="line">##最安全的单例模式--java使用内部类实现单例模式</span><br><span class="line">	</span><br><span class="line">使用内部类可以避免这个问题，因为在多线程环境下，jvm对一个类的初始化会做限制，同一时间只会允许一个线程去初始化一个类，这样就从虚拟机层面避免了大部分单例实现的问题</span><br><span class="line"></span><br><span class="line">```Java</span><br><span class="line">public class Singleton &#123;</span><br><span class="line"></span><br><span class="line">    private static class LazyHolder &#123;    </span><br><span class="line">       private static final Singleton INSTANCE = new Singleton();    </span><br><span class="line">     &#125;    </span><br><span class="line">     private Singleton ()&#123;&#125;    </span><br><span class="line">     public static final Singleton getInstance() &#123;    </span><br><span class="line">        return LazyHolder.INSTANCE;    </span><br><span class="line">     &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-</li>
-</ol>
-<p>##网络协议 7层 应-表-会-传-网-数-物</p>
-<ul>
-<li><p>应用层</p>
-<p>  与其它计算机进行通讯的一个应用，它是对应应用程序的通信服务的。例如，一个没有通信功能的字处理程序就不能执行通信的代码，从事字处理工作的程序员也不关心OSI的第7层。但是，如果添加了一个传输文件的选项，那么字处理器的程序员就需要实现OSI的第7层。示例：TELNET，HTTP，FTP，NFS，SMTP等。</p>
-</li>
-<li><p>表示层</p>
-<p>  这一层的主要功能是定义数据格式及加密。例如，FTP允许你选择以二进制或ASCII格式传输。如果选择二进制，那么发送方和接收方不改变文件的内容。如果选择ASCII格式，发送方将把文本从发送方的字符集转换成标准的ASCII后发送数据。在接收方将标准的ASCII转换成接收方计算机的字符集。示例：加密，ASCII等。</p>
-</li>
-<li><p>会话层</p>
-<p>  它定义了如何开始、控制和结束一个会话，包括对多个双向消息的控制和管理，以便在只完成连续消息的一部分时可以通知应用，从而使表示层看到的数据是连续的，在某些情况下，如果表示层收到了所有的数据，则用数据代表表示层。示例：RPC，SQL等。</p>
-</li>
-<li><p>传输层</p>
-<p>  这层的功能包括是否选择差错恢复协议还是无差错恢复协议，及在同一主机上对不同应用的数据流的输入进行复用，还包括对收到的顺序不对的数据包的重新排序功能。示例：TCP，UDP，SPX。</p>
-</li>
-<li><p>网络层</p>
-<p>  这层对端到端的包传输进行定义，它定义了能够标识所有结点的逻辑地址，还定义了路由实现的方式和学习的方式。为了适应最大传输单元长度小于包长度的传输介质，网络层还定义了如何将一个包分解成更小的包的分段方法。示例：IP，IPX等。</p>
-</li>
-<li><p>数据链路层</p>
-<p>  它定义了在单个链路上如何传输数据。这些协议与被讨论的各种介质有关。示例：ATM，FDDI等。</p>
-</li>
-<li><p>物理层</p>
-<p>  OSI的物理层规范是有关传输介质的特这些规范通常也参考了其他组织制定的标准。连接头、帧、帧的使用、电流、编码及光调制等都属于各种物理层规范中的内容。物理层常用多个规范完成对所有细节的定义。示例：Rj45，802.3等。</p>
-</li>
-</ul>
-<p>###Spring循环依赖</p>
-<p>Spring将对象依赖分成属性依赖和构造依赖，构造依赖问题无法解决，只能抛出BeanCurrentlyInCreationException异常，在解决属性依赖问题，Spring采用的是提前暴露对象的方法。 </p>
-<p>首先Spring创建office对象，采用其默认构造函数，创建成功后，Spring会通过以下代码将对象提前暴露出来，尽管此时的对象还未完成属性注入，属于早期对象。这个时候对象放在singletonFactories的Map表中，value是函数对象ObjectFactory.</p>
-<p>Spring会通过函数populateBean来完成office对象的属性注入，再注入boss属性时，发现是一个引用对象，这个时候同样会通过getBean(“boss”)来获得boss对象，boss对象由于从未创建，则创建boss对象。在创建boss对象时，发现它构造依赖于office对象，这个时候Spring也会通过getBean(“office”)获取office对象。由于存在office提前暴露出来，这个时候直接从singletonFactories的Map表中得到office对象并返回，并不需要重新再创建office对象，这样就避免了循环依赖问题，接下来boss对象可以成功被创建，则返回到到office的属性注入中。</p>
-<p>###消息队列</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.Condition;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.Lock;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.locks.ReentrantLock;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedBlockingQueue</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> capacity;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    <span class="keyword">private</span> LinkedList&lt;E&gt; queue;<span class="comment">//缓冲区</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count; <span class="comment">//缓冲区商品个数</span></span><br><span class="line">    <span class="keyword">private</span> Condition unfull = lock.newCondition();</span><br><span class="line">    <span class="keyword">private</span> Condition unEmpty = lock.newCondition();</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinkedBlockingQueue</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(Integer.MAX_VALUE);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinkedBlockingQueue</span><span class="params">(<span class="keyword">int</span> capacity)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.capacity = capacity;</span><br><span class="line">        queue = <span class="keyword">new</span> LinkedList&lt;E&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(E e)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">     </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (count == capacity) &#123;</span><br><span class="line">                unfull.await();<span class="comment">//阻塞队列已满，一直等待，直到有unfull</span></span><br><span class="line">            &#125;</span><br><span class="line">            lock.lock(); <span class="comment">//内层互斥夹紧</span></span><br><span class="line">            queue.add(e);</span><br><span class="line">            count++;</span><br><span class="line">            lock.unlock();</span><br><span class="line">            unfull.signal();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">take</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (count == <span class="number">0</span>) &#123;<span class="comment">//队列为空，阻塞.一直等待指导有商品（unEmpty）</span></span><br><span class="line">                unEmpty.await();</span><br><span class="line">            &#125;</span><br><span class="line">            lock.lock();</span><br><span class="line">            E e = queue.pop();</span><br><span class="line">            count--;</span><br><span class="line">            lock.unlock();</span><br><span class="line">            unEmpty.signal();</span><br><span class="line">            <span class="keyword">return</span> e;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/07/面试day4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/07/面试day4/" itemprop="url">面试day4</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-07T16:32:09+08:00">
-                2018-08-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#java hashcode和equals</p>
-<p>hashcode是JVM对对象的内存地址做一定的计算后的到的一个int值</p>
-<p>对于equals()与hashcode()，比较通用的规则：<br>①两个obj，如果equals()相等，hashCode()一定相等<br>②两个obj，如果hashCode()相等，equals()不一定相等</p>
-<p>2）在设计一个类的时候往往需要重写equals方法，比如String类，在重写equals方法的同时，必须重写hashCode方法。<br>如果我们对一个对象重写了euqals，意思是只要对象的成员变量值都相等那么euqals就等于true，但不重写hashcode，那么我们再new一个新的对象，当原对象.equals（新对象）等于true时，两者的hashcode却是不一样的，由此将产生了理解的不一致，如在存储散列集合时（如Set类），将会存储了两个值一样的对象，导致混淆，因此，就也需要重写hashcode()。 </p>
-<p>#内部类</p>
-<p>###为什么成员内部类可以无条件访问外部类的成员？</p>
-<p>编译器会默认为成员内部类添加了一个指向外部类对象的引用，那么这个引用是如何赋初值的呢？</p>
-<p>虽然在定义的内部类的构造器是无参构造器，编译器还是会默认添加一个参数，该参数的类型为指向外部类对象的一个引用，所以成员内部类中的Outter this&amp;0 指针便指向了外部类对象，因此可以在成员内部类中随意访问外部类的成员。从这里也间接说明了成员内部类是依赖于外部类的，如果没有创建外部类的对象，则无法对Outter this&amp;0引用进行初始化赋值，也就无法创建成员内部类的对象了。</p>
-<p>###为什么局部内部类和匿名内部类只能访问局部final变量？</p>
-<p>　当外部类方法执行完毕之后，变量的生命周期就结束了，而此时内部类对象的生命周期很可能还没有结束，那么在内部类的方法中继续访问变量就变成不可能了，但是又要实现这样的效果，怎么办呢？Java采用了final复制的手段来解决这个问题。将这段代码的字节码反编译可以得到下面的内容
-　
-　</p>
-<p>#synchronized与Lock的区别</p>
-<p>###synchronized与Lock的区别</p>
-<p><strong>synchronized</strong></p>
-<p>Java的关键字，在jvm层面上</p>
-<p>1、以获取锁的线程执行完同步代码，释放锁 2、线程执行发生异常，jvm会让线程释放锁</p>
-<p>假设A线程获得锁，B线程等待。如果A线程阻塞，B线程会一直等待</p>
-<p>可重入 不可中断 非公平</p>
-<p><strong>Lock</strong></p>
-<p>是一个类</p>
-<p>在finally中必须释放锁，不然容易造成线程死锁</p>
-<p>分情况而定，Lock有多个锁获取的方式，具体下面会说道，大致就是可以尝试获得锁，线程可以不用一直等待</p>
-<p>可重入 可判断 可公平（两者皆可）</p>
-<p>###两种锁的底层实现方式</p>
-<p>synchronized映射成字节码指令就是增加来两个指令：<strong>monitorenter</strong>和<strong>monitorexit</strong>。当一条线程进行执行的遇到monitorenter指令的时候，它会去尝试获得锁，如果获得锁那么锁计数+1（为什么会加一呢，因为它是一个可重入锁，所以需要用这个锁计数判断锁的情况），如果没有获得锁，那么阻塞。当它遇到monitorexit的时候，锁计数器-1，当计数器为0，那么就释放锁。</p>
-<p>那么有的朋友看到这里就疑惑了，那图上有2个monitorexit呀？马上回答这个问题：上面我以前写的文章也有表述过，synchronized锁释放有两种机制，一种就是执行完释放；另外一种就是发送异常，虚拟机释放。</p>
-<p>而Lock用的是乐观锁方式。所谓乐观锁就是，每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。乐观锁实现的机制就是CAS操作（Compare and Swap）。我们可以进一步研究ReentrantLock的源代码，会发现其中比较重要的获得锁的一个方法是compareAndSetState。这里其实就是调用的CPU提供的特殊指令。</p>
-<p>###索引</p>
-<ul>
-<li>数据唯一性差的字段不要使用索引</li>
-</ul>
-<p>比如性别，只有两种可能数据。意味着索引的二叉树级别少，多是平级。这样的二叉树查找无异于全表扫描。</p>
-<ul>
-<li>频繁更新的字段不要使用索引</li>
-</ul>
-<p>比如logincount登录次数，频繁变化导致索引也频繁变化，增大数据库工作量，降低效率。</p>
-<ul>
-<li>字段不在where语句出现时不要添加索引</li>
-</ul>
-<p>只有在where语句出现，mysql才会去使用索引</p>
-<ul>
-<li>数据量少的表不要使用索引</li>
-</ul>
-<p>使用了改善也不大<br>另外。如果mysql估计使用全表扫描要比使用索引快，则不会使用索引。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/03/面试day3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/03/面试day3/" itemprop="url">面试day3</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-03T15:56:34+08:00">
-                2018-08-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#JAVA进程间的通信方式（IPC）</p>
-<p>JAVA进程间通信的方法主要有以下几种：</p>
-<ol>
-<li>管道（Pipe）：管道可用于具有亲缘关系进程间的通信，允许一个进程和另一个与它有共同祖先的进程之间进行通信。
-　　</li>
-<li>命名管道（named pipe）：命名管道克服了管道没有名字的限制，除具有管道所具有的功能外，它还允许无亲缘关系进程间的通信。
-　　</li>
-<li>信号（Signal）：信号是比较复杂的通信方式，用于通知接受进程有某种事件发生，除了用于进程间通信外，进程还可以发送 信号给进程本身。
-　　</li>
-<li>消息（Message）队列：消息队列是消息的链接表，包括Posix消息队列system V消息队列。
-　　</li>
-<li>共享内存：使得多个进程可以访问同一块内存空间，是最快的可用IPC形式。是针对其他通信机制运行效率较低而设计的。
-　　</li>
-<li>内存映射（mapped memory）：内存映射允许任何多个进程间通信，每一个使用该机制的进程通过把一个共享的文件映射到自己的进程地址空间来实现它。
-　　</li>
-<li>信号量（semaphore）：主要作为进程间以及同一进程不同线程之间的同步手段。
-　　</li>
-<li>套接口（Socket）：更为一般的进程间通信机制，可用于不同机器之间的进程间通信。</li>
-</ol>
-<p>#Java线程间的通信方式</p>
-<p>###锁<br>synchronized、notify、wait</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (threadToGo) &#123;</span><br><span class="line">                            <span class="keyword">while</span>(条件)                                										threadToGo.wait();</span><br><span class="line">                      		  <span class="keyword">do</span> something</span><br><span class="line">                            threadToGo.notify();</span><br><span class="line">                        &#125;</span><br></pre></td></tr></table></figure>
-<p>Lock和Condition</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock(<span class="keyword">true</span>);</span><br><span class="line"><span class="keyword">private</span> Condition condition = lock.newCondition();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">lock.lock();</span><br><span class="line"><span class="keyword">while</span>(threadToGo.value == <span class="number">2</span>)</span><br><span class="line">   condition.await();</span><br><span class="line">   <span class="keyword">do</span> something</span><br><span class="line">   condition.signal();</span><br></pre></td></tr></table></figure>
-<p>volatile</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> ThreadToGo threadToGo = <span class="keyword">new</span> ThreadToGo();</span><br><span class="line"><span class="keyword">while</span>(threadToGo.value==<span class="number">2</span>)&#123;&#125;</span><br><span class="line">     Helper.print(arr[i], arr[i + <span class="number">1</span>]);</span><br><span class="line">     threadToGo.value=<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
-<p>AtomicInteger</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(threadToGo.get()==<span class="number">2</span>)&#123;&#125;</span><br><span class="line">     Helper.print(arr[i], arr[i + <span class="number">1</span>]);</span><br><span class="line">     threadToGo.set(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
-<p>PipedInputStreamAPI通道</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> PipedInputStream inputStream1;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> PipedOutputStream outputStream1;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> PipedInputStream inputStream2;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> PipedOutputStream outputStream2;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">byte</span>[] MSG;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">MethodSix</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    inputStream1 = <span class="keyword">new</span> PipedInputStream();</span><br><span class="line">    outputStream1 = <span class="keyword">new</span> PipedOutputStream();</span><br><span class="line">    inputStream2 = <span class="keyword">new</span> PipedInputStream();</span><br><span class="line">    outputStream2 = <span class="keyword">new</span> PipedOutputStream();</span><br><span class="line">    MSG = <span class="string">"Go"</span>.getBytes();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        inputStream1.connect(outputStream2);</span><br><span class="line">        inputStream2.connect(outputStream1);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shutdown</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    inputStream1.close();</span><br><span class="line">    inputStream2.close();</span><br><span class="line">    outputStream1.close();</span><br><span class="line">    outputStream2.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://codingsu.github.io/2018/08/03/JVM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sujunwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="sjw_blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/03/JVM/" itemprop="url">JVM</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-03T11:28:43+08:00">
-                2018-08-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#类加载器</p>
-<p>###ClassLoader(类加载器)</p>
-<ul>
-<li>加载：查找并加载类的二进制数据</li>
-<li>连接：<ul>
-<li>验证：确保被加载的类的正确性</li>
-<li>准备：为类的静态变量分配内存，并将其初始化问默认值</li>
-<li>解析：把勒种的符号引用转换为直接引用</li>
-</ul>
-</li>
-<li>初始化：为类的静态变量赋予正确的初始值</li>
-</ul>
-<p>###主动使用-类-初始化</p>
-<ul>
-<li>创建类的实例</li>
-<li>访问某个类或者访问类的静态变量，或者对静态变量赋值</li>
-<li>调用类的静态方法</li>
-<li>反射 （Class.forName）</li>
-<li>初始化一个类的子类</li>
-<li>Java虚拟机启动是包含main函数的类</li>
-</ul>
-<p>###类的加载</p>
-<p>将类的.class文件中的二进制数据读入到内存中，将其放在运行时数据区的方法区内，然后在堆区创建一个Java.lang.Class对象，用来封装类在方法区内的构造函数。</p>
-<p>#对象的内存布局</p>
-<p>###对象</p>
-<p>对象在内存中的存储布局分为3块区域：对象头，实例数据，对齐填充</p>
-<p>对象头包括 Mark Word 如哈希码，GC分代年龄，锁状态标志，线程持有锁，偏向锁id，偏向时间戳。</p>
-<p>对象头还包括类型指针，指向方法区中的那个类实例</p>
-<p>###对象的访问定位</p>
-<p>reference类型来操作具体对象</p>
-<ul>
-<li>句柄引用，句柄中包含了实例数据和类型数据的地址信息（方法区）</li>
-<li>直接引用，存储的就是对象的地址，对象中还包含有类型数据的地址信息（方法去）</li>
-</ul>
-<p>#枚举根节点</p>
-<p>###stop the world</p>
-<ul>
-<li><p>OopMap 记录哪些地方是存储着对象引用</p>
-</li>
-<li><p>安全点(safe point) 在安全点上时，线程可以进入GC</p>
-</li>
-</ul>
-<p>安全点选在以程序“是否具有让程序长时间执行的特征（指令序列复用，比如方法调用，循环指令，异常跳转）”</p>
-<p>当需要GC时，设置一个标志，各个线程执行时都会去轮询这个标志，然后在安全点自己主动挂起</p>
-<ul>
-<li>安全区域（safe Region） 指在一段代码片段中，引用关系不会发生变化，在任意地方GC都是安全的，当线程执行到安全区域，首先把自己表示为进入安全区域，当离开时，需要检查系统是否完成了根节点枚举。</li>
-</ul>
-<p>#方法区中的永久区资源清理</p>
-<ul>
-<li><p>常量  当没有对象引用这个常量时，如果内存不足的话，才会被清理</p>
-</li>
-<li><p>类 判断类的条件比较苛刻</p>
-<ul>
-<li>该类的所有实例都被回收</li>
-<li>加载该类的ClassLoader已经被回收</li>
-<li>该类的java.lang.Class对象没有在任何地方被引用，没有被反射调用该方法</li>
-</ul>
-</li>
-</ul>
-<p>#Class文件</p>
-<p>###包括无符号数和表</p>
-<p>无符号数包括u1,u2,u4,u8(1字节，2字节，4字节，8字节)</p>
-<p>表可以包含多个表，以_info结尾</p>
-<p>###Class文件</p>
-<p>魔数 0xCAFEBABE</p>
-<p>主次版本号第5，6为次版本号，7，8为主板本号</p>
-<p>常量池</p>
-<p>访问标记</p>
-<p>类索引和父类索引 接口索引集合</p>
-<p>……</p>
-<p>#类的加载</p>
-<p>加载-（验证-准备-解析）【连接】-初始化-使用-卸载</p>
-<p>###开始加载</p>
-<ul>
-<li>遇到new，读取或者设置一个类的静态字段，以及调用一个类的静态方法时</li>
-<li>使用java.lang.reflect包的方法对类进行反射调用</li>
-<li>当初始化一个类是，如果父类没有初始化，则初始化父类</li>
-<li>当虚拟机启动时，初始化包含main函数的类</li>
-</ul>
-<p>###加载的工作</p>
-<ul>
-<li>通过一个类的全限定名来获取定义此类的二进制字节流。</li>
-<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</li>
-<li>在内存中（堆）生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口</li>
-</ul>
-<p>###验证</p>
-<ul>
-<li>文件格式验证 </li>
-</ul>
-<p>验证字节流是否符合Class文件的规范，并且可以由当前版本的虚拟机进行处理</p>
-<ul>
-<li>元数据验证（数据类型的验证，类是否合法）</li>
-</ul>
-<p>对字节码描述的信息进行语义分析，以保证其描述的信息符合Java语言的规范要求</p>
-<ul>
-<li>字节码验证</li>
-</ul>
-<p>通过数据流和控制流分析，确定程序语义是否合法，符合逻辑，对类的方法体进行校验分析</p>
-<ul>
-<li>符号引用验证</li>
-</ul>
-<p>对类自身以外的信息进行匹配性校验</p>
-<p>###准备</p>
-<p>准备节点是正式为类变量分配内存并设置类变量初始值的阶段，这些变量所使用的内存都将在方法区中进行分配。内存分配的仅包括类静态变量（static），初始值是该数据类型的零值，不是代码设置的值。</p>
-<p>###解析</p>
-<p>解析阶段虚拟机将常量池内的符号引用替换为直接引用的过程</p>
-<p>###初始化</p>
-<p>根据程序员通过程序制定的主管计划去初始化类变量和其他资源</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2025,7 +1926,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
